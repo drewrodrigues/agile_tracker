@@ -16,7 +16,10 @@ RSpec.describe Api::UsersController, type: :controller do
           expect(response).to render_template(:show)
         end
         
-        it "signs the user in"
+        it "signs the user in" do
+          post :create, format: :json, params: { user: valid_params }
+          expect(session[:session_token]).to eq(User.last.session_token)
+        end
       end
 
       context "with invalid params" do
@@ -33,7 +36,12 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context "when signed in" do
-      it "returns :bad_request status code"
+      it "returns :bad_request status code" do
+        user = create(:user)
+        subject.sign_in!(user)
+        post :create, format: :json, params: { user: valid_params }
+        expect(response).to have_http_status(:bad_request)
+      end
     end
   end
 end

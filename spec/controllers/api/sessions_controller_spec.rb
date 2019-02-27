@@ -17,11 +17,13 @@ RSpec.describe Api::SessionsController, type: :controller do
   describe "POST create" do
     context "when signed in" do
       it "returns :bad_request status code" do
+        user = create_user
+        subject.sign_in!(user)
         post :create, format: :json, params: { user: valid_params }
         expect(response).to have_http_status(:bad_request)
       end
 
-      it "returns errors" do # TODO: needs to be prevented by require_sign_out
+      it "returns errors" do
         post :create, format: :json, params: { user: invalid_params }
         expect(JSON.parse(response.body)).to_not be_empty
       end
