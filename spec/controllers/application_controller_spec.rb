@@ -1,7 +1,33 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationController, type: :controller do
+class MockController < ApplicationController
+  before_action :require_sign_in, only: :sign_in_required
+  before_action :require_sign_out, only: :sign_out_required
+
+  def sign_in_required
+    render json: ["Got through"], status: 200
+  end
+
+  def sign_out_required
+    render json: ["Got through"], status: 200
+  end
+end
+
+RSpec.describe MockController, type: :controller do
   let(:user) { build(:user) }
+
+  before do
+    Rails.application.routes.draw do
+      constraints format: :json do
+        get "/sign_in_required" => "mock#sign_in_required"
+        get "/sign_out_required" => "mock#sign_out_required"
+      end
+    end
+  end
+
+  after do
+    Rails.application.reload_routes!
+  end
 
   describe "#current_user" do
     context "when signed in" do
@@ -53,14 +79,15 @@ RSpec.describe ApplicationController, type: :controller do
     context "when signed in" do
       it "returns nil" do
         subject.sign_in!(user)
-        expect(subject.require_sign_in).to be nil
+        get :sign_in_required
+        expect(response).to have_http_status(:success)
       end
     end
 
     context "when signed out" do
       it "returns :unauthorized status code" do # TODO: how to response / short
-        # debugger
-        expect(subject.require_sign_in).to have_http_status(:unauthorized)
+        get :sign_in_required
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -68,14 +95,16 @@ RSpec.describe ApplicationController, type: :controller do
   describe "#require_sign_out" do
     context "when signed in" do # TODO: how to response / short
       it "returns :bad_request status code" do
-        # debugger
-        expect(subject.require_sign_out).to have_http_status(:bad_request)
+        subject.sign_in!(user)
+        get :sign_out_required
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     context "when signed out" do
-      it "returns nil" do
-        expect(subject.require_sign_out).to be nil  
+      it "returns success" do
+        get :sign_out_required
+        expect(response).to have_http_status(:success)  
       end
     end
   end
