@@ -5,6 +5,3 @@ export const createUser = user => {
     data: { user }
   })
 }
-
-// TODO: remove once done testing
-window.createUser = createUser

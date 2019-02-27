@@ -12,10 +12,3 @@ export const deleteSession = id => {
     url: `/api/session`
   })
 }
-
-// TODO: remove once done testing
-window.getSession    = getSession
-window.getSessions   = getSessions
-window.createSession = createSession
-window.updateSession = updateSession
-window.deleteSession = deleteSession

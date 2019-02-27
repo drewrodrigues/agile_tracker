@@ -4,7 +4,10 @@ import logger from 'redux-logger'
 import rootReducer from '../reducers/rootReducer'
 
 const configureStore = () => {
-  const initialState = {}
+  let initialState = {}
+  if (window.currentUser) {
+    initialState = { session: window.currentUser }
+  }
   return createStore(rootReducer, initialState, applyMiddleware(logger, thunk))
 }
 

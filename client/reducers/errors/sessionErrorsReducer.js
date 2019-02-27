@@ -1,16 +1,13 @@
-import {
-  RECEIVE_SESSION_ERRORS,
-  REMOVE_SESSION_ERROR
-} from '../../actions/sessionActions'
+import { SIGN_IN_USER } from '../../actions/sessionActions'
+import { RECEIVE_SESSION_ERRORS } from '../../actions/errors/sessionErrorActions'
 
 const sessionErrorsReducer = (oldState = [], action) => {
   Object.freeze(oldState)
-  let newState = Object.assign({}, oldState)
 
   switch (action.type) {
     case RECEIVE_SESSION_ERRORS:
-      return action.sessionErrors
-    case REMOVE_SESSION_ERROR:
+      return action.errors
+    case SIGN_IN_USER:
       return []
     default:
       return oldState

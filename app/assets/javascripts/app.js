@@ -152,14 +152,99 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
+/***/ "./client/actions/errors/sessionErrorActions.js":
+/*!******************************************************!*\
+  !*** ./client/actions/errors/sessionErrorActions.js ***!
+  \******************************************************/
+/*! exports provided: RECEIVE_SESSION_ERRORS, receiveSessionErrors */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SESSION_ERRORS", function() { return RECEIVE_SESSION_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSessionErrors", function() { return receiveSessionErrors; });
+var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
+var receiveSessionErrors = function receiveSessionErrors(errors) {
+  return {
+    type: RECEIVE_SESSION_ERRORS,
+    errors: errors
+  };
+};
+
+/***/ }),
+
+/***/ "./client/actions/errors/userErrorActions.js":
+/*!***************************************************!*\
+  !*** ./client/actions/errors/userErrorActions.js ***!
+  \***************************************************/
+/*! exports provided: RECEIVE_USER_ERRORS, receiveUserErrors */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER_ERRORS", function() { return RECEIVE_USER_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUserErrors", function() { return receiveUserErrors; });
+var RECEIVE_USER_ERRORS = "RECEIVE_USER_ERRORS";
+var receiveUserErrors = function receiveUserErrors(errors) {
+  return {
+    type: RECEIVE_USER_ERRORS,
+    errors: errors
+  };
+};
+
+/***/ }),
+
 /***/ "./client/actions/sessionActions.js":
 /*!******************************************!*\
   !*** ./client/actions/sessionActions.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: SIGN_IN_USER, SIGN_OUT_USER, createSession, deleteSession */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_IN_USER", function() { return SIGN_IN_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_OUT_USER", function() { return SIGN_OUT_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSession", function() { return createSession; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteSession", function() { return deleteSession; });
+/* harmony import */ var _utils_sessionUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/sessionUtil */ "./client/utils/sessionUtil.js");
+/* harmony import */ var _errors_sessionErrorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors/sessionErrorActions */ "./client/actions/errors/sessionErrorActions.js");
 
 
+var SIGN_IN_USER = "SIGN_IN_USER";
+var SIGN_OUT_USER = "SIGN_OUT_USER";
+
+var signInUser = function signInUser(user) {
+  return {
+    type: SIGN_IN_USER,
+    user: user
+  };
+};
+
+var signOutUser = function signOutUser() {
+  return {
+    type: SIGN_OUT_USER
+  };
+};
+
+var createSession = function createSession(user) {
+  return function (dispatch) {
+    return _utils_sessionUtil__WEBPACK_IMPORTED_MODULE_0__["createSession"](user).then(function (userResponse) {
+      return dispatch(signInUser(userResponse));
+    }).fail(function (sessionErrorsResponse) {
+      return dispatch(Object(_errors_sessionErrorActions__WEBPACK_IMPORTED_MODULE_1__["receiveSessionErrors"])(sessionErrorsResponse.responseJSON));
+    });
+  };
+};
+var deleteSession = function deleteSession() {
+  return function (dispatch) {
+    return _utils_sessionUtil__WEBPACK_IMPORTED_MODULE_0__["deleteSession"]().then(function () {
+      return dispatch(signOutUser());
+    });
+  };
+};
+window.createSession = createSession;
+window.deleteSession = deleteSession;
 
 /***/ }),
 
@@ -167,10 +252,36 @@ module.exports = function(originalModule) {
 /*!***************************************!*\
   !*** ./client/actions/userActions.js ***!
   \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: SIGN_UP_USER, createUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_UP_USER", function() { return SIGN_UP_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createUser", function() { return createUser; });
+/* harmony import */ var _utils_userUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/userUtil */ "./client/utils/userUtil.js");
+/* harmony import */ var _actions_errors_userErrorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/errors/userErrorActions */ "./client/actions/errors/userErrorActions.js");
 
 
+var SIGN_UP_USER = "SIGN_UP_USER";
+
+var signUpUser = function signUpUser(user) {
+  return {
+    type: SIGN_UP_USER,
+    user: user
+  };
+};
+
+var createUser = function createUser(user) {
+  return function (dispatch) {
+    return _utils_userUtil__WEBPACK_IMPORTED_MODULE_0__["createUser"](user).then(function (userResponse) {
+      return dispatch(signUpUser(userResponse));
+    }).fail(function (userErrorsResponse) {
+      return dispatch(Object(_actions_errors_userErrorActions__WEBPACK_IMPORTED_MODULE_1__["receiveUserErrors"])(userErrorsResponse.responseJSON));
+    });
+  };
+};
+window.createUser = createUser;
 
 /***/ }),
 
@@ -269,6 +380,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./client/components/root.jsx");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./client/store/store.js");
+/* harmony import */ var _actions_userActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/userActions */ "./client/actions/userActions.js");
+
 
 
 
@@ -276,6 +389,8 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById('root');
   var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  window.store = store;
+  window.dispatch = store.dispatch;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
   }), root);
@@ -293,7 +408,6 @@ document.addEventListener("DOMContentLoaded", function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_userActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/userActions */ "./client/actions/userActions.js");
-/* harmony import */ var _actions_userActions__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_userActions__WEBPACK_IMPORTED_MODULE_0__);
 
 
 var usersReducer = function usersReducer() {
@@ -303,12 +417,8 @@ var usersReducer = function usersReducer() {
   var newState = Object.assign({}, oldState);
 
   switch (action.type) {
-    case _actions_userActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
+    case _actions_userActions__WEBPACK_IMPORTED_MODULE_0__["SIGN_UP_USER"]:
       return Object.assign(newState, action.user);
-
-    case _actions_userActions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_USER"]:
-      delete newState[action.id];
-      return newState;
 
     default:
       return oldState;
@@ -332,10 +442,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entities/usersReducer */ "./client/reducers/entities/usersReducer.js");
 
 
-var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
-/* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+/* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
 /***/ }),
 
@@ -349,20 +459,20 @@ var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/sessionActions */ "./client/actions/sessionActions.js");
-/* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_errors_sessionErrorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/errors/sessionErrorActions */ "./client/actions/errors/sessionErrorActions.js");
+
 
 
 var sessionErrorsReducer = function sessionErrorsReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
-  var newState = Object.assign({}, oldState);
 
   switch (action.type) {
-    case _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SESSION_ERRORS"]:
-      return action.sessionErrors;
+    case _actions_errors_sessionErrorActions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_SESSION_ERRORS"]:
+      return action.errors;
 
-    case _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SESSION_ERROR"]:
+    case _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__["SIGN_IN_USER"]:
       return [];
 
     default:
@@ -378,10 +488,34 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
 /*!*****************************************************!*\
   !*** ./client/reducers/errors/userErrorsReducer.js ***!
   \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_userActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/userActions */ "./client/actions/userActions.js");
+/* harmony import */ var _actions_errors_userErrorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/errors/userErrorActions */ "./client/actions/errors/userErrorActions.js");
 
 
+
+var userErrorsReducer = function userErrorsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+
+  switch (action.type) {
+    case _actions_errors_userErrorActions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER_ERRORS"]:
+      return action.errors;
+
+    case _actions_userActions__WEBPACK_IMPORTED_MODULE_0__["SIGN_UP_USER"]:
+      return [];
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (userErrorsReducer);
 
 /***/ }),
 
@@ -397,13 +531,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors/sessionErrorsReducer */ "./client/reducers/errors/sessionErrorsReducer.js");
 /* harmony import */ var _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./errors/userErrorsReducer */ "./client/reducers/errors/userErrorsReducer.js");
-/* harmony import */ var _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   session: _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  user: _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2___default.a
+  user: _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 
@@ -421,14 +554,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _entitiesReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entitiesReducer */ "./client/reducers/entitiesReducer.js");
 /* harmony import */ var _errorsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./errorsReducer */ "./client/reducers/errorsReducer.js");
+/* harmony import */ var _sessionsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sessionsReducer */ "./client/reducers/sessionsReducer.js");
+
 
 
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   entities: _entitiesReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  errors: _errorsReducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  errors: _errorsReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  session: _sessionsReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);
+
+/***/ }),
+
+/***/ "./client/reducers/sessionsReducer.js":
+/*!********************************************!*\
+  !*** ./client/reducers/sessionsReducer.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/sessionActions */ "./client/actions/sessionActions.js");
+
+
+var sessionsReducer = function sessionsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    id: null
+  };
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__["SIGN_IN_USER"]:
+      return Object.assign(newState, action.session);
+
+    case _actions_sessionActions__WEBPACK_IMPORTED_MODULE_0__["SIGN_OUT_USER"]:
+      return {
+        id: null
+      };
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (sessionsReducer);
 
 /***/ }),
 
@@ -453,10 +627,68 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var initialState = {};
+
+  if (window.currentUser) {
+    initialState = {
+      session: window.currentUser
+    };
+  }
+
   return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a, redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./client/utils/sessionUtil.js":
+/*!*************************************!*\
+  !*** ./client/utils/sessionUtil.js ***!
+  \*************************************/
+/*! exports provided: createSession, deleteSession */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSession", function() { return createSession; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteSession", function() { return deleteSession; });
+var createSession = function createSession(user) {
+  return $.ajax({
+    method: 'POST',
+    url: "/api/session",
+    data: {
+      user: user
+    }
+  });
+};
+var deleteSession = function deleteSession(id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "/api/session"
+  });
+};
+
+/***/ }),
+
+/***/ "./client/utils/userUtil.js":
+/*!**********************************!*\
+  !*** ./client/utils/userUtil.js ***!
+  \**********************************/
+/*! exports provided: createUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createUser", function() { return createUser; });
+var createUser = function createUser(user) {
+  return $.ajax({
+    method: 'POST',
+    url: "/api/users",
+    data: {
+      user: user
+    }
+  });
+};
 
 /***/ }),
 

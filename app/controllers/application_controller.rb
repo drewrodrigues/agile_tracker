@@ -17,13 +17,13 @@ class ApplicationController < ActionController::Base
   
   def require_sign_in
     if signed_out?
-      render json: {}, status: :unauthorized
+      render json: ["Sign in required"], status: :unauthorized
     end
   end
   
   def require_sign_out
     if signed_in?
-      render json: {}, status: :bad_request
+      render json: ["Already signed in"], status: :bad_request
     end
   end
 

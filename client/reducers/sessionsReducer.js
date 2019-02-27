@@ -1,18 +1,17 @@
-import {
-  RECEIVE_SESSION,
-  REMOVE_SESSION
+import { 
+  SIGN_IN_USER,
+  SIGN_OUT_USER 
 } from '../actions/sessionActions'
 
-const sessionsReducer = (oldState = {}, action) => {
+const sessionsReducer = (oldState = { id: null }, action) => {
   Object.freeze(oldState)
   let newState = Object.assign({}, oldState)
 
   switch (action.type) {
-    case RECEIVE_SESSION:
+    case SIGN_IN_USER:
       return Object.assign(newState, action.session)
-    case REMOVE_SESSION:
-      delete newState[action.id]
-      return newState
+    case SIGN_OUT_USER:
+      return { id: null }
     default:
       return oldState
   }
