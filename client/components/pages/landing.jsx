@@ -70,19 +70,19 @@ class Landing extends React.Component {
           </div>{/* .landing-feature */}
 
           <div className="landing-feature landing-feature-small landing-feature-small-right">
-            <img src="/assets/feature1.png" />
+            <img src={ window.images.feature1 } />
             <h3 className="landing-feature-small-title">Better organization to get focused</h3>
             <p className="landing-feature-small-body"><span>Keep your team on the rails.</span> Tracker's shared backlog makes priorities clear so the team can stay organized. Easily visualize scope, focus your teamwork, and stay nimble when circumstances change.</p>
           </div>{/* .landing-feature */}
 
           <div className="landing-feature landing-feature-small landing-feature-small-left">
-            <img src="/assets/feature2.png" />
+            <img src={ window.images.feature2 } />
             <h3 className="landing-feature-small-title">Better organization to get focused</h3>
             <p className="landing-feature-small-body"><span>Keep your team on the rails.</span> Tracker's shared backlog makes priorities clear so the team can stay organized. Easily visualize scope, focus your teamwork, and stay nimble when circumstances change.</p>
           </div>{/* .landing-feature */}
 
           <div className="landing-feature landing-feature-small landing-feature-small-right">
-            <img src="/assets/feature3.png" />
+            <img src={ window.images.feature3 } />
             <h3 className="landing-feature-small-title">Better organization to get focused</h3>
             <p className="landing-feature-small-body"><span>Keep your team on the rails.</span> Tracker's shared backlog makes priorities clear so the team can stay organized. Easily visualize scope, focus your teamwork, and stay nimble when circumstances change.</p>
           </div>{/* .landing-feature */}
@@ -94,7 +94,7 @@ class Landing extends React.Component {
           </div>{/* .landing-feature */}
 
           <footer>
-            <img src="/assets/devices.png" />
+            <img src={ window.images.devices } />
           </footer>
         </section>
       </div>

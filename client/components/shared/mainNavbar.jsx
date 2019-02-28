@@ -14,7 +14,7 @@ class MainNavbar extends Component {
           <nav className="navbar nav-signed-in">
             <div className="container">
               <Link to="/" className="logo">
-                <img src="/assets/logo.jpg" />
+                <img src={ window.images.logo } />
                 Agile<span>Tracker</span>
               </Link>
               <button 
@@ -26,7 +26,7 @@ class MainNavbar extends Component {
           <nav className="navbar nav-signed-out">
             <div className="container clear">
               <Link to="/" className="logo">
-                <img src="/assets/logo.jpg" />
+                <img src={ window.images.logo } />
                 Agile<span>Tracker</span>
               </Link>
               <nav className="navbar-right">
