@@ -1,6 +1,6 @@
 import { 
   SIGN_IN_USER,
-  SIGN_OUT_USER 
+  SIGN_OUT_USER
 } from '../actions/sessionActions'
 
 import { SIGN_UP_USER } from '../actions/userActions'

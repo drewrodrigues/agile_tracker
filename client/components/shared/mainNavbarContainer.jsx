@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Nav from './nav'
+import MainNavbar from './mainNavbar'
 import { deleteSession } from '../../actions/sessionActions'
 
 const mapStateToProps = state => {
@@ -18,4 +18,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Nav)
+)(MainNavbar)

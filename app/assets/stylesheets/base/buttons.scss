@@ -1,0 +1,40 @@
+.button {
+  display: inline-block;
+  vertical-align: top;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+  transition: 0.5s background-color;
+}
+
+.button-orange {
+  background-color: $orange-primary;
+  border: 1px solid $orange-primary;
+  color: $white;
+
+  &:hover {
+    background-color: $orange-dark;
+    border: 1px solid $orange-dark;
+  }
+}
+
+.button-blue {
+  background-color: $blue-primary;
+  border: 1px solid $blue-primary;
+  color: $white;
+  
+  &:hover {
+    background-color: $blue-dark;
+    border: 1px solid $blue-dark;
+  }
+}
+
+.button-blue-outline {
+  border: 1px solid $blue-light;
+  color: $blue-light;
+  cursor: pointer;
+
+  &:hover {
+    color: $blue-dark;
+  }
+}

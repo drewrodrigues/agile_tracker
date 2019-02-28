@@ -1,0 +1,102 @@
+.form,
+.form-input,
+.form-submit,
+.form-errors {
+  @extend %border-radius;
+}
+
+.form {
+  background-color: $white;
+  border: 1px solid #DDD;
+  margin: 0 auto;
+  padding: 30px;
+  width: 400px;
+}
+
+.form-header {
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-title {
+  color: #444; // FIXME: variables only
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.form-subtitle {
+  color: $text-medium; // FIXME: correct color?
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+.form-label {
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-input {
+  @extend %inset-box-shadow;
+
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding: 10px;
+  width: 100%;
+}
+
+.form-footer {
+  text-align: center;
+}
+
+.form-submit {
+  background-color: #3677c0;
+  border-color: $blue-dark;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 10px;
+  margin-top: 20px;
+  padding: 10px 100px;
+  transition: 0.5s background-color;
+
+  &:hover {
+    background-color: $blue-dark;
+  }
+}
+
+.form-errors {
+  background-color: #FFF7F8;
+  border: 1px solid #E48E8E;
+  color: #DF5557;
+  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.disabled-true {
+  pointer-events: none;
+  background-color: #dedede; // FIXME: variable
+  border: 1px solid #ccc; // FIXME: variable
+}
+
+/* specific form styles *******************************************************/
+
+.form-signin {
+  margin-top: 50px;
+}
+
+.form-signup {
+  @extend %box-shadow;
+
+  margin-bottom: 50px;
+}
+
+.form-landing {
+
+}

@@ -1,0 +1,21 @@
+.container {
+  width: 960px;
+  margin: 0 auto;
+  // border: 1px solid red;
+}
+
+.clear::after {
+  display: table;
+  height: 0;
+  content: '';
+  clear: both;
+}
+
+.grid-row {
+  @extend %clear;
+}
+
+.grid-1-2 {
+  float: left;
+  width: 50%;
+}
