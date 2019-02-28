@@ -1,5 +1,9 @@
 class Api::ProjectsController < ApplicationController
   before_action :require_sign_in
+
+  def show
+    @project = current_user.projects.find(params[:id])
+  end
   
   def create
     @project = current_user.projects.build(project_params)

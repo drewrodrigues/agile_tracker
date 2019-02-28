@@ -12,7 +12,8 @@ RSpec.describe Api::ProjectsController, type: :controller do
   describe "action protection" do
     context "when signed out" do
       it "returns :unauthozed status code" do
-        ["post :create, params: { project: #{ valid_params } }", 
+        ["get :show, params: { id: 2 }",
+         "post :create, params: { project: #{ valid_params } }", 
          "put :update, params: { id: 2 }",
          "get :index",
          "delete :destroy, params: { id: 2, project: #{ valid_params } }"].each do |method|
@@ -22,6 +23,36 @@ RSpec.describe Api::ProjectsController, type: :controller do
       end
     end
   end
+
+  describe "GET show" do
+    before do
+      subject.sign_in!(user)
+      create(:project, user: user, title: "Some title")
+    end
+
+    context "when record belongs to user" do
+      it "returns :success status code" do
+        get :show, format: :json, params: { id: Project.last.id }
+        expect(response).to have_http_status(:success)
+      end
+
+      it "renders :show" do
+        get :show, format: :json, params: { id: Project.last.id }
+        expect(response).to render_template(:show)
+      end
+    end
+
+    context "when record doesn't belong to user" do
+      it "raises record not found" do
+        another_user = create(:user)
+        another_users_project = create(:project, user: another_user)
+
+        expect {
+          get :show, params: { id: another_users_project.id }
+        }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end  
 
   describe "POST create" do
     before do
@@ -180,7 +211,7 @@ RSpec.describe Api::ProjectsController, type: :controller do
 
         expect {
           delete :destroy, params: { id: another_users_project.id }
-        }
+        }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
