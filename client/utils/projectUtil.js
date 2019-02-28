@@ -34,10 +34,3 @@ export const deleteProject = id => {
     url: `/api/projects/${id}`
   })
 }
-
-// TODO: remove once done testing
-window.getProject   = getProject
-window.getProjects   = getProjects
-window.createProject = createProject
-window.updateProject = updateProject
-window.deleteProject = deleteProject

@@ -310,8 +310,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sessions_signInContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sessions/signInContainer */ "./client/components/sessions/signInContainer.jsx");
 /* harmony import */ var _pages_projectIndexPlaceholder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/projectIndexPlaceholder */ "./client/components/pages/projectIndexPlaceholder.jsx");
 /* harmony import */ var _helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../helpers/routeHelper */ "./client/helpers/routeHelper.jsx");
-/* harmony import */ var _utils_projectUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/projectUtil */ "./client/utils/projectUtil.js");
-
 
 
 
@@ -1403,57 +1401,6 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
-
-/***/ }),
-
-/***/ "./client/utils/projectUtil.js":
-/*!*************************************!*\
-  !*** ./client/utils/projectUtil.js ***!
-  \*************************************/
-/*! exports provided: getProjects, createProject, updateProject, deleteProject */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProject", function() { return updateProject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
-var getProjects = function getProjects() {
-  return $.ajax({
-    method: 'GET',
-    url: "/api/projects"
-  });
-};
-var createProject = function createProject(project) {
-  return $.ajax({
-    method: 'POST',
-    url: "/api/projects",
-    data: {
-      project: project
-    }
-  });
-};
-var updateProject = function updateProject(project) {
-  return $.ajax({
-    method: 'PUT',
-    url: "/api/projects/".concat(project.id),
-    data: {
-      project: project
-    }
-  });
-};
-var deleteProject = function deleteProject(id) {
-  return $.ajax({
-    method: 'DELETE',
-    url: "/api/projects/".concat(id)
-  });
-}; // TODO: remove once done testing
-
-window.getProjects = getProjects;
-window.createProject = createProject;
-window.updateProject = updateProject;
-window.deleteProject = deleteProject;
 
 /***/ }),
 
