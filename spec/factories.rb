@@ -6,9 +6,6 @@ FactoryBot.define do
 
   factory :project do
     title { "Cool project" }
-
-    before :create do |project|
-      project.user { create(:user) }
-    end
+    user
   end
 end
