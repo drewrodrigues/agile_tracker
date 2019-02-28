@@ -1,3 +1,10 @@
+export const getProject = id => {
+  return $.ajax({
+    method: "GET",
+    url: `/api/projects/${id}`
+  })
+}
+
 export const getProjects = () => {
   return $.ajax({
     method: 'GET',
@@ -29,6 +36,7 @@ export const deleteProject = id => {
 }
 
 // TODO: remove once done testing
+window.getProject   = getProject
 window.getProjects   = getProjects
 window.createProject = createProject
 window.updateProject = updateProject
