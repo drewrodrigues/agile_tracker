@@ -7,6 +7,8 @@ import ProjectIndexPlaceholder from './pages/projectIndexPlaceholder'
 
 import { AuthRoute, ProtectedRoute } from "../helpers/routeHelper"
 
+import "../utils/projectUtil"
+
 const App = () => (
   <div>
     <Switch>
