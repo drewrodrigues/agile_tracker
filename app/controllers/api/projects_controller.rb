@@ -19,6 +19,10 @@ class Api::ProjectsController < ApplicationController
     end
   end
 
+  def index
+    @projects = current_user.projects
+  end
+
   def destroy
     current_user.projects.find(params[:id]).destroy
   end

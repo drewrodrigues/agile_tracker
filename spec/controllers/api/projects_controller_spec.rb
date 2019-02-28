@@ -13,7 +13,8 @@ RSpec.describe Api::ProjectsController, type: :controller do
     context "when signed out" do
       it "returns :unauthozed status code" do
         ["post :create, params: { project: #{ valid_params } }", 
-         "put :update, params: { id: 2 }", 
+         "put :update, params: { id: 2 }",
+         "get :index",
          "delete :destroy, params: { id: 2, project: #{ valid_params } }"].each do |method|
           eval(method)
           expect(response).to have_http_status(:unauthorized)
@@ -134,6 +135,22 @@ RSpec.describe Api::ProjectsController, type: :controller do
           }
         }.to raise_error ActiveRecord::RecordNotFound
       end
+    end
+  end
+
+  describe "GET index" do
+    before do
+      subject.sign_in!(user)
+    end
+
+    it "returns :success status code" do
+      get :index, format: :json
+      expect(response).to have_http_status(:success)
+    end
+
+    it "renders :index" do
+      get :index, format: :json
+      expect(response).to render_template(:index)
     end
   end
   
