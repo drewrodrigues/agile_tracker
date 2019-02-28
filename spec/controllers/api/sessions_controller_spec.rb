@@ -33,12 +33,16 @@ RSpec.describe Api::SessionsController, type: :controller do
       context "with valid params" do
         it "signs the user in" do
           expect {
-            post :create, format: :json, params: { user: valid_params }
+            post :create, format: :json, params: { 
+              user: { email: User.last.email, password: "password" } 
+            }
           }.to change {session[:session_token]}.from(nil)
         end
 
         it "renders the user :show template" do
-          post :create, format: :json, params: { user: valid_params }
+          post :create, format: :json, params: {
+            user: { email: User.last.email, password: "password" }
+          }
           expect(response).to render_template("api/users/show")
         end
       end
