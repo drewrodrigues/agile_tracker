@@ -38,3 +38,19 @@
     color: $blue-dark;
   }
 }
+
+.button-green {
+  @extend %border-radius;
+
+  cursor: pointer;
+  color: $white;  
+  border: $green-dark;
+  font-size: 14px;
+  padding: 10px;
+  background-color: #57ac55;
+  transition: 0.5s background-color;
+
+  &:hover {
+    background-color: $green-dark;
+  }
+}

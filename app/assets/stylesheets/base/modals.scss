@@ -1,0 +1,48 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-project {
+  @extend %box-shadow;
+
+  background-color: $white;
+  border-radius: $border-radius;
+  margin: 150px auto 0;
+  width: 400px;
+}
+
+.modal-project-header,
+.modal-project-footer {
+  padding: 15px 25px;
+}
+
+.modal-project-header {
+  border-radius: $border-radius $border-radius 0 0;
+  border-bottom: 1px solid #DDD;
+  font-size: 22px;
+  font-weight: 600;
+  color: $text-secondary;
+}
+
+.modal-project-body {
+  background-color: #F6F6F6;
+  padding: 25px;
+
+  input {
+    background-color: $white;
+  }
+}
+
+.modal-project-footer {
+  border-top: 1px solid #ddd;
+  text-align: right;
+
+  input {
+    margin-left: 20px;
+  }
+}

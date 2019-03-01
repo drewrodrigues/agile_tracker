@@ -84,10 +84,22 @@
 .projectIndexItem {
   background-color: $white;
   border: 1px solid #ddd;
-  width: 470px;
+  width: 49%;
+  margin-right: 2%;
   float: left;
-  margin-right: 20px;
   margin-bottom: 20px;
+
+  i,
+  button {
+    color: #dedede;
+    &:hover {
+      color: #bbb;
+    }
+  }
+}
+
+.projectIndexItem:nth-of-type(2n) {
+  margin-right: 0;
 }
 
 .projectIndexItem:nth-of-type(2n) {
@@ -122,10 +134,5 @@
     cursor: pointer;
     padding: 5px;
     margin-left: 5px;
-    // font-size: 14px;
-
-    &:hover {
-      background-color: #efefef;
-    }
   }
 }
