@@ -194,6 +194,90 @@ var receiveUserErrors = function receiveUserErrors(errors) {
 
 /***/ }),
 
+/***/ "./client/actions/projectActions.js":
+/*!******************************************!*\
+  !*** ./client/actions/projectActions.js ***!
+  \******************************************/
+/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, REMOVE_PROJECT, getProject, getProjects, createProject, updateProject, deleteProject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT", function() { return RECEIVE_PROJECT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECTS", function() { return RECEIVE_PROJECTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_PROJECT", function() { return REMOVE_PROJECT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProject", function() { return getProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProject", function() { return updateProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
+/* harmony import */ var _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/projectUtil */ "./client/utils/projectUtil.js");
+
+var RECEIVE_PROJECT = "RECEIVE_PROJECT";
+var RECEIVE_PROJECTS = "RECEIVE_PROJECTS";
+var REMOVE_PROJECT = "REMOVE_PROJECT";
+
+var receiveProject = function receiveProject(project) {
+  return {
+    type: RECEIVE_PROJECT,
+    project: project
+  };
+};
+
+var receiveProjects = function receiveProjects(projects) {
+  return {
+    type: RECEIVE_PROJECTS,
+    projects: projects
+  };
+};
+
+var removeProject = function removeProject(id) {
+  return {
+    type: REMOVE_PROJECT,
+    id: id
+  };
+};
+
+var getProject = function getProject(id) {
+  return function (dispatch) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (project) {
+      return dispatch(receiveProject(project));
+    });
+  };
+};
+var getProjects = function getProjects() {
+  return function (dispatch) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProjects"]().then(function (projects) {
+      return dispatch(receiveProjects(projects));
+    });
+  };
+};
+var createProject = function createProject(project) {
+  return function (dispatch) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (project) {
+      return dispatch(receiveProject(project));
+    }).fail(function () {
+      return console.log('catch errors');
+    });
+  };
+};
+var updateProject = function updateProject(project) {
+  return function (dispatch) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (project) {
+      return dispatch(receiveProject(project));
+    });
+  };
+};
+var deleteProject = function deleteProject(id) {
+  return function (dispatch) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["deleteProject"](id).then(function () {
+      return dispatch(removeProject(id));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./client/actions/sessionActions.js":
 /*!******************************************!*\
   !*** ./client/actions/sessionActions.js ***!
@@ -1135,6 +1219,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
+/***/ "./client/reducers/entities/projectsReducer.js":
+/*!*****************************************************!*\
+  !*** ./client/reducers/entities/projectsReducer.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
+
+
+var projectsReducer = function projectsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PROJECT"]:
+      return Object.assign(newState, action.project);
+
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PROJECTS"]:
+      return action.projects;
+
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_PROJECT"]:
+      delete newState[action.id];
+      return newState;
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (projectsReducer);
+
+/***/ }),
+
 /***/ "./client/reducers/entities/usersReducer.js":
 /*!**************************************************!*\
   !*** ./client/reducers/entities/usersReducer.js ***!
@@ -1177,10 +1299,13 @@ var usersReducer = function usersReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entities/usersReducer */ "./client/reducers/entities/usersReducer.js");
+/* harmony import */ var _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entities/projectsReducer */ "./client/reducers/entities/projectsReducer.js");
+
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  projects: _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -1401,6 +1526,59 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./client/utils/projectUtil.js":
+/*!*************************************!*\
+  !*** ./client/utils/projectUtil.js ***!
+  \*************************************/
+/*! exports provided: getProject, getProjects, createProject, updateProject, deleteProject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProject", function() { return getProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProject", function() { return updateProject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
+var getProject = function getProject(id) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/projects/".concat(id)
+  });
+};
+var getProjects = function getProjects() {
+  return $.ajax({
+    method: 'GET',
+    url: "/api/projects"
+  });
+};
+var createProject = function createProject(project) {
+  return $.ajax({
+    method: 'POST',
+    url: "/api/projects",
+    data: {
+      project: project
+    }
+  });
+};
+var updateProject = function updateProject(project) {
+  return $.ajax({
+    method: 'PUT',
+    url: "/api/projects/".concat(project.id),
+    data: {
+      project: project
+    }
+  });
+};
+var deleteProject = function deleteProject(id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "/api/projects/".concat(id)
+  });
+};
 
 /***/ }),
 

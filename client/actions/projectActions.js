@@ -1,8 +1,8 @@
 import * as APIUtil from '../utils/projectUtil'
 
-const RECEIVE_PROJECT  = "RECEIVE_PROJECT"
-const RECEIVE_PROJECTS = "RECEIVE_PROJECTS"
-const REMOVE_PROJECT   = "REMOVE_PROJECT"
+export const RECEIVE_PROJECT  = "RECEIVE_PROJECT"
+export const RECEIVE_PROJECTS = "RECEIVE_PROJECTS"
+export const REMOVE_PROJECT   = "REMOVE_PROJECT"
 
 const receiveProject = project => {
   return {
