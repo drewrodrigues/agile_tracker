@@ -16,7 +16,7 @@ class ProjectIndex extends Component {
     return (
       <div className="project-index">
         <ProjectModalContainer />
-        <AppNavbarContainer />
+        <AppNavbarContainer title="AgileTrack" />
 
         <nav className="navbar-dashboard">
           <div className="container">

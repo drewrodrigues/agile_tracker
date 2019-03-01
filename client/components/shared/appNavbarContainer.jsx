@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import AppNavbar from './appNavbar'
 import { deleteSession } from '../../actions/sessionActions'
+import { withRouter } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
@@ -15,7 +16,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppNavbar)
+)(AppNavbar))

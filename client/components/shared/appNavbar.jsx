@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class AppNavbar extends Component {
   render() {
     return (
-      <nav className="navbar-app">
+      <nav className={`navbar-app ${this.props.style}`}>
         <nav className="navbar-app-left">
-          <p>AgileTracker</p>
+          <Link to="/dashboard">{ this.props.title }</Link>
         </nav>
 
         <nav className="navbar-app-right">
