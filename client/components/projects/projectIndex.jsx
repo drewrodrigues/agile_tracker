@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ProjectIndexItem from './projectIndexItem'
 import AppNavbarContainer from '../shared/appNavbarContainer'
+import ProjectModalContainer from './projectModalContainer'
 
 class ProjectIndex extends Component {
   constructor(props) {
@@ -14,12 +15,21 @@ class ProjectIndex extends Component {
   render() {
     return (
       <div className="project-index">
+        <ProjectModalContainer />
         <AppNavbarContainer />
 
         <nav className="navbar-dashboard">
           <div className="container">
             <p className="navbar-dashboard-tab">Projects</p>
-            <button className="navbar-dashboard-button">Create project</button>
+            <button 
+              className="navbar-dashboard-button"
+              onClick={() => this.props.showModal({
+                buttonText: "Create",
+                data: { title: "" },
+                title: "Create a new project"
+              })}>
+              Create project
+            </button>
           </div>
         </nav>
 
@@ -34,7 +44,7 @@ class ProjectIndex extends Component {
               key={project.title} 
               project={project}
               deleteProject={this.props.deleteProject}
-              showProjectFormModal />)
+              showModal={this.props.showModal} />)
           )}
         </div>
       </div>

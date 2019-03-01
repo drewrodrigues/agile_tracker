@@ -10,7 +10,7 @@ class AppNavbar extends Component {
 
         <nav className="navbar-app-right">
           <p>{ this.props.currentUser.email }</p>
-          <a onClick={this.props.deleteSession}>Sign Out</a>
+          <a onClick={ this.props.deleteSession }>Sign Out</a>
         </nav>
       </nav>
     )

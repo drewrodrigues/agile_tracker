@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ProjectIndexItem = ({ project, deleteProject }) => {
+const ProjectIndexItem = ({ project, deleteProject, showModal }) => {
   return (
     <div className="projectIndexItem">
       <header className="projectIndexItem-header">
@@ -10,7 +10,11 @@ const ProjectIndexItem = ({ project, deleteProject }) => {
         <div className="projectIndexItem-header-buttons">
           <button 
             className="fa fa-edit"
-            onClick={() => showProjectFormModal()}>
+            onClick={() => showModal({
+              buttonText: "Update",
+              data: project,
+              title: "Edit Project"
+            })}>
           </button>
           <button
             className="fa fa-trash"

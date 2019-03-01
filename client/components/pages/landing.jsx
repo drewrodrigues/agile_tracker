@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom'
 class Landing extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = { email: "" }
-
     this.sendToSignUp = this.sendToSignUp.bind(this)
   }
 
