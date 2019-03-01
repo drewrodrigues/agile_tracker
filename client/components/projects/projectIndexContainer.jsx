@@ -10,6 +10,8 @@ import {
 
 const mapStateToProps = state => {
   return {
+    projects: Object.values(state.entities.projects)
+    // showModal: Boolean(state.ui.showIndexModal) // TODO: implement
   }
 }
 
@@ -19,7 +21,8 @@ const mapDispatchToProps = dispatch => {
     getProjects: () => dispatch(getProjects()),
     createProject: project => dispatch(createProject(project)),
     deleteProject: id => dispatch(deleteProject(id)),
-    updateProject: project => dispatch(updateProject(project))
+    updateProject: project => dispatch(updateProject(project)),
+    showProjectFormModal: () => null // TODO: implement
   }
 }
 

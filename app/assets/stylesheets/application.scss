@@ -6,7 +6,11 @@
 @import './base/buttons';
 @import './base/forms';
 
+@import "font-awesome";
+
 @import './shared/nav';
 @import './pages/landing';
 @import './pages/signIn';
 @import './users/signUp';
+
+@import './projects/projectsIndex';

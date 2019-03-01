@@ -352,6 +352,8 @@ var deleteSession = function deleteSession() {
   return function (dispatch) {
     return _utils_sessionUtil__WEBPACK_IMPORTED_MODULE_0__["deleteSession"]().then(function () {
       return dispatch(signOutUser());
+    }).fail(function () {
+      return dispatch(signOutUser());
     });
   };
 };
@@ -436,6 +438,9 @@ var App = function App() {
     path: "/sign-in",
     component: _sessions_signInContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
+    path: "/projects/:id",
+    component: _projects_projectIndexContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
     path: "/dashboard",
     component: _projects_projectIndexContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
@@ -459,7 +464,7 @@ var App = function App() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _shared_mainNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/mainNavbarContainer */ "./client/components/shared/mainNavbarContainer.jsx");
+/* harmony import */ var _shared_mainNavbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/mainNavbar */ "./client/components/shared/mainNavbar.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -523,7 +528,7 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "landing"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_mainNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_mainNavbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "landing-jumbo"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
@@ -622,6 +627,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _projectIndexItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectIndexItem */ "./client/components/projects/projectIndexItem.jsx");
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -639,6 +646,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -661,7 +670,32 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Project Index"));
+      var _this = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-index"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+        className: "navbar-dashboard"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "navbar-dashboard-tab"
+      }, "Projects"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "navbar-dashboard-button"
+      }, "Create project"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+        className: "projectIndex-myprojects"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-archive"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "My Projects"), " | ", this.props.projects.length), this.props.projects.map(function (project) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_projectIndexItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: project.title,
+          project: project,
+          deleteProject: _this.props.deleteProject,
+          showProjectFormModal: true
+        });
+      })));
     }
   }]);
 
@@ -689,7 +723,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  return {};
+  return {
+    projects: Object.values(state.entities.projects) // showModal: Boolean(state.ui.showIndexModal) // TODO: implement
+
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -708,11 +745,60 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateProject: function updateProject(project) {
       return dispatch(Object(_actions_projectActions__WEBPACK_IMPORTED_MODULE_2__["updateProject"])(project));
-    }
+    },
+    showProjectFormModal: function showProjectFormModal() {
+      return null;
+    } // TODO: implement
+
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_projectIndex__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./client/components/projects/projectIndexItem.jsx":
+/*!*********************************************************!*\
+  !*** ./client/components/projects/projectIndexItem.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+
+
+var ProjectIndexItem = function ProjectIndexItem(_ref) {
+  var project = _ref.project,
+      deleteProject = _ref.deleteProject;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "projectIndexItem"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+    className: "projectIndexItem-header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/projects/".concat(project.id)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-angle-double-right"
+  }), " ", project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "projectIndexItem-header-buttons"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "fa fa-edit",
+    onClick: function onClick() {
+      return showProjectFormModal();
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "fa fa-trash",
+    onClick: function onClick() {
+      return deleteProject(project.id);
+    }
+  }))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ProjectIndexItem);
 
 /***/ }),
 
@@ -827,6 +913,105 @@ var SignInNavbar = function SignInNavbar() {
 
 /***/ }),
 
+/***/ "./client/components/shared/appNavbar.jsx":
+/*!************************************************!*\
+  !*** ./client/components/shared/appNavbar.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var AppNavbar =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AppNavbar, _Component);
+
+  function AppNavbar() {
+    _classCallCheck(this, AppNavbar);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(AppNavbar).apply(this, arguments));
+  }
+
+  _createClass(AppNavbar, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+        className: "navbar-app"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+        className: "navbar-app-left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "AgileTracker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+        className: "navbar-app-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.currentUser.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: this.props.deleteSession
+      }, "Sign Out")));
+    }
+  }]);
+
+  return AppNavbar;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (AppNavbar);
+
+/***/ }),
+
+/***/ "./client/components/shared/appNavbarContainer.jsx":
+/*!*********************************************************!*\
+  !*** ./client/components/shared/appNavbarContainer.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _appNavbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appNavbar */ "./client/components/shared/appNavbar.jsx");
+/* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/sessionActions */ "./client/actions/sessionActions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentUser: state.entities.users[state.session.id],
+    loggedIn: Boolean(state.session.id)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    deleteSession: function deleteSession() {
+      return dispatch(Object(_actions_sessionActions__WEBPACK_IMPORTED_MODULE_2__["deleteSession"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_appNavbar__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
 /***/ "./client/components/shared/mainNavbar.jsx":
 /*!*************************************************!*\
   !*** ./client/components/shared/mainNavbar.jsx ***!
@@ -874,19 +1059,7 @@ function (_Component) {
   _createClass(MainNavbar, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.props.loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-        className: "navbar nav-signed-in"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/",
-        className: "logo"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: window.images.logo
-      }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.props.deleteSession,
-        className: "button button-orange"
-      }, "Sign Out"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: "navbar nav-signed-out"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container clear"
@@ -911,41 +1084,6 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (MainNavbar);
-
-/***/ }),
-
-/***/ "./client/components/shared/mainNavbarContainer.jsx":
-/*!**********************************************************!*\
-  !*** ./client/components/shared/mainNavbarContainer.jsx ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _mainNavbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mainNavbar */ "./client/components/shared/mainNavbar.jsx");
-/* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/sessionActions */ "./client/actions/sessionActions.js");
-
-
-
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    currentUser: state.entities.users[state.session.id],
-    loggedIn: Boolean(state.session.id)
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    deleteSession: function deleteSession() {
-      return dispatch(Object(_actions_sessionActions__WEBPACK_IMPORTED_MODULE_2__["deleteSession"])());
-    }
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_mainNavbar__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import MainNavbarContainer from '../shared/mainNavbarContainer'
+import MainNavbar from '../shared/mainNavbar'
 import { Link } from 'react-router-dom'
 
 class Landing extends React.Component {
@@ -25,7 +25,7 @@ class Landing extends React.Component {
   render() {
     return (
       <div className="landing">
-        <MainNavbarContainer />
+        <MainNavbar />
 
         <section className="landing-jumbo">
           <div className="container">
