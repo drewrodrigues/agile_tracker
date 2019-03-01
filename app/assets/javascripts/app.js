@@ -1478,7 +1478,7 @@ function (_Component) {
           to: "/",
           className: "logo"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "/assets/logo.jpg"
+          src: window.images.logo
         }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
           className: "signup-header-slogan"
         }, "Get started\u2014it's free!")));

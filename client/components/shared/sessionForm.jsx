@@ -84,7 +84,7 @@ class SessionForm extends Component {
       header = <>
         <header className="signup-header">
           <Link to="/" className="logo">
-            <img src="/assets/logo.jpg" />
+            <img src={ window.images.logo } />
             Agile<span>Tracker</span>
           </Link>
           <h4 className="signup-header-slogan">Get started&mdash;it's free!</h4>
