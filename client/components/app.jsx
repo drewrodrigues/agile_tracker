@@ -4,6 +4,7 @@ import Landing from './pages/landing'
 import SignUpContainer from './users/signUpContainer'
 import SignInContainer from './sessions/signInContainer'
 import ProjectIndexContainer from './projects/projectIndexContainer'
+import ProjectShowContainer from './projects/projectShowContainer'
 
 import { AuthRoute, ProtectedRoute } from "../helpers/routeHelper"
 
@@ -14,7 +15,7 @@ const App = () => (
         <AuthRoute path="/sign-up" component={SignUpContainer} />
         <AuthRoute path="/sign-in/:demo" component={SignInContainer} />
         <AuthRoute path="/sign-in" component={SignInContainer} />
-        <ProtectedRoute path="/projects/:id" component={ProjectIndexContainer} />
+        <ProtectedRoute path="/projects/:id" component={ProjectShowContainer} />
         <ProtectedRoute path="/dashboard" component={ProjectIndexContainer} />
         <AuthRoute path="/" component={Landing} />
       )}

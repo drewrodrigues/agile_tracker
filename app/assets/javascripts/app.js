@@ -257,7 +257,7 @@ var clearErrors = function clearErrors() {
 };
 var getProject = function getProject(id) {
   return function (dispatch) {
-    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function () {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (project) {
       return dispatch(receiveProject(project));
     });
   };
@@ -444,7 +444,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_signUpContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./users/signUpContainer */ "./client/components/users/signUpContainer.jsx");
 /* harmony import */ var _sessions_signInContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sessions/signInContainer */ "./client/components/sessions/signInContainer.jsx");
 /* harmony import */ var _projects_projectIndexContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./projects/projectIndexContainer */ "./client/components/projects/projectIndexContainer.jsx");
-/* harmony import */ var _helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../helpers/routeHelper */ "./client/helpers/routeHelper.jsx");
+/* harmony import */ var _projects_projectShowContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./projects/projectShowContainer */ "./client/components/projects/projectShowContainer.jsx");
+/* harmony import */ var _helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../helpers/routeHelper */ "./client/helpers/routeHelper.jsx");
+
 
 
 
@@ -454,25 +456,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["AuthRoute"], {
     path: "/sign-up/:email",
     component: _users_signUpContainer__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["AuthRoute"], {
     path: "/sign-up",
     component: _users_signUpContainer__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["AuthRoute"], {
     path: "/sign-in/:demo",
     component: _sessions_signInContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["AuthRoute"], {
     path: "/sign-in",
     component: _sessions_signInContainer__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["ProtectedRoute"], {
     path: "/projects/:id",
-    component: _projects_projectIndexContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
+    component: _projects_projectShowContainer__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["ProtectedRoute"], {
     path: "/dashboard",
     component: _projects_projectIndexContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_6__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_routeHelper__WEBPACK_IMPORTED_MODULE_7__["AuthRoute"], {
     path: "/",
     component: _pages_landing__WEBPACK_IMPORTED_MODULE_2__["default"]
   }), ")}"));
@@ -705,7 +707,9 @@ function (_Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-index"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_projectModalContainer__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_projectModalContainer__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        title: "AgileTrack"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: "navbar-dashboard"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
@@ -1033,6 +1037,109 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./client/components/projects/projectShow.jsx":
+/*!****************************************************!*\
+  !*** ./client/components/projects/projectShow.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ProjectShow =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ProjectShow, _Component);
+
+  function ProjectShow(props) {
+    _classCallCheck(this, ProjectShow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ProjectShow).call(this, props));
+  }
+
+  _createClass(ProjectShow, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.getProject(this.props.match.params.id);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.props.project) return null;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-show"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        style: "project-show",
+        title: this.props.project.title
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.project.title));
+    }
+  }]);
+
+  return ProjectShow;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (ProjectShow);
+
+/***/ }),
+
+/***/ "./client/components/projects/projectShowContainer.jsx":
+/*!*************************************************************!*\
+  !*** ./client/components/projects/projectShowContainer.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _projectShow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectShow */ "./client/components/projects/projectShow.jsx");
+/* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    project: state.entities.projects[ownProps.match.params.id]
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    getProject: function getProject(id) {
+      return dispatch(Object(_actions_projectActions__WEBPACK_IMPORTED_MODULE_2__["getProject"])(id));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_projectShow__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
 /***/ "./client/components/root.jsx":
 /*!************************************!*\
   !*** ./client/components/root.jsx ***!
@@ -1155,6 +1262,7 @@ var SignInNavbar = function SignInNavbar() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1175,6 +1283,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var AppNavbar =
 /*#__PURE__*/
 function (_Component) {
@@ -1190,10 +1299,12 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-        className: "navbar-app"
+        className: "navbar-app ".concat(this.props.style)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: "navbar-app-left"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "AgileTracker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/dashboard"
+      }, this.props.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: "navbar-app-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.currentUser.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.props.deleteSession
@@ -1220,6 +1331,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _appNavbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appNavbar */ "./client/components/shared/appNavbar.jsx");
 /* harmony import */ var _actions_sessionActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/sessionActions */ "./client/actions/sessionActions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 
 
 
@@ -1239,7 +1352,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_appNavbar__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_appNavbar__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
