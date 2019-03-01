@@ -42,7 +42,7 @@ export const clearErrors = () => {
 
 export const getProject = id => dispatch => {
   return APIUtil.getProject(id)
-    .then(() => dispatch(receiveProject(project)))
+    .then((project) => dispatch(receiveProject(project)))
 }
 
 export const getProjects = () => dispatch => {
