@@ -33,6 +33,7 @@ export const createSession = user => dispatch => {
 export const deleteSession = () => dispatch => {
   return APIUtil.deleteSession()
     .then(() => dispatch(signOutUser()))
+    .fail(() => dispatch(signOutUser()))
 }
 
 window.createSession = createSession
