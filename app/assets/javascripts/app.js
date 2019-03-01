@@ -198,7 +198,7 @@ var receiveUserErrors = function receiveUserErrors(errors) {
 /*!******************************************!*\
   !*** ./client/actions/projectActions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, REMOVE_PROJECT, getProject, getProjects, createProject, updateProject, deleteProject */
+/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, REMOVE_PROJECT, RECEIVE_PROJECT_ERRORS, CLEAR_ERRORS, clearErrors, getProject, getProjects, createProject, updateProject, deleteProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -206,6 +206,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT", function() { return RECEIVE_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECTS", function() { return RECEIVE_PROJECTS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_PROJECT", function() { return REMOVE_PROJECT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT_ERRORS", function() { return RECEIVE_PROJECT_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_ERRORS", function() { return CLEAR_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearErrors", function() { return clearErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProject", function() { return getProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProjects", function() { return getProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
@@ -216,6 +219,8 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_PROJECT = "RECEIVE_PROJECT";
 var RECEIVE_PROJECTS = "RECEIVE_PROJECTS";
 var REMOVE_PROJECT = "REMOVE_PROJECT";
+var RECEIVE_PROJECT_ERRORS = "RECEIVE_PROJECT_ERRORS";
+var CLEAR_ERRORS = "CLEAR_ERRORS"; // TODO: add to shared actions?
 
 var receiveProject = function receiveProject(project) {
   return {
@@ -238,9 +243,21 @@ var removeProject = function removeProject(id) {
   };
 };
 
+var receiveProjectErrors = function receiveProjectErrors(errors) {
+  return {
+    type: RECEIVE_PROJECT_ERRORS,
+    errors: errors
+  };
+};
+
+var clearErrors = function clearErrors() {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
 var getProject = function getProject(id) {
   return function (dispatch) {
-    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (project) {
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function () {
       return dispatch(receiveProject(project));
     });
   };
@@ -256,15 +273,18 @@ var createProject = function createProject(project) {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (project) {
       return dispatch(receiveProject(project));
-    }).fail(function () {
-      return console.log('catch errors');
+    }).fail(function (errors) {
+      return dispatch(receiveProjectErrors(errors.responseJSON));
     });
   };
 };
+window.createProject = createProject;
 var updateProject = function updateProject(project) {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (project) {
       return dispatch(receiveProject(project));
+    }).fail(function (errors) {
+      return dispatch(receiveProjectErrors(errors.responseJSON));
     });
   };
 };
@@ -1311,6 +1331,42 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 
 /***/ }),
 
+/***/ "./client/reducers/errors/projectErrorsReducer.js":
+/*!********************************************************!*\
+  !*** ./client/reducers/errors/projectErrorsReducer.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
+
+
+var projectErrorsReducer = function projectErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_ERRORS"]:
+      return [];
+
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PROJECT"]:
+      return [];
+
+    case _actions_projectActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PROJECT_ERRORS"]:
+      return action.errors;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (projectErrorsReducer);
+
+/***/ }),
+
 /***/ "./client/reducers/errors/sessionErrorsReducer.js":
 /*!********************************************************!*\
   !*** ./client/reducers/errors/sessionErrorsReducer.js ***!
@@ -1399,14 +1455,17 @@ var userErrorsReducer = function userErrorsReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors/sessionErrorsReducer */ "./client/reducers/errors/sessionErrorsReducer.js");
-/* harmony import */ var _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./errors/userErrorsReducer */ "./client/reducers/errors/userErrorsReducer.js");
+/* harmony import */ var _errors_projectErrorsReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors/projectErrorsReducer */ "./client/reducers/errors/projectErrorsReducer.js");
+/* harmony import */ var _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./errors/sessionErrorsReducer */ "./client/reducers/errors/sessionErrorsReducer.js");
+/* harmony import */ var _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./errors/userErrorsReducer */ "./client/reducers/errors/userErrorsReducer.js");
+
 
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  session: _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  user: _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  project: _errors_projectErrorsReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  session: _errors_sessionErrorsReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  user: _errors_userErrorsReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 
