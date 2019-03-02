@@ -11,6 +11,7 @@ const configureStore = () => {
     initialState = { 
       entities: { users: currentUser },
       session: { id: userId },
+      ui: { icebox: true, backlog: true, current: true, done: true }
     }
   }
   return createStore(rootReducer, initialState, applyMiddleware(logger, thunk))
