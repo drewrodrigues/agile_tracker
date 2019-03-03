@@ -6,7 +6,7 @@ class CreateStories < ActiveRecord::Migration[5.2]
       t.integer :order,       null: false, default: 0
       t.integer :points,      null: false, default: 0
       t.integer :project_id,  null: false
-      t.string  :status,      null: false, default: "Not started"
+      t.string  :status,      null: false, default: "Unstarted"
       t.string  :title,       null: false
       t.string  :workflow,    null: false, default: "Icebox"
 

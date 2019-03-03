@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2019_03_02_212034) do
     t.integer "order", default: 0, null: false
     t.integer "points", default: 0, null: false
     t.integer "project_id", null: false
-    t.string "status", default: "Not started", null: false
+    t.string "status", default: "Unstarted", null: false
     t.string "title", null: false
     t.string "workflow", default: "Icebox", null: false
     t.datetime "created_at", null: false

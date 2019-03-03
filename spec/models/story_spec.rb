@@ -8,7 +8,7 @@
 #  order       :integer          default(0), not null
 #  points      :integer          default(0), not null
 #  project_id  :integer          not null
-#  status      :string           default("Not started"), not null
+#  status      :string           default("Unstarted"), not null
 #  title       :string           not null
 #  workflow    :string           default("Icebox"), not null
 #  created_at  :datetime         not null
