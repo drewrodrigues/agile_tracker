@@ -1911,7 +1911,7 @@ var StoryButton = function StoryButton(_ref) {
     case "Rejected":
       text = "Restart";
       nextState = Object.assign({}, story, {
-        status: "Unstarted"
+        status: "Started"
       });
       break;
   }

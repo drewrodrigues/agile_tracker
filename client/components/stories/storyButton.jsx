@@ -25,7 +25,7 @@ const StoryButton = ({ status, updateStory, story }) => {
       break
     case "Rejected":
       text = "Restart"
-      nextState = Object.assign({}, story, { status: "Unstarted" })
+      nextState = Object.assign({}, story, { status: "Started" })
       break
   }
 
