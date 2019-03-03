@@ -215,6 +215,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProject", function() { return updateProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 /* harmony import */ var _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/projectUtil */ "./client/utils/projectUtil.js");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/storyActions */ "./client/actions/storyActions.js");
+
 
 var RECEIVE_PROJECT = "RECEIVE_PROJECT";
 var RECEIVE_PROJECTS = "RECEIVE_PROJECTS";
@@ -257,8 +259,9 @@ var clearErrors = function clearErrors() {
 };
 var getProject = function getProject(id) {
   return function (dispatch) {
-    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (project) {
-      return dispatch(receiveProject(project));
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (response) {
+      dispatch(receiveProject(response.project));
+      dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_1__["receiveStories"])(response.stories));
     });
   };
 };
@@ -278,7 +281,6 @@ var createProject = function createProject(project) {
     });
   };
 };
-window.createProject = createProject;
 var updateProject = function updateProject(project) {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (project) {
@@ -366,7 +368,7 @@ window.deleteSession = deleteSession;
 /*!****************************************!*\
   !*** ./client/actions/storyActions.js ***!
   \****************************************/
-/*! exports provided: RECEIVE_STORY, RECEIVE_STORIES, REMOVE_STORY, createStory, updateStory, deleteStory */
+/*! exports provided: RECEIVE_STORY, RECEIVE_STORIES, REMOVE_STORY, createStory, updateStory, deleteStory, receiveStories */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -377,6 +379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStory", function() { return createStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStory", function() { return updateStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteStory", function() { return deleteStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveStories", function() { return receiveStories; });
 /* harmony import */ var _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storyUtil */ "./client/utils/storyUtil.js");
 
 var RECEIVE_STORY = "RECEIVE_STORY";

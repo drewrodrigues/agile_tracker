@@ -1,5 +1,7 @@
 import * as APIUtil from '../utils/projectUtil'
 
+import { receiveStories } from '../actions/storyActions'
+
 export const RECEIVE_PROJECT        = "RECEIVE_PROJECT"
 export const RECEIVE_PROJECTS       = "RECEIVE_PROJECTS"
 export const REMOVE_PROJECT         = "REMOVE_PROJECT"
@@ -42,7 +44,10 @@ export const clearErrors = () => {
 
 export const getProject = id => dispatch => {
   return APIUtil.getProject(id)
-    .then((project) => dispatch(receiveProject(project)))
+    .then(response => {
+      dispatch(receiveProject(response.project))
+      dispatch(receiveStories(response.stories))
+    })
 }
 
 export const getProjects = () => dispatch => {
@@ -55,8 +60,6 @@ export const createProject = project => dispatch => {
     .then(project => dispatch(receiveProject(project)))
     .fail(errors => dispatch(receiveProjectErrors(errors.responseJSON)))
 }
-
-window.createProject = createProject
 
 export const updateProject = project => dispatch => {
   return APIUtil.updateProject(project)

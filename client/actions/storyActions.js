@@ -28,7 +28,7 @@ const receiveStory = story => {
   }
 }
 
-const receiveStories = stories => {
+export const receiveStories = stories => {
   return {
     type: RECEIVE_STORIES,
     stories
