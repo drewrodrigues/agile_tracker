@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import StoryContainer from '../stories/storyContainer'
 
 class Workflow extends Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class Workflow extends Component {
 
           { button }
         </header>
+
+        { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
       </section>
     )
   }

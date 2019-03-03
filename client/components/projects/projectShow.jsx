@@ -25,21 +25,25 @@ class ProjectShow extends Component {
           <section className="workflow-container">
             <WorkflowContainer 
               canAddStory={true}
+              projectStories={this.props.stories}
               show={true}
               workflow="Icebox"
             />
             <WorkflowContainer 
               canAddStory={true}
+              projectStories={this.props.stories}
               show={true}
               workflow="Backlog"
             />
             <WorkflowContainer 
               canAddStory={true}
+              projectStories={this.props.stories}
               show={true}
               workflow="Current"
             />
             <WorkflowContainer 
               canAddStory={false}
+              projectStories={this.props.stories}
               show={true}
               workflow="Done"
             />

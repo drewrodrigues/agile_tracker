@@ -78,6 +78,8 @@
 }
 
 .workflow {
+  vertical-align: top;
+  overflow-y: scroll;
   width: 360px;
   display: inline-block;
   height: 100vh;

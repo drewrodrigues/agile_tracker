@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import Workflow from './workflow'
 import { toggleWorkflow } from '../../actions/uiActions'
+import { selectStoriesByWorkflow } from "../../reducers/selectors"
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    // stories: selectStoriesByWorkflow(ownProps.workflow),
     canAddStory: ownProps.canAddStory,
     show: state.ui[ownProps.workflow.toLowerCase()],
+    stories: selectStoriesByWorkflow(ownProps.projectStories, ownProps.workflow),
     workflow: ownProps.workflow
   }
 }

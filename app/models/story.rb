@@ -15,6 +15,8 @@
 #  updated_at  :datetime         not null
 #
 
+# TODO: don't allow icebox && anything other than unstarted
+
 class Story < ApplicationRecord
   belongs_to :project
   

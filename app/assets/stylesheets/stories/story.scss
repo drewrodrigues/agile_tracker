@@ -1,0 +1,85 @@
+.story {
+  background-color: #f4f4f4;
+  font-size: 12px;
+  padding: 5px 0;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.story-Started,
+.story-Finished,
+.story-Rejected,
+.story-Delivered {
+  background-color: #f3f3d1;
+}
+
+.story-Accepted {
+  background-color: #daebcf;
+}
+
+.story-Icebox {
+  background-color: #e4eff7
+}
+
+.icon-story {
+  margin-right: 10px;
+}
+
+.icon-feature {
+  color: #e0c85e;
+}
+
+.icon-bug {
+  color: #d87350;
+}
+
+.icon-chore {
+  color: #ccc;
+}
+
+.icon-dropdown {
+  color: #bbb;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.button-status {
+  background-color: #ddd;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  float: right;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-left: -5px;
+  padding: 3px 8px;
+}
+
+.button-status-Started {
+  background-color: #1f3e64;
+  border: 1px solid #172c51;
+  color: $white;
+}
+
+.button-status-Finished {
+  background-color: $orange-primary;
+  border: 1px solid #ee8133;
+  color: $white;
+}
+
+.button-status-accept {
+  background-color: #629206;
+  color: $white;
+  border: 1px solid #4e8202;
+}
+
+.button-status-reject {
+  background-color: #a72c38;
+  border: 1px solid #962527;
+  color: $white;
+}
+
+.button-status-Rejected i {
+  color: #a72c38;
+  margin-right: 5px;
+}

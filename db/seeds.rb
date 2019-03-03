@@ -25,9 +25,21 @@ ActiveRecord::Base.transaction do
 
   project_id_offset = Project.first.id
   project_count     = Project.count
-  kinds     =  %w(Bug Chore Feature Release)
+  kinds     =  %w(Bug Chore Feature)
   statuses  =  %w(Unstarted Started Finished Delivered Rejected Accepted)
-  workflows =  %w(Icebox Backlog Current Done)
+  workflows =  %w(Backlog Current Done)
+
+  # 1000.times do
+  #   random_project_id = project_id_offset + rand(project_count)
+  #   Story.create!(
+  #     description: "",
+  #     kind: kinds.sample,
+  #     project_id: random_project_id,
+  #     status: statuses.sample,
+  #     title: "Random Story Title",
+  #     workflow: workflows.sample
+  #   )
+  # end
 
   200.times do
     random_project_id = project_id_offset + rand(project_count)
@@ -35,9 +47,9 @@ ActiveRecord::Base.transaction do
       description: "",
       kind: kinds.sample,
       project_id: random_project_id,
-      status: statuses.sample,
+      status: "Unstarted",
       title: "Random Story Title",
-      workflow: workflows.sample
-    )
+      workflow: "Icebox"
+    ) 
   end
 end

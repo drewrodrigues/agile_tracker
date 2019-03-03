@@ -1191,18 +1191,22 @@ function (_Component) {
         className: "workflow-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
+        projectStories: this.props.stories,
         show: true,
         workflow: "Icebox"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
+        projectStories: this.props.stories,
         show: true,
         workflow: "Backlog"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
+        projectStories: this.props.stories,
         show: true,
         workflow: "Current"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: false,
+        projectStories: this.props.stories,
         show: true,
         workflow: "Done"
       }))));
@@ -1228,13 +1232,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _projectShow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectShow */ "./client/components/projects/projectShow.jsx");
 /* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
+/* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
+
 
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    project: state.entities.projects[ownProps.match.params.id]
+    project: state.entities.projects[ownProps.match.params.id],
+    stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByProjectId"])(state, ownProps.match.params.id)
   };
 };
 
@@ -1776,6 +1783,256 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./client/components/stories/story.jsx":
+/*!*********************************************!*\
+  !*** ./client/components/stories/story.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _storyIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyIcon */ "./client/components/stories/storyIcon.jsx");
+/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var Story =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Story, _Component);
+
+  function Story(props) {
+    _classCallCheck(this, Story);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Story).call(this, props));
+  }
+
+  _createClass(Story, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-caret-right icon-dropdown"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        kind: this.props.data.kind
+      }), this.props.data.title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        status: this.props.data.status,
+        story: this.props.data,
+        updateStory: this.props.updateStory
+      })));
+    }
+  }]);
+
+  return Story;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Story);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyButton.jsx":
+/*!***************************************************!*\
+  !*** ./client/components/stories/storyButton.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var StoryButton = function StoryButton(_ref) {
+  var status = _ref.status,
+      updateStory = _ref.updateStory,
+      story = _ref.story;
+  var text;
+  var nextState; // TODO: REFACTOR hardcore
+
+  switch (status) {
+    case "Unstarted":
+      text = "Start";
+
+      if (story.workflow === "Icebox" || story.workflow === "Backlog") {
+        nextState = Object.assign({}, story, {
+          status: "Started",
+          workflow: "Current"
+        });
+      } else {
+        nextState = Object.assign({}, story, {
+          status: "Started"
+        });
+      }
+
+      break;
+
+    case "Started":
+      text = "Finish";
+      nextState = Object.assign({}, story, {
+        status: "Finished"
+      });
+      break;
+
+    case "Finished":
+      text = "Deliver";
+      nextState = Object.assign({}, story, {
+        status: "Delivered"
+      });
+      break;
+
+    case "Rejected":
+      text = "Restart";
+      nextState = Object.assign({}, story, {
+        status: "Unstarted"
+      });
+      break;
+  }
+
+  if (status === "Delivered") {
+    var nextAcceptedState = Object.assign({}, story, {
+      status: "Accepted",
+      workflow: "Done"
+    });
+    var nextRejectedState = Object.assign({}, story, {
+      status: "Rejected"
+    });
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button-status button-status-reject",
+      onClick: function onClick() {
+        return updateStory(nextRejectedState);
+      }
+    }, "Reject"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button-status button-status-accept",
+      onClick: function onClick() {
+        return updateStory(nextAcceptedState);
+      }
+    }, "Accept"));
+  }
+
+  if (status === "Rejected") {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button-status button-status-".concat(status),
+      onClick: function onClick() {
+        return updateStory(nextState);
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-circle"
+    }), text));
+  }
+
+  if (status === "Accepted") return null;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button-status button-status-".concat(status),
+    onClick: function onClick() {
+      return updateStory(nextState);
+    }
+  }, text);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (StoryButton);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyContainer.jsx":
+/*!******************************************************!*\
+  !*** ./client/components/stories/storyContainer.jsx ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _story__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./story */ "./client/components/stories/story.jsx");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    data: ownProps.story
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    updateStory: function updateStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["updateStory"])(story));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_story__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./client/components/stories/storyIcon.jsx":
+/*!*************************************************!*\
+  !*** ./client/components/stories/storyIcon.jsx ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var StoryIcon = function StoryIcon(_ref) {
+  var kind = _ref.kind;
+  var icon;
+
+  if (kind === "Feature") {
+    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-star icon-story icon-feature"
+    });
+  } else if (kind === "Bug") {
+    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-bug icon-story icon-bug"
+    });
+  } else if (kind === "Chore") {
+    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-cog icon-story icon-chore"
+    });
+  } else if (kind === "Release") {
+    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-flag icon-story icon-release"
+    });
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, icon);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (StoryIcon);
+
+/***/ }),
+
 /***/ "./client/components/users/signUpContainer.jsx":
 /*!*****************************************************!*\
   !*** ./client/components/users/signUpContainer.jsx ***!
@@ -1831,6 +2088,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1848,6 +2106,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1885,7 +2144,12 @@ function (_Component) {
         onClick: this.props.toggleWorkflow
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times"
-      })), this.props.workflow, button));
+      })), this.props.workflow, button), this.props.stories.map(function (story) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: story.id,
+          story: story
+        });
+      }));
     }
   }]);
 
@@ -1908,15 +2172,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _workflow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workflow */ "./client/components/workflows/workflow.jsx");
 /* harmony import */ var _actions_uiActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/uiActions */ "./client/actions/uiActions.js");
+/* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
+
 
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    // stories: selectStoriesByWorkflow(ownProps.workflow),
     canAddStory: ownProps.canAddStory,
     show: state.ui[ownProps.workflow.toLowerCase()],
+    stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, ownProps.workflow),
     workflow: ownProps.workflow
   };
 };
@@ -2468,6 +2734,40 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
   ui: _uiReducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);
+
+/***/ }),
+
+/***/ "./client/reducers/selectors.js":
+/*!**************************************!*\
+  !*** ./client/reducers/selectors.js ***!
+  \**************************************/
+/*! exports provided: selectStoriesByProjectId, selectStoriesByWorkflow */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByProjectId", function() { return selectStoriesByProjectId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflow", function() { return selectStoriesByWorkflow; });
+var selectStoriesByProjectId = function selectStoriesByProjectId(state, id) {
+  var projectId = parseInt(id);
+  var stories = Object.values(state.entities.stories);
+  var selectedStories = [];
+  stories.forEach(function (story) {
+    if (story.project_id === projectId) {
+      selectedStories.push(story);
+    }
+  });
+  return selectedStories;
+};
+var selectStoriesByWorkflow = function selectStoriesByWorkflow(stories, workflow) {
+  var selectedStories = [];
+  stories.forEach(function (story) {
+    if (story.workflow === workflow) {
+      selectedStories.push(story);
+    }
+  });
+  return selectedStories;
+};
 
 /***/ }),
 
