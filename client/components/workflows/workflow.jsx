@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StoryContainer from '../stories/storyContainer'
+import StoryForm from '../stories/storyForm'
 
 class Workflow extends Component {
   constructor(props) {
@@ -29,6 +30,8 @@ class Workflow extends Component {
         </header>
 
         <div className="story-container">
+          <StoryForm />
+
           { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
         </div>
       </section>
