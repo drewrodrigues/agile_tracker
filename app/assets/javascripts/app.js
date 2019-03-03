@@ -362,6 +362,72 @@ window.deleteSession = deleteSession;
 
 /***/ }),
 
+/***/ "./client/actions/storyActions.js":
+/*!****************************************!*\
+  !*** ./client/actions/storyActions.js ***!
+  \****************************************/
+/*! exports provided: RECEIVE_STORY, RECEIVE_STORIES, REMOVE_STORY, createStory, updateStory, deleteStory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STORY", function() { return RECEIVE_STORY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STORIES", function() { return RECEIVE_STORIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_STORY", function() { return REMOVE_STORY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStory", function() { return createStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStory", function() { return updateStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteStory", function() { return deleteStory; });
+/* harmony import */ var _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storyUtil */ "./client/utils/storyUtil.js");
+
+var RECEIVE_STORY = "RECEIVE_STORY";
+var RECEIVE_STORIES = "RECEIVE_STORIES";
+var REMOVE_STORY = "REMOVE_STORY"; // TODO: handle errors
+
+var createStory = function createStory(projectId, story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["createStory"](projectId, story).then(function (storyResponse) {
+      return dispatch(receiveStory(storyResponse));
+    });
+  };
+};
+var updateStory = function updateStory(story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["updateStory"](story).then(function (storyResponse) {
+      return dispatch(receiveStory(storyResponse));
+    });
+  };
+};
+var deleteStory = function deleteStory(story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["deleteStory"](story).then(function () {
+      return dispatch(removeStory(story));
+    });
+  };
+};
+
+var receiveStory = function receiveStory(story) {
+  return {
+    type: RECEIVE_STORY,
+    story: story
+  };
+};
+
+var receiveStories = function receiveStories(stories) {
+  return {
+    type: RECEIVE_STORIES,
+    stories: stories
+  };
+};
+
+var removeStory = function removeStory(story) {
+  return {
+    type: REMOVE_STORY,
+    story: story
+  };
+};
+
+/***/ }),
+
 /***/ "./client/actions/uiActions.js":
 /*!*************************************!*\
   !*** ./client/actions/uiActions.js ***!
@@ -2133,6 +2199,44 @@ var projectsReducer = function projectsReducer() {
 
 /***/ }),
 
+/***/ "./client/reducers/entities/storiesReducer.js":
+/*!****************************************************!*\
+  !*** ./client/reducers/entities/storiesReducer.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
+
+var storiesReducer = function storiesReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_storyActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STORY"]:
+      return Object.assign(newState, action.story);
+
+    case _actions_storyActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STORIES"]:
+      return Object.assign(newState, action.stories);
+
+    case _actions_storyActions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_STORY"]:
+      delete newState[story.id];
+      return newState;
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (storiesReducer);
+
+/***/ }),
+
 /***/ "./client/reducers/entities/usersReducer.js":
 /*!**************************************************!*\
   !*** ./client/reducers/entities/usersReducer.js ***!
@@ -2181,12 +2285,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entities/usersReducer */ "./client/reducers/entities/usersReducer.js");
 /* harmony import */ var _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entities/projectsReducer */ "./client/reducers/entities/projectsReducer.js");
+/* harmony import */ var _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./entities/storiesReducer */ "./client/reducers/entities/storiesReducer.js");
+
 
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  projects: _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  projects: _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  stories: _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -2581,6 +2688,45 @@ var deleteSession = function deleteSession(id) {
   return $.ajax({
     method: 'DELETE',
     url: "/api/session"
+  });
+};
+
+/***/ }),
+
+/***/ "./client/utils/storyUtil.js":
+/*!***********************************!*\
+  !*** ./client/utils/storyUtil.js ***!
+  \***********************************/
+/*! exports provided: createStory, updateStory, deleteStory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStory", function() { return createStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStory", function() { return updateStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteStory", function() { return deleteStory; });
+var createStory = function createStory(projectId, story) {
+  return $.ajax({
+    method: 'POST',
+    url: "/api/projects/".concat(projectId, "/stories"),
+    data: {
+      story: story
+    }
+  });
+};
+var updateStory = function updateStory(story) {
+  return $.ajax({
+    method: 'PUT',
+    url: "/api/stories/".concat(story.id),
+    data: {
+      story: story
+    }
+  });
+};
+var deleteStory = function deleteStory(id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "/api/stories/".concat(id)
   });
 };
 
