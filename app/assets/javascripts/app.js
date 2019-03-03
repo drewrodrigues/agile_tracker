@@ -1799,7 +1799,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _storyIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyIcon */ "./client/components/stories/storyIcon.jsx");
-/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
+/* harmony import */ var _storyCaret__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyCaret */ "./client/components/stories/storyCaret.jsx");
+/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
+/* harmony import */ var _storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storyUpdateContainer */ "./client/components/stories/storyUpdateContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1810,13 +1812,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -1828,25 +1832,47 @@ function (_Component) {
   _inherits(Story, _Component);
 
   function Story(props) {
+    var _this;
+
     _classCallCheck(this, Story);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Story).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Story).call(this, props));
+    _this.state = {
+      showForm: false
+    };
+    _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Story, [{
+    key: "toggleForm",
+    value: function toggleForm() {
+      this.setState({
+        showForm: !this.state.showForm
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-caret-right icon-dropdown"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        kind: this.props.data.kind
-      }), this.props.data.title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        status: this.props.data.status,
-        story: this.props.data,
-        updateStory: this.props.updateStory
-      })));
+      if (this.state.showForm) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          story: this.props.data,
+          toggleForm: this.toggleForm
+        });
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyCaret__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          showForm: this.props.showForm,
+          toggleForm: this.toggleForm
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          kind: this.props.data.kind
+        }), this.props.data.title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          status: this.props.data.status,
+          story: this.props.data,
+          updateStory: this.props.updateStory
+        })));
+      }
     }
   }]);
 
@@ -1961,6 +1987,33 @@ var StoryButton = function StoryButton(_ref) {
 
 /***/ }),
 
+/***/ "./client/components/stories/storyCaret.jsx":
+/*!**************************************************!*\
+  !*** ./client/components/stories/storyCaret.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var StoryCaret = function StoryCaret(_ref) {
+  var showForm = _ref.showForm,
+      toggleForm = _ref.toggleForm;
+  var faClassName = showForm ? "fa-caret-down" : "fa-caret-right";
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa ".concat(faClassName, " icon-dropdown"),
+    onClick: toggleForm
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (StoryCaret);
+
+/***/ }),
+
 /***/ "./client/components/stories/storyContainer.jsx":
 /*!******************************************************!*\
   !*** ./client/components/stories/storyContainer.jsx ***!
@@ -2039,23 +2092,12 @@ function (_Component) {
     _classCallCheck(this, StoryForm);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
-    _this.state = {
-      title: "",
-      kind: "Feature",
-      points: "Unestimated",
-      description: "",
-      workflow: _this.props.workflow
-    };
+    _this.state = _this.props.story;
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(StoryForm, [{
-    key: "close",
-    value: function close(e) {
-      e.preventDefault(); // TODO: close modal/form
-    }
-  }, {
     key: "update",
     value: function update(prop) {
       var _this2 = this;
@@ -2067,14 +2109,16 @@ function (_Component) {
   }, {
     key: "submit",
     value: function submit(e) {
+      var _this$props,
+          _this3 = this;
+
       e.preventDefault();
-      this.props.action(this.props.projectId, this.state);
-      this.setState({
-        title: "",
-        kind: "Feature",
-        points: "Unestimated",
-        description: "",
-        workflow: this.props.workflow
+      var args = this.props.projectId ? [this.props.projectId, this.state] : [this.state];
+
+      (_this$props = this.props).action.apply(_this$props, args).then(function () {
+        _this3.setState(_this3.props.story);
+
+        _this3.props.toggleForm();
       });
     }
   }, {
@@ -2091,16 +2135,20 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "save"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.close
+        onClick: this.props.toggleForm
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "story-form-right",
         onChange: this.update('kind'),
         value: this.state.kind
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Feature"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bug"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Chore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Release"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "POINTS", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Feature"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bug"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Chore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Release"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STATUS", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "story-form-right",
+        onChange: this.update('status'),
+        value: this.state.status
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Unstarted"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Started"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Finished"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Delivered"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Accepted"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Rejected"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "POINTS", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "story-form-right",
         onChange: this.update('points'),
         value: this.state.points
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Unestimated"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "0 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1 point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3 points")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "DESCRIPTION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Unestimated"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "0"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "DESCRIPTION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         onChange: this.update('description'),
         value: this.state.description
       })));
@@ -2130,14 +2178,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+var mapStateToProps = function mapStateToProps(_, ownProps) {
   return {
-    // errors
+    // TODO: errors
+    story: {
+      title: "",
+      kind: "Feature",
+      points: "Unestimated",
+      description: "",
+      workflow: ownProps.workflow
+    },
     workflow: ownProps.workflow
   };
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     action: function action(id, story) {
       return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["createStory"])(id, story));
@@ -2188,6 +2243,41 @@ var StoryIcon = function StoryIcon(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (StoryIcon);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyUpdateContainer.jsx":
+/*!************************************************************!*\
+  !*** ./client/components/stories/storyUpdateContainer.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _storyForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyForm */ "./client/components/stories/storyForm.jsx");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  console.log("container: ", ownProps.story);
+  return {
+    story: ownProps.story
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    action: function action(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["updateStory"])(story));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_storyForm__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 

@@ -2,14 +2,21 @@ import { connect } from 'react-redux'
 import StoryForm from './storyForm'
 import { createStory } from '../../actions/storyActions'
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (_, ownProps) => {
   return {
-    // errors
+    // TODO: errors
+    story: {
+      title: "",
+      kind: "Feature",
+      points: "Unestimated",
+      description: "",
+      workflow: ownProps.workflow
+    },
     workflow: ownProps.workflow
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     action: (id, story) => dispatch(createStory(id, story))
   }

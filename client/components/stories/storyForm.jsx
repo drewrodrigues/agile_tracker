@@ -3,19 +3,8 @@ import React, { Component } from 'react'
 class StoryForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
-      title: "", 
-      kind: "Feature", 
-      points: "Unestimated", 
-      description: "",
-      workflow: this.props.workflow
-    }
+    this.state = this.props.story
     this.submit = this.submit.bind(this)
-  }
-
-  close(e) {
-    e.preventDefault()
-    // TODO: close modal/form
   }
 
   update(prop) {
@@ -26,13 +15,12 @@ class StoryForm extends Component {
 
   submit(e) {
     e.preventDefault()
-    this.props.action(this.props.projectId, this.state)
-    this.setState({ 
-      title: "", 
-      kind: "Feature", 
-      points: "Unestimated", 
-      description: "",
-      workflow: this.props.workflow
+
+    let args = this.props.projectId ? [this.props.projectId, this.state] : [this.state]
+
+    this.props.action(...args).then(() => {
+      this.setState(this.props.story)
+      this.props.toggleForm()
     })
   }
 
@@ -47,7 +35,7 @@ class StoryForm extends Component {
           />
 
           <button className="save">Save</button>
-          <button onClick={ this.close }>Cancel</button>
+          <button onClick={ this.props.toggleForm }>Cancel</button>
 
           <ul>
             <li>
@@ -64,16 +52,31 @@ class StoryForm extends Component {
             </li>
 
             <li>
+              STATUS
+              <select 
+                className="story-form-right"
+                onChange={ this.update('status') }
+                value={ this.state.status }>
+                <option>Unstarted</option>
+                <option>Started</option>
+                <option>Finished</option>
+                <option>Delivered</option>
+                <option>Accepted</option>
+                <option>Rejected</option>
+              </select>
+            </li>
+
+            <li>
               POINTS
               <select 
                 className="story-form-right"
                 onChange={ this.update('points') }
                 value={ this.state.points }>
                 <option>Unestimated</option>
-                <option>0 points</option>
-                <option>1 point</option>
-                <option>2 points</option>
-                <option>3 points</option>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
               </select>
             </li>
           </ul>
