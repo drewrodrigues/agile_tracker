@@ -6,6 +6,15 @@
   border-bottom: 1px solid #ddd;
 }
 
+.story-container {
+  overflow-y: scroll;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 41px;
+}
+
 .story-Started,
 .story-Finished,
 .story-Rejected,

@@ -11,7 +11,7 @@ class WorkflowSidebar extends Component {
         <nav>
           <ul>
             <li>
-              <a className="sidebar-hamburger"><i class="fa fa-bars"></i></a>
+              <a className="sidebar-hamburger"><i className="fa fa-bars"></i></a>
             </li>
 
             <li>

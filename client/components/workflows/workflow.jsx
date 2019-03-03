@@ -28,7 +28,9 @@ class Workflow extends Component {
           { button }
         </header>
 
-        { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
+        <div className="story-container">
+          { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
+        </div>
       </section>
     )
   }

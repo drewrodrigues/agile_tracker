@@ -2144,12 +2144,14 @@ function (_Component) {
         onClick: this.props.toggleWorkflow
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times"
-      })), this.props.workflow, button), this.props.stories.map(function (story) {
+      })), this.props.workflow, button), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "story-container"
+      }, this.props.stories.map(function (story) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: story.id,
           story: story
         });
-      }));
+      })));
     }
   }]);
 
@@ -2249,7 +2251,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-hamburger"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        class: "fa fa-bars"
+        className: "fa fa-bars"
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.icebox ? 'active' : ''),
         onClick: this.props.toggleIcebox
