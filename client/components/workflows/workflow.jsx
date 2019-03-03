@@ -5,14 +5,20 @@ import StoryFormContainer from '../stories/storyFormContainer'
 class Workflow extends Component {
   constructor(props) {
     super(props)
+    this.state = { showForm: false }
+    this.toggleForm = this.toggleForm.bind(this)
+  }
+
+  toggleForm() {
+    this.setState({ showForm: !this.state.showForm })
   }
 
   render() {
     if (!this.props.show) return null
 
-    let button = null
+    let addStoryButton = null
     if (this.props.canAddStory) {
-      button = <button className="add-story-button">
+      addStoryButton = <button className="add-story-button" onClick={ this.toggleForm }>
         <i className="fa fa-plus"></i>Add Story
       </button>
     }
@@ -26,11 +32,15 @@ class Workflow extends Component {
 
           { this.props.workflow }
 
-          { button }
+          { addStoryButton }
         </header>
 
         <div className="story-container">
-          <StoryFormContainer workflow={ this.props.workflow } projectId={ this.props.projectId }/>
+          <StoryFormContainer 
+            projectId={ this.props.projectId }
+            show={ this.state.showForm }
+            toggleForm={ this.toggleForm }
+            workflow={ this.props.workflow }/>
 
           { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
         </div>

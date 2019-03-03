@@ -1856,6 +1856,7 @@ function (_Component) {
     value: function render() {
       if (this.state.showForm) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          show: this.state.showForm,
           story: this.props.data,
           toggleForm: this.toggleForm
         });
@@ -2093,11 +2094,18 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
     _this.state = _this.props.story;
+    _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(StoryForm, [{
+    key: "toggleForm",
+    value: function toggleForm(e) {
+      e.preventDefault();
+      this.props.toggleForm();
+    }
+  }, {
     key: "update",
     value: function update(prop) {
       var _this2 = this;
@@ -2124,6 +2132,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      if (!this.props.show) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-form"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -2135,7 +2144,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "save"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.props.toggleForm
+        onClick: this.toggleForm
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "story-form-right",
         onChange: this.update('kind'),
@@ -2348,9 +2357,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -2366,20 +2375,35 @@ function (_Component) {
   _inherits(Workflow, _Component);
 
   function Workflow(props) {
+    var _this;
+
     _classCallCheck(this, Workflow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Workflow).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Workflow).call(this, props));
+    _this.state = {
+      showForm: false
+    };
+    _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Workflow, [{
+    key: "toggleForm",
+    value: function toggleForm() {
+      this.setState({
+        showForm: !this.state.showForm
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.props.show) return null;
-      var button = null;
+      var addStoryButton = null;
 
       if (this.props.canAddStory) {
-        button = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "add-story-button"
+        addStoryButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "add-story-button",
+          onClick: this.toggleForm
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-plus"
         }), "Add Story");
@@ -2394,11 +2418,13 @@ function (_Component) {
         onClick: this.props.toggleWorkflow
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times"
-      })), this.props.workflow, button), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.props.workflow, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        workflow: this.props.workflow,
-        projectId: this.props.projectId
+        projectId: this.props.projectId,
+        show: this.state.showForm,
+        toggleForm: this.toggleForm,
+        workflow: this.props.workflow
       }), this.props.stories.map(function (story) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: story.id,

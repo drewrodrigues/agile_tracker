@@ -4,7 +4,13 @@ class StoryForm extends Component {
   constructor(props) {
     super(props)
     this.state = this.props.story
+    this.toggleForm = this.toggleForm.bind(this)
     this.submit = this.submit.bind(this)
+  }
+
+  toggleForm(e) {
+    e.preventDefault()
+    this.props.toggleForm()
   }
 
   update(prop) {
@@ -25,6 +31,8 @@ class StoryForm extends Component {
   }
 
   render() {
+    if (!this.props.show) return null
+
     return (
       <div className="story-form">
         <form onSubmit={ this.submit }>
@@ -35,7 +43,7 @@ class StoryForm extends Component {
           />
 
           <button className="save">Save</button>
-          <button onClick={ this.props.toggleForm }>Cancel</button>
+          <button onClick={ this.toggleForm }>Cancel</button>
 
           <ul>
             <li>
