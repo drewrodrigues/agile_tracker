@@ -274,8 +274,8 @@ var getProjects = function getProjects() {
 };
 var createProject = function createProject(project) {
   return function (dispatch) {
-    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (project) {
-      return dispatch(receiveProject(project));
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (response) {
+      return dispatch(receiveProject(response.project));
     }).fail(function (errors) {
       return dispatch(receiveProjectErrors(errors.responseJSON));
     });
@@ -283,8 +283,8 @@ var createProject = function createProject(project) {
 };
 var updateProject = function updateProject(project) {
   return function (dispatch) {
-    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (project) {
-      return dispatch(receiveProject(project));
+    return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (response) {
+      return dispatch(receiveProject(response.project));
     }).fail(function (errors) {
       return dispatch(receiveProjectErrors(errors.responseJSON));
     });
@@ -1192,21 +1192,25 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
         projectStories: this.props.stories,
+        projectId: this.props.project.id,
         show: true,
         workflow: "Icebox"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
         projectStories: this.props.stories,
+        projectId: this.props.project.id,
         show: true,
         workflow: "Backlog"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
         projectStories: this.props.stories,
+        projectId: this.props.project.id,
         show: true,
         workflow: "Current"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: false,
         projectStories: this.props.stories,
+        projectId: this.props.project.id,
         show: true,
         workflow: "Done"
       }))));
@@ -2004,6 +2008,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2012,9 +2018,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -2028,25 +2034,76 @@ function (_Component) {
   _inherits(StoryForm, _Component);
 
   function StoryForm(props) {
+    var _this;
+
     _classCallCheck(this, StoryForm);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
+    _this.state = {
+      title: "",
+      kind: "Feature",
+      points: "Unestimated",
+      description: "",
+      workflow: _this.props.workflow
+    };
+    _this.submit = _this.submit.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(StoryForm, [{
+    key: "close",
+    value: function close(e) {
+      e.preventDefault(); // TODO: close modal/form
+    }
+  }, {
+    key: "update",
+    value: function update(prop) {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState(_defineProperty({}, prop, e.target.value));
+      };
+    }
+  }, {
+    key: "submit",
+    value: function submit(e) {
+      e.preventDefault();
+      this.props.action(this.props.projectId, this.state);
+      this.setState({
+        title: "",
+        kind: "Feature",
+        points: "Unestimated",
+        description: "",
+        workflow: this.props.workflow
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-form"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.submit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text"
+        type: "text",
+        value: this.state.title,
+        onChange: this.update('title')
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "save"
-      }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "story-form-right"
+      }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.close
+      }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "story-form-right",
+        onChange: this.update('kind'),
+        value: this.state.kind
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Feature"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bug"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Chore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Release"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "POINTS", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "story-form-right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Unestimated"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "0 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1 point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3 points")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "DESCRIPTION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", null));
+        className: "story-form-right",
+        onChange: this.update('points'),
+        value: this.state.points
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Unestimated"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "0 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1 point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2 points"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3 points")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "DESCRIPTION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        onChange: this.update('description'),
+        value: this.state.description
+      })));
     }
   }]);
 
@@ -2054,6 +2111,41 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (StoryForm);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyFormContainer.jsx":
+/*!**********************************************************!*\
+  !*** ./client/components/stories/storyFormContainer.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _storyForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyForm */ "./client/components/stories/storyForm.jsx");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    // errors
+    workflow: ownProps.workflow
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    action: function action(id, story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["createStory"])(id, story));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_storyForm__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -2155,7 +2247,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
-/* harmony import */ var _stories_storyForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyForm */ "./client/components/stories/storyForm.jsx");
+/* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2214,7 +2306,10 @@ function (_Component) {
         className: "fa fa-times"
       })), this.props.workflow, button), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyForm__WEBPACK_IMPORTED_MODULE_2__["default"], null), this.props.stories.map(function (story) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        workflow: this.props.workflow,
+        projectId: this.props.projectId
+      }), this.props.stories.map(function (story) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: story.id,
           story: story
@@ -2251,6 +2346,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     canAddStory: ownProps.canAddStory,
+    projectId: ownProps.projectId,
     show: state.ui[ownProps.workflow.toLowerCase()],
     stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, ownProps.workflow),
     workflow: ownProps.workflow

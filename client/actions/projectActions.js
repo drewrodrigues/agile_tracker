@@ -57,13 +57,13 @@ export const getProjects = () => dispatch => {
 
 export const createProject = project => dispatch => {
   return APIUtil.createProject(project)
-    .then(project => dispatch(receiveProject(project)))
+    .then(response => dispatch(receiveProject(response.project)))
     .fail(errors => dispatch(receiveProjectErrors(errors.responseJSON)))
 }
 
 export const updateProject = project => dispatch => {
   return APIUtil.updateProject(project)
-    .then(project => dispatch(receiveProject(project)))
+    .then(response => dispatch(receiveProject(response.project)))
     .fail(errors => dispatch(receiveProjectErrors(errors.responseJSON)))
 }
 

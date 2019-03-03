@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import StoryContainer from '../stories/storyContainer'
-import StoryForm from '../stories/storyForm'
+import StoryFormContainer from '../stories/storyFormContainer'
 
 class Workflow extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Workflow extends Component {
         </header>
 
         <div className="story-container">
-          <StoryForm />
+          <StoryFormContainer workflow={ this.props.workflow } projectId={ this.props.projectId }/>
 
           { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
         </div>

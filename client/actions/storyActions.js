@@ -8,7 +8,7 @@ export const REMOVE_STORY    = "REMOVE_STORY"
 
 export const createStory = (projectId, story) => dispatch => {
   return APIUtil.createStory(projectId, story)
-    .then((storyResponse) => dispatch(receiveStory(storyResponse)))
+    .then(storyResponse => dispatch(receiveStory(storyResponse)))
 }
 
 export const updateStory = story => dispatch => {

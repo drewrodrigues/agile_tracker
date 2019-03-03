@@ -6,6 +6,7 @@ import { selectStoriesByWorkflow } from "../../reducers/selectors"
 const mapStateToProps = (state, ownProps) => {
   return {
     canAddStory: ownProps.canAddStory,
+    projectId: ownProps.projectId,
     show: state.ui[ownProps.workflow.toLowerCase()],
     stories: selectStoriesByWorkflow(ownProps.projectStories, ownProps.workflow),
     workflow: ownProps.workflow
