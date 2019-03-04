@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import StoryFormKind from './storyFormKind'
 
 class StoryForm extends Component {
   constructor(props) {
@@ -6,6 +7,7 @@ class StoryForm extends Component {
     this.state = this.props.story
     this.toggleForm = this.toggleForm.bind(this)
     this.delete = this.delete.bind(this)
+    this.update = this.update.bind(this)
     this.submit = this.submit.bind(this)
   }
 
@@ -21,7 +23,8 @@ class StoryForm extends Component {
 
   update(prop) {
     return e => {
-      this.setState({ [prop]: e.target.value })
+      e.preventDefault()
+      this.setState({ [prop]: e.currentTarget.value })
     }
   }
 
@@ -40,7 +43,7 @@ class StoryForm extends Component {
     if (!this.props.show) return null
 
     let deleteButton =  this.props.canDelete ? (
-      <button className="delete" onClick={ this.delete } >
+      <button className="story-form-button story-form-button-delete" onClick={ this.delete } >
         <i className="fa fa-trash"></i>
       </button>
     ) : null
@@ -55,21 +58,29 @@ class StoryForm extends Component {
           />
 
           { deleteButton }
-          <button className="save">Save</button>
-          <button onClick={ this.toggleForm }>Cancel</button>
+          <button className="story-form-button-save story-form-button">Save</button>
+          <button className="story-form-button" onClick={ this.toggleForm }>Cancel</button>
 
           <ul>
             <li>
               STORY TYPE
-              <select 
-                className="story-form-right"
-                onChange={ this.update('kind') }
-                value={ this.state.kind }>
-                <option>Feature</option>
-                <option>Bug</option>
-                <option>Chore</option>
-                <option>Release</option>
-              </select>
+
+              <StoryFormKind 
+                kind="Feature"
+                selected={ this.state.kind }
+                update={ this.update }/>
+              <StoryFormKind 
+                kind="Bug"
+                selected={ this.state.kind }
+                update={ this.update }/>
+              <StoryFormKind 
+                kind="Chore"
+                selected={ this.state.kind }
+                update={ this.update }/>
+              <StoryFormKind 
+                kind="Release"
+                selected={ this.state.kind }
+                update={ this.update }/>
             </li>
 
             <li>

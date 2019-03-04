@@ -3,43 +3,6 @@
   padding: 10px;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 
-  button {
-    float: right;
-    border: 0;
-    background-color: #ccc;
-    padding: 5px 8px;
-    border-radius: 3px;
-    margin-top: 8px;
-    margin-left: 8px;
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #bbb;
-    }
-  }
-
-  button.save {
-    color: $white;
-    background-color: #629206;
-
-    &:hover {
-      background-color: #4e8202;
-    }
-  }
-
-  button.delete {
-    float: none;
-    margin-left: 0;
-    background-color: #d87350;
-    color: white;
-
-    &:hover {
-      background-color: #b65130;
-    }
-  }
-
   input,
   textarea {
     display: block;
@@ -91,6 +54,57 @@
     font-weight: 600;
     margin-bottom: 5px;
   }
+}
+
+.story-form-button {
+  margin-left: -15px;
+  float: right;
+  border: 0;
+  background-color: #ccc;
+  padding: 5px 8px;
+  border-radius: 3px;
+  margin-top: 8px;
+  margin-left: 0px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  color: $white;
+
+  &:hover {
+    background-color: #dedede;
+  }
+
+  &:focus {
+    border: 0;
+    outline: 0;
+  }
+}
+
+.story-form-button-save {
+  color: $white;
+  background-color: #629206;
+  margin-left: 5px;
+
+  &:hover {
+    background-color: #4e8202;
+  }
+}
+
+.story-form-button-delete {
+  float: none;
+  margin-left: 0;
+  background-color: #d87350;
+  color: white;
+
+  &:hover {
+    background-color: #b65130;
+  }
+}
+
+.button-kind {
+  margin-top: -6px;
+  background: none;
+  font-size: 16px;
 }
 
 .story-form-right {
