@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import StoryIcon from './storyIcon'
 import StoryCaret from './storyCaret'
+import StoryPoints from './storyPoints'
 import StoryButton from './storyButton'
 import StoryUpdateContainer from './storyUpdateContainer'
 
@@ -36,6 +37,8 @@ class Story extends Component {
             />
 
             <StoryIcon kind={ this.props.data.kind }/>
+
+            <StoryPoints points={ this.props.data.points }/>
           </div>
 
           <p>

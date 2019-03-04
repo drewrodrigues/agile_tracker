@@ -1803,8 +1803,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _storyIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyIcon */ "./client/components/stories/storyIcon.jsx");
 /* harmony import */ var _storyCaret__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyCaret */ "./client/components/stories/storyCaret.jsx");
-/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
-/* harmony import */ var _storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storyUpdateContainer */ "./client/components/stories/storyUpdateContainer.jsx");
+/* harmony import */ var _storyPoints__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./storyPoints */ "./client/components/stories/storyPoints.jsx");
+/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
+/* harmony import */ var _storyUpdateContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./storyUpdateContainer */ "./client/components/stories/storyUpdateContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1822,6 +1823,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1858,7 +1860,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.state.showForm) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_5__["default"], {
           canDelete: true,
           show: this.state.showForm,
           story: this.props.data,
@@ -1874,7 +1876,9 @@ function (_Component) {
           toggleForm: this.toggleForm
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
           kind: this.props.data.kind
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyPoints__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          points: this.props.data.points
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
           status: this.props.data.status,
           story: this.props.data,
           updateStory: this.props.updateStory
@@ -2433,6 +2437,74 @@ var StoryIcon = function StoryIcon(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (StoryIcon);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyPoints.jsx":
+/*!***************************************************!*\
+  !*** ./client/components/stories/storyPoints.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var StoryPoints = function StoryPoints(_ref) {
+  var points = _ref.points;
+  var blocks;
+
+  switch (points) {
+    case 0:
+      break;
+
+    case 1:
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "blocks"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block-invis"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block-invis"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }));
+      break;
+
+    case 2:
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "blocks"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block-invis"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }));
+      break;
+
+    case 3:
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "blocks"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "block"
+      }));
+      break;
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "story-points",
+    value: points
+  }, blocks);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (StoryPoints);
 
 /***/ }),
 

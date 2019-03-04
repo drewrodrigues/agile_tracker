@@ -1,7 +1,6 @@
 .story {
   background-color: #f4f4f4;
   font-size: 12px;
-  padding: 5px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #ddd;
   font-weight: 400;
@@ -18,8 +17,8 @@
 
   p {
     float: right;
-    padding: 0 10px;
-    width: 305px;
+    padding-right: 5px;
+    width: 295px;
     margin-top: 4px;
   }
 }
@@ -54,8 +53,28 @@
   border-top: 1px solid #f6fff9;
 }
 
+.story-points {
+  display: inline-block;
+  position: relative;
+  border: 0;
+  background: none;
+  height: 14px;
+  width: 10px;
+  padding-top: 10px;
+}
+
+.story-points .blocks {
+  top: 3px;
+}
+
+.story-points .block {
+  height: 3px;
+  width: 5px;
+  background: #609ffd;
+}
+
 .icon-story {
-  margin-right: 10px;
+  margin-right: 0px;
 }
 
 .icon-feature {
@@ -75,7 +94,7 @@
 }
 
 .icon-dropdown {
-  color: #bbb;
+  color: #ccc;
   cursor: pointer;
   padding: 5px 10px;
 }
@@ -92,7 +111,7 @@
   float: right;
   font-weight: 600;
   padding: 3px 8px;
-  margin-top: -1px;
+  margin-top: -2px;
 }
 
 .button-status-Started {
