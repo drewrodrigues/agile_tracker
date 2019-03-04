@@ -3,7 +3,6 @@ import StoryForm from './storyForm'
 import { deleteStory, updateStory } from '../../actions/storyActions'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("container: ", ownProps.story)
   return {
     story: ownProps.story
   }

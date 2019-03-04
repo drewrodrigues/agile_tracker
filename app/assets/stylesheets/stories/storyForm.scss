@@ -102,11 +102,12 @@
 }
 
 .button-kind {
-  margin-top: -5px;
+  margin-top: -4px;
   background: none;
-  font-size: 12px;
+  font-size: 10px;
   padding: 5px 0;
   margin-left: 10px;
+  text-transform: uppercase;
 
   &:hover {
     background: none;
@@ -120,4 +121,60 @@
 
 .story-form-right {
   float: right;
+}
+
+.story-form-points {
+  margin-top: -5px;
+}
+
+.point-select {
+  background: none;
+  border-radius: 3px;
+  border: 1px solid #eee;
+  color: #aaa;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 5px;
+  outline: 0;
+  padding: 5px 5px 5px 15px;
+  position: relative;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.point-select.no-blocks {
+  padding: 5px;
+}
+
+.blocks {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  vertical-align: bottom;
+  height: 100%;
+}
+
+.point-select.selected {
+  border: 1px solid #609ffd;
+  color: #609ffd;
+  border-radius: 3px;
+}
+
+.selected .block {
+  background-color: #609ffd;
+}
+
+.block,
+.block-invis {
+  height: 2px;
+  width: 5px;
+  margin-bottom: 1px;
+  display: block;
+  background-color: #aaa;
+}
+
+.block-invis {
+  background: none;
 }

@@ -6,7 +6,6 @@ class WorkflowSidebar extends Component {
   }
 
   render() {
-    console.log(this.props.iceboxCount)
     return (
       <aside className="sidebar">
         <nav>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StoryFormKind from './storyFormKind'
+import StoryFormPoint from './storyFormPoint'
 
 class StoryForm extends Component {
   constructor(props) {
@@ -100,16 +101,17 @@ class StoryForm extends Component {
 
             <li>
               POINTS
-              <select 
-                className="story-form-right"
-                onChange={ this.update('points') }
-                value={ this.state.points }>
-                <option>Unestimated</option>
-                <option>0</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-              </select>
+              <div className="story-form-points story-form-right">
+                { [0, 1, 2, 3].map(points => (
+                  <StoryFormPoint 
+                    key={points}
+                    points={points}
+                    selected={ this.state.points }
+                    update={ this.update }
+                  />
+                ))}
+              </div>
+
             </li>
           </ul>
 
