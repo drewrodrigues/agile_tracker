@@ -5,12 +5,18 @@ class StoryForm extends Component {
     super(props)
     this.state = this.props.story
     this.toggleForm = this.toggleForm.bind(this)
+    this.delete = this.delete.bind(this)
     this.submit = this.submit.bind(this)
   }
 
   toggleForm(e) {
     e.preventDefault()
     this.props.toggleForm()
+  }
+
+  delete(e) {
+    e.preventDefault()
+    this.props.delete(this.props.story.id)
   }
 
   update(prop) {
@@ -33,6 +39,12 @@ class StoryForm extends Component {
   render() {
     if (!this.props.show) return null
 
+    let deleteButton =  this.props.canDelete ? (
+      <button className="delete" onClick={ this.delete } >
+        <i className="fa fa-trash"></i>
+      </button>
+    ) : null
+
     return (
       <div className="story-form">
         <form onSubmit={ this.submit }>
@@ -42,6 +54,7 @@ class StoryForm extends Component {
             onChange={ this.update('title') }
           />
 
+          { deleteButton }
           <button className="save">Save</button>
           <button onClick={ this.toggleForm }>Cancel</button>
 

@@ -20,6 +20,7 @@ class Story extends Component {
     if (this.state.showForm) {
       return (
         <StoryUpdateContainer 
+          canDelete={ true }
           show={ this.state.showForm }
           story={ this.props.data }
           toggleForm={ this.toggleForm }  

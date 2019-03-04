@@ -35,9 +35,9 @@ export const receiveStories = stories => {
   }
 }
 
-const removeStory = story => {
+const removeStory = id => {
   return {
     type: REMOVE_STORY,
-    story
+    id
   }
 }

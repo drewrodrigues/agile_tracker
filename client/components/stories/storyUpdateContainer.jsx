@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import StoryForm from './storyForm'
-import { updateStory } from '../../actions/storyActions'
+import { deleteStory, updateStory } from '../../actions/storyActions'
 
 const mapStateToProps = (state, ownProps) => {
   console.log("container: ", ownProps.story)
@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    action: story => dispatch(updateStory(story))
+    action: story => dispatch(updateStory(story)),
+    delete: id => dispatch(deleteStory(id))
   }
 }
 

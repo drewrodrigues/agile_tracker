@@ -422,10 +422,10 @@ var receiveStories = function receiveStories(stories) {
   };
 };
 
-var removeStory = function removeStory(story) {
+var removeStory = function removeStory(id) {
   return {
     type: REMOVE_STORY,
-    story: story
+    id: id
   };
 };
 
@@ -1856,6 +1856,7 @@ function (_Component) {
     value: function render() {
       if (this.state.showForm) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          canDelete: true,
           show: this.state.showForm,
           story: this.props.data,
           toggleForm: this.toggleForm
@@ -2095,6 +2096,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
     _this.state = _this.props.story;
     _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
+    _this.delete = _this.delete.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -2104,6 +2106,12 @@ function (_Component) {
     value: function toggleForm(e) {
       e.preventDefault();
       this.props.toggleForm();
+    }
+  }, {
+    key: "delete",
+    value: function _delete(e) {
+      e.preventDefault();
+      this.props.delete(this.props.story.id);
     }
   }, {
     key: "update",
@@ -2133,6 +2141,12 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (!this.props.show) return null;
+      var deleteButton = this.props.canDelete ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "delete",
+        onClick: this.delete
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-trash"
+      })) : null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-form"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -2141,7 +2155,7 @@ function (_Component) {
         type: "text",
         value: this.state.title,
         onChange: this.update('title')
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), deleteButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "save"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.toggleForm
@@ -2282,6 +2296,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     action: function action(story) {
       return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["updateStory"])(story));
+    },
+    delete: function _delete(id) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["deleteStory"])(id));
     }
   };
 };
@@ -2421,6 +2438,7 @@ function (_Component) {
       })), this.props.workflow, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        canDelete: false,
         projectId: this.props.projectId,
         show: this.state.showForm,
         toggleForm: this.toggleForm,
@@ -2776,7 +2794,7 @@ var storiesReducer = function storiesReducer() {
       return Object.assign(newState, action.stories);
 
     case _actions_storyActions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_STORY"]:
-      delete newState[story.id];
+      delete newState[action.id];
       return newState;
 
     default:

@@ -22,10 +22,21 @@
 
   button.save {
     color: $white;
-    background-color: #777;
+    background-color: #629206;
 
     &:hover {
-      background-color: #2b4c74;
+      background-color: #4e8202;
+    }
+  }
+
+  button.delete {
+    float: none;
+    margin-left: 0;
+    background-color: #d87350;
+    color: white;
+
+    &:hover {
+      background-color: #b65130;
     }
   }
 
