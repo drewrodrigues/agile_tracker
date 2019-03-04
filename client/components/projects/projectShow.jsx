@@ -20,7 +20,10 @@ class ProjectShow extends Component {
         <AppNavbarContainer style="project-show" title={ this.props.project.title }/>
 
         <section className="project-container">
-          <WorkflowSidebarContainer />
+          <WorkflowSidebarContainer 
+            projectId={ this.props.project.id }
+            projectStories={ this.props.stories }
+          />
 
           <section className="workflow-container">
             <WorkflowContainer 

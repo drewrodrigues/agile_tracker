@@ -6,6 +6,7 @@ class WorkflowSidebar extends Component {
   }
 
   render() {
+    console.log(this.props.iceboxCount)
     return (
       <aside className="sidebar">
         <nav>
@@ -18,7 +19,7 @@ class WorkflowSidebar extends Component {
               <a className={`sidebar-link ${ this.props.icebox ? 'active' : '' }`} onClick={ this.props.toggleIcebox }>
                 <i className="fa fa-snowflake-o"></i>
                 Icebox
-                <span className="sidebar-count">20</span>
+                <span className="sidebar-count">{ this.props.iceboxCount }</span>
               </a>
             </li>
 
@@ -26,7 +27,7 @@ class WorkflowSidebar extends Component {
               <a className={`sidebar-link ${ this.props.backlog ? 'active' : '' }`} onClick={ this.props.toggleBacklog }>
                 <i className="fa fa-inbox"></i>
                 Backlog
-                <span className="sidebar-count">7</span>
+                <span className="sidebar-count">{ this.props.backlogCount }</span>
               </a>
             </li>
 
@@ -34,7 +35,7 @@ class WorkflowSidebar extends Component {
               <a className={`sidebar-link ${ this.props.current ? 'active' : '' }`} onClick={ this.props.toggleCurrent }>
                 <i className="fa fa-list-ul"></i>
                 Current
-                <span className="sidebar-count">22</span>
+                <span className="sidebar-count">{ this.props.currentCount }</span>
               </a>
             </li>
 
@@ -42,7 +43,7 @@ class WorkflowSidebar extends Component {
               <a className={`sidebar-link ${ this.props.done ? 'active' : '' }`} onClick={ this.props.toggleDone }>
                 <i className="fa fa-check"></i>
                 Done
-                <span className="sidebar-count">192</span>
+                <span className="sidebar-count">{ this.props.doneCount }</span>
               </a>
             </li>
 

@@ -1187,7 +1187,10 @@ function (_Component) {
         title: this.props.project.title
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "project-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        projectId: this.props.project.id,
+        projectStories: this.props.stories
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "workflow-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canAddStory: true,
@@ -2544,6 +2547,7 @@ function (_Component) {
   _createClass(WorkflowSidebar, [{
     key: "render",
     value: function render() {
+      console.log(this.props.iceboxCount);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "sidebar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -2557,28 +2561,28 @@ function (_Component) {
         className: "fa fa-snowflake-o"
       }), "Icebox", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, "20"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.iceboxCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.backlog ? 'active' : ''),
         onClick: this.props.toggleBacklog
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-inbox"
       }), "Backlog", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, "7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.backlogCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.current ? 'active' : ''),
         onClick: this.props.toggleCurrent
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-list-ul"
       }), "Current", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, "22"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.currentCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.done ? 'active' : ''),
         onClick: this.props.toggleDone
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-check"
       }), "Done", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, "192"))))));
+      }, this.props.doneCount))))));
     }
   }]);
 
@@ -2601,16 +2605,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _workflowSidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workflowSidebar */ "./client/components/workflows/workflowSidebar.jsx");
 /* harmony import */ var _actions_uiActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/uiActions */ "./client/actions/uiActions.js");
+/* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
 
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     icebox: state.ui.icebox,
     backlog: state.ui.backlog,
     current: state.ui.current,
-    done: state.ui.done
+    done: state.ui.done,
+    iceboxCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Icebox").length,
+    backlogCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Backlog").length,
+    currentCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Current").length,
+    doneCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Done").length
   };
 };
 
