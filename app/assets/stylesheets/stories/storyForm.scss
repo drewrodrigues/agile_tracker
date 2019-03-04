@@ -102,9 +102,20 @@
 }
 
 .button-kind {
-  margin-top: -6px;
+  margin-top: -5px;
   background: none;
-  font-size: 16px;
+  font-size: 12px;
+  padding: 5px 0;
+  margin-left: 10px;
+
+  &:hover {
+    background: none;
+  }
+
+  i {
+    font-weight: 12px;
+    margin-right: 5px;
+  }
 }
 
 .story-form-right {

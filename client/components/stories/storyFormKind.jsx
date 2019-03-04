@@ -29,6 +29,7 @@ const StoryFormKind = ({ kind, selected, update }) => {
       value={ kind }>
       <i className={`fa ${icon}`}
          onClick={ update } />
+      { kind }
     </button> 
   )
 }
