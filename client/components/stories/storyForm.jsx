@@ -42,12 +42,34 @@ class StoryForm extends Component {
 
   render() {
     if (!this.props.show) return null
+    
+    let deleteButton
+    let status
 
-    let deleteButton =  this.props.canDelete ? (
-      <button className="story-form-button story-form-button-delete" onClick={ this.delete } >
-        <i className="fa fa-trash"></i>
-      </button>
-    ) : null
+    if (this.props.canDelete) {
+      deleteButton = <>
+        <button className="story-form-button story-form-button-delete" onClick={ this.delete } >
+          <i className="fa fa-trash"></i>
+        </button>
+      </>
+
+      status = <>
+        <li>
+          STATUS
+          <select 
+            className="story-form-right"
+            onChange={ this.update('status') }
+            value={ this.state.status }>
+            <option>Unstarted</option>
+            <option>Started</option>
+            <option>Finished</option>
+            <option>Delivered</option>
+            <option>Accepted</option>
+            <option>Rejected</option>
+          </select>
+        </li>
+      </>
+    }
 
     return (
       <div className="story-form">
@@ -66,52 +88,31 @@ class StoryForm extends Component {
             <li>
               STORY TYPE
 
-              <StoryFormKind 
-                kind="Feature"
-                selected={ this.state.kind }
-                update={ this.update }/>
-              <StoryFormKind 
-                kind="Bug"
-                selected={ this.state.kind }
-                update={ this.update }/>
-              <StoryFormKind 
-                kind="Chore"
-                selected={ this.state.kind }
-                update={ this.update }/>
-              <StoryFormKind 
-                kind="Release"
-                selected={ this.state.kind }
-                update={ this.update }/>
+              { ["Feature", "Bug", "Chore", "Release"].map(kind => (
+                <StoryFormKind 
+                  key={ kind }
+                  kind={ kind }
+                  selected={ this.state.kind }
+                  update={ this.update }
+                />
+              ))}
+
             </li>
 
-            <li>
-              STATUS
-              <select 
-                className="story-form-right"
-                onChange={ this.update('status') }
-                value={ this.state.status }>
-                <option>Unstarted</option>
-                <option>Started</option>
-                <option>Finished</option>
-                <option>Delivered</option>
-                <option>Accepted</option>
-                <option>Rejected</option>
-              </select>
-            </li>
+            { status }
 
             <li>
               POINTS
               <div className="story-form-points story-form-right">
                 { [0, 1, 2, 3].map(points => (
                   <StoryFormPoint 
-                    key={points}
-                    points={points}
+                    key={ points }
+                    points={ points }
                     selected={ this.state.points }
                     update={ this.update }
                   />
                 ))}
               </div>
-
             </li>
           </ul>
 

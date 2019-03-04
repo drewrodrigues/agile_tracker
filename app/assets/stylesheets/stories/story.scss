@@ -15,7 +15,7 @@
     font-size: 16px;
   }
 
-  p {
+  .story-content {
     float: right;
     padding-right: 5px;
     width: 295px;
@@ -61,6 +61,36 @@
   height: 14px;
   width: 10px;
   padding-top: 10px;
+}
+
+.estimate-points {
+  float: right;
+  width: 50px;
+  margin-top: -2px;
+  
+  .blocks {
+    background: none;
+    border: 0;
+    display: inline-block;
+    position: relative;
+    margin-left: 5px;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid #aaa;
+    padding: 0 3px;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .block {
+    background-color: #739dbc;
+  }
+  
+  .block,
+  .block-invis {
+    height: 3px;
+    width: 5px;
+  }
 }
 
 .story-points .blocks {

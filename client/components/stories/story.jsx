@@ -4,6 +4,7 @@ import StoryCaret from './storyCaret'
 import StoryPoints from './storyPoints'
 import StoryButton from './storyButton'
 import StoryUpdateContainer from './storyUpdateContainer'
+import StoryEstimate from './storyEstimate'
 
 class Story extends Component {
   constructor(props) {
@@ -18,6 +19,25 @@ class Story extends Component {
   }
 
   render() {
+    let estimated = this.props.data.points > 0 ? true : false
+    let estimateOrButton
+
+    switch (estimated) {
+      case true:
+        estimateOrButton = <>
+          <StoryButton
+            status={ this.props.data.status }
+            story={ this.props.data }
+            updateStory={ this.props.updateStory }/>
+        </>
+        break
+      case false:
+        if (this.props.data.workflow !== "Done") {
+          estimateOrButton = <StoryEstimate story={ this.props.data } update={ this.props.updateStory }/>
+        }
+        break
+    }
+    
     if (this.state.showForm) {
       return (
         <StoryUpdateContainer 
@@ -41,14 +61,10 @@ class Story extends Component {
             <StoryPoints points={ this.props.data.points }/>
           </div>
 
-          <p>
-            <StoryButton
-              status={ this.props.data.status }
-              story={ this.props.data }
-              updateStory={ this.props.updateStory }
-            />
+          <div className="story-content">
+            { estimateOrButton }
             { this.props.data.title }
-          </p>
+          </div>
         </div>
       )
     }
