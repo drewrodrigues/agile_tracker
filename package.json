@@ -13,6 +13,7 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.5",
     "react": "^16.8.2",
+    "react-beautiful-dnd": "^10.0.4",
     "react-dom": "^16.8.2",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",

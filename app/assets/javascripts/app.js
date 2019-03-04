@@ -2231,6 +2231,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
     _this.state = _this.props.story;
     _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
+    _this.changeWorkflowBasedOnStatus = _this.changeWorkflowBasedOnStatus.bind(_assertThisInitialized(_this));
     _this.delete = _this.delete.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
@@ -2250,6 +2251,25 @@ function (_Component) {
       this.props.delete(this.props.story.id);
     }
   }, {
+    key: "changeWorkflowBasedOnStatus",
+    value: function changeWorkflowBasedOnStatus(callback) {
+      if (["Unstarted", "Done", "Rejected", "Started", "Delivered"].includes(this.state.status) && this.state.workflow === "Done") {
+        this.setState({
+          workflow: "Current"
+        }, callback);
+      } else if (["Icebox", "Backlog"].includes(this.state.workflow) && ![undefined, "Unstarted"].includes(this.state.status)) {
+        this.setState({
+          workflow: "Current"
+        }, callback);
+      } else if ("Accepted" === this.state.status) {
+        this.setState({
+          workflow: "Done"
+        }, callback);
+      } else {
+        callback();
+      }
+    }
+  }, {
     key: "update",
     value: function update(prop) {
       var _this2 = this;
@@ -2263,16 +2283,19 @@ function (_Component) {
   }, {
     key: "submit",
     value: function submit(e) {
-      var _this$props,
-          _this3 = this;
+      var _this3 = this;
 
       e.preventDefault();
-      var args = this.props.projectId ? [this.props.projectId, this.state] : [this.state];
+      this.changeWorkflowBasedOnStatus(function () {
+        var _this3$props;
 
-      (_this$props = this.props).action.apply(_this$props, args).then(function () {
-        _this3.setState(_this3.props.story);
+        var args = _this3.props.projectId ? [_this3.props.projectId, _this3.state] : [_this3.state];
 
-        _this3.props.toggleForm();
+        (_this3$props = _this3.props).action.apply(_this3$props, args).then(function () {
+          _this3.setState(_this3.props.story);
+
+          _this3.props.toggleForm();
+        });
       });
     }
   }, {

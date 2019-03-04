@@ -7,6 +7,7 @@ class StoryForm extends Component {
     super(props)
     this.state = this.props.story
     this.toggleForm = this.toggleForm.bind(this)
+    this.changeWorkflowBasedOnStatus = this.changeWorkflowBasedOnStatus.bind(this)
     this.delete = this.delete.bind(this)
     this.update = this.update.bind(this)
     this.submit = this.submit.bind(this)
@@ -22,6 +23,19 @@ class StoryForm extends Component {
     this.props.delete(this.props.story.id)
   }
 
+  changeWorkflowBasedOnStatus(callback) {
+    if (["Unstarted", "Done", "Rejected", "Started", "Delivered"].includes(this.state.status)
+        && this.state.workflow === "Done") {
+      this.setState({ workflow: "Current" }, callback)
+    } else if (["Icebox", "Backlog"].includes(this.state.workflow) && ![undefined, "Unstarted"].includes(this.state.status)) {
+      this.setState({ workflow: "Current" }, callback)
+    } else if ("Accepted" === this.state.status) {
+      this.setState({ workflow: "Done" }, callback)
+    } else {
+      callback()
+    }
+  }
+
   update(prop) {
     return e => {
       e.preventDefault()
@@ -31,12 +45,14 @@ class StoryForm extends Component {
 
   submit(e) {
     e.preventDefault()
+    
+    this.changeWorkflowBasedOnStatus(() => {
+      let args = this.props.projectId ? [this.props.projectId, this.state] : [this.state]
 
-    let args = this.props.projectId ? [this.props.projectId, this.state] : [this.state]
-
-    this.props.action(...args).then(() => {
-      this.setState(this.props.story)
-      this.props.toggleForm()
+      this.props.action(...args).then(() => {
+        this.setState(this.props.story)
+        this.props.toggleForm()
+      })
     })
   }
 
