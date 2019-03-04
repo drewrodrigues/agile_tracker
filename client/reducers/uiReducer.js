@@ -10,7 +10,8 @@ const uiReducer = (oldState = {}, action) => {
 
   switch (action.type) {
     case HIDE_MODALS:
-      return {}
+      delete newState['projectModal']
+      return newState
     case SHOW_PROJECT_MODAL:
       return Object.assign(newState, { projectModal: action.data })
     case TOGGLE_WORKFLOW:

@@ -3313,7 +3313,8 @@ var uiReducer = function uiReducer() {
 
   switch (action.type) {
     case _actions_uiActions__WEBPACK_IMPORTED_MODULE_0__["HIDE_MODALS"]:
-      return {};
+      delete newState['projectModal'];
+      return newState;
 
     case _actions_uiActions__WEBPACK_IMPORTED_MODULE_0__["SHOW_PROJECT_MODAL"]:
       return Object.assign(newState, {
