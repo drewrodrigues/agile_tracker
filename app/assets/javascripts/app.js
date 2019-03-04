@@ -1867,16 +1867,18 @@ function (_Component) {
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyCaret__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "icons"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyCaret__WEBPACK_IMPORTED_MODULE_2__["default"], {
           showForm: this.props.showForm,
           toggleForm: this.toggleForm
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
           kind: this.props.data.kind
-        }), this.props.data.title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
           status: this.props.data.status,
           story: this.props.data,
           updateStory: this.props.updateStory
-        })));
+        }), this.props.data.title));
       }
     }
   }]);

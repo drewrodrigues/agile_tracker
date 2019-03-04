@@ -29,20 +29,22 @@ class Story extends Component {
     } else {
       return (
         <div className={`story story-${this.props.data.status} story-${this.props.data.workflow}`}>
-          <p>
+          <div className="icons">
             <StoryCaret
               showForm={ this.props.showForm }
               toggleForm={ this.toggleForm }
             />
 
             <StoryIcon kind={ this.props.data.kind }/>
-            { this.props.data.title }
+          </div>
 
+          <p>
             <StoryButton
               status={ this.props.data.status }
               story={ this.props.data }
               updateStory={ this.props.updateStory }
             />
+            { this.props.data.title }
           </p>
         </div>
       )
