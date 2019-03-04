@@ -1,10 +1,6 @@
 import {
   HIDE_MODALS,
   SHOW_PROJECT_MODAL,
-  TOGGLE_ICEBOX,
-  TOGGLE_BACKLOG,
-  TOGGLE_CURRENT,
-  TOGGLE_DONE,
   TOGGLE_WORKFLOW
 } from "../actions/uiActions";
 
