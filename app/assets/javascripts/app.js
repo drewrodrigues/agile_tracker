@@ -3217,6 +3217,15 @@ var configureStore = function configureStore() {
         done: true
       }
     };
+  } else {
+    initialState = {
+      ui: {
+        icebox: true,
+        backlog: true,
+        current: true,
+        done: true
+      }
+    };
   }
 
   return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a, redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
