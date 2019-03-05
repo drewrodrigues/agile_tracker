@@ -1,70 +1,38 @@
 import React from 'react'
 
-const StoryButton = ({ status, updateStory, story }) => {
-  let text
-  let nextState
-
-  // TODO: REFACTOR hardcore
-
-  switch (status) {
-    case "Unstarted":
-      text = "Start"
-      if (story.workflow === "Icebox" || story.workflow === "Backlog") {
-        nextState = Object.assign({}, story, { status: "Started", workflow: "Current" })
-      } else {
-        nextState = Object.assign({}, story, { status: "Started" })
-      }
-      break
-    case "Started":
-      text = "Finish"
-      nextState = Object.assign({}, story, { status: "Finished" })
-      break
-    case "Finished":
-      text = "Deliver"
-      nextState = Object.assign({}, story, { status: "Delivered" })
-      break
-    case "Rejected":
-      text = "Restart"
-      nextState = Object.assign({}, story, { status: "Started" })
-      break
+const StoryButton = ({ status, rejectStory, acceptStory, nextStatusForStory, story }) => {
+  let text = {
+    "Unstarted": "Start",
+    "Started": "Finish",
+    "Finished": "Deliver",
+    "Rejected": "Restart"
   }
+  let icon = status === "Rejected" ? <i className="fa fa-circle"></i> : null
 
   if (status === "Delivered") {
-    let nextAcceptedState = Object.assign({}, story, { status: "Accepted", workflow: "Done" })
-    let nextRejectedState = Object.assign({}, story, { status: "Rejected" })
     return (<>
       <button 
         className={`button-status button-status-reject`}
-        onClick={ () => updateStory(nextRejectedState) }>
+        onClick={ () => rejectStory(story) }>
         Reject
       </button>
       <button 
         className={`button-status button-status-accept`}
-        onClick={ () => updateStory(nextAcceptedState) }>
+        onClick={ () => acceptStory(story) }>
         Accept
       </button>
     </>)
-  }
-
-  if (status === "Rejected") {
-    return (<>
-      <button 
+  } else if (status === "Accepted") {
+    return null
+  } else {
+    return (
+      <button
         className={`button-status button-status-${ status }`}
-        onClick={ () => updateStory(nextState) }>
-        <i className="fa fa-circle"></i>{ text }
+        onClick={ () => nextStatusForStory(story) }>
+        {icon} { text[status] }
       </button>
-    </>)
+    )
   }
-
-  if (status === "Accepted") return null
-  
-  return (
-    <button 
-      className={`button-status button-status-${ status }`}
-      onClick={ () => updateStory(nextState) }>
-      { text }
-    </button>
-  )
 }
 
 export default StoryButton

@@ -371,7 +371,7 @@ window.deleteSession = deleteSession;
 /*!****************************************!*\
   !*** ./client/actions/storyActions.js ***!
   \****************************************/
-/*! exports provided: RECEIVE_STORY, RECEIVE_STORIES, REMOVE_STORY, createStory, updateStory, deleteStory, receiveStories */
+/*! exports provided: RECEIVE_STORY, RECEIVE_STORIES, REMOVE_STORY, createStory, updateStory, deleteStory, nextStatusForStory, rejectStory, acceptStory, receiveStories */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -382,6 +382,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStory", function() { return createStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStory", function() { return updateStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteStory", function() { return deleteStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nextStatusForStory", function() { return nextStatusForStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rejectStory", function() { return rejectStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "acceptStory", function() { return acceptStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveStories", function() { return receiveStories; });
 /* harmony import */ var _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storyUtil */ "./client/utils/storyUtil.js");
 
@@ -407,6 +410,27 @@ var deleteStory = function deleteStory(story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["deleteStory"](story).then(function () {
       return dispatch(removeStory(story));
+    });
+  };
+};
+var nextStatusForStory = function nextStatusForStory(story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["nextStatusForStory"](story).then(function (storyResponse) {
+      return dispatch(receiveStory(storyResponse));
+    });
+  };
+};
+var rejectStory = function rejectStory(story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["rejectStory"](story).then(function (storyResponse) {
+      return dispatch(receiveStory(storyResponse));
+    });
+  };
+};
+var acceptStory = function acceptStory(story) {
+  return function (dispatch) {
+    return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["acceptStory"](story).then(function (storyResponse) {
+      return dispatch(receiveStory(storyResponse));
     });
   };
 };
@@ -1873,12 +1897,14 @@ function (_Component) {
           estimateOrButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
             status: this.props.data.status,
             story: this.props.data,
-            updateStory: this.props.updateStory
+            nextStatusForStory: this.props.nextStatusForStory,
+            rejectStory: this.props.rejectStory,
+            acceptStory: this.props.acceptStory
           }));
           break;
 
         case false:
-          if (this.props.data.workflow !== "Done") {
+          if (this.props.data.status !== "Accepted") {
             estimateOrButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyEstimate__WEBPACK_IMPORTED_MODULE_6__["default"], {
               story: this.props.data,
               update: this.props.updateStory
@@ -1905,9 +1931,9 @@ function (_Component) {
           toggleForm: this.toggleForm
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
           kind: this.props.data.kind
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyPoints__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), this.props.data.status !== "Accepted" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyPoints__WEBPACK_IMPORTED_MODULE_3__["default"], {
           points: this.props.data.points
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "story-content"
         }, estimateOrButton, this.props.data.title));
       }
@@ -1936,89 +1962,42 @@ __webpack_require__.r(__webpack_exports__);
 
 var StoryButton = function StoryButton(_ref) {
   var status = _ref.status,
-      updateStory = _ref.updateStory,
+      rejectStory = _ref.rejectStory,
+      acceptStory = _ref.acceptStory,
+      nextStatusForStory = _ref.nextStatusForStory,
       story = _ref.story;
-  var text;
-  var nextState; // TODO: REFACTOR hardcore
-
-  switch (status) {
-    case "Unstarted":
-      text = "Start";
-
-      if (story.workflow === "Icebox" || story.workflow === "Backlog") {
-        nextState = Object.assign({}, story, {
-          status: "Started",
-          workflow: "Current"
-        });
-      } else {
-        nextState = Object.assign({}, story, {
-          status: "Started"
-        });
-      }
-
-      break;
-
-    case "Started":
-      text = "Finish";
-      nextState = Object.assign({}, story, {
-        status: "Finished"
-      });
-      break;
-
-    case "Finished":
-      text = "Deliver";
-      nextState = Object.assign({}, story, {
-        status: "Delivered"
-      });
-      break;
-
-    case "Rejected":
-      text = "Restart";
-      nextState = Object.assign({}, story, {
-        status: "Started"
-      });
-      break;
-  }
+  var text = {
+    "Unstarted": "Start",
+    "Started": "Finish",
+    "Finished": "Deliver",
+    "Rejected": "Restart"
+  };
+  var icon = status === "Rejected" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-circle"
+  }) : null;
 
   if (status === "Delivered") {
-    var nextAcceptedState = Object.assign({}, story, {
-      status: "Accepted",
-      workflow: "Done"
-    });
-    var nextRejectedState = Object.assign({}, story, {
-      status: "Rejected"
-    });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "button-status button-status-reject",
       onClick: function onClick() {
-        return updateStory(nextRejectedState);
+        return rejectStory(story);
       }
     }, "Reject"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "button-status button-status-accept",
       onClick: function onClick() {
-        return updateStory(nextAcceptedState);
+        return acceptStory(story);
       }
     }, "Accept"));
-  }
-
-  if (status === "Rejected") {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  } else if (status === "Accepted") {
+    return null;
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "button-status button-status-".concat(status),
       onClick: function onClick() {
-        return updateStory(nextState);
+        return nextStatusForStory(story);
       }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-circle"
-    }), text));
+    }, icon, " ", text[status]);
   }
-
-  if (status === "Accepted") return null;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button-status button-status-".concat(status),
-    onClick: function onClick() {
-      return updateStory(nextState);
-    }
-  }, text);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (StoryButton);
@@ -2078,6 +2057,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     updateStory: function updateStory(story) {
       return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["updateStory"])(story));
+    },
+    nextStatusForStory: function nextStatusForStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["nextStatusForStory"])(story));
+    },
+    acceptStory: function acceptStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["acceptStory"])(story));
+    },
+    rejectStory: function rejectStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["rejectStory"])(story));
     }
   };
 };
@@ -2235,7 +2223,6 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StoryForm).call(this, props));
     _this.state = _this.props.story;
     _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
-    _this.changeWorkflowBasedOnStatus = _this.changeWorkflowBasedOnStatus.bind(_assertThisInitialized(_this));
     _this.delete = _this.delete.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
@@ -2255,25 +2242,6 @@ function (_Component) {
       this.props.delete(this.props.story.id);
     }
   }, {
-    key: "changeWorkflowBasedOnStatus",
-    value: function changeWorkflowBasedOnStatus(callback) {
-      if (["Unstarted", "Done", "Rejected", "Started", "Delivered"].includes(this.state.status) && this.state.workflow === "Done") {
-        this.setState({
-          workflow: "Current"
-        }, callback);
-      } else if (["Icebox", "Backlog"].includes(this.state.workflow) && ![undefined, "Unstarted"].includes(this.state.status)) {
-        this.setState({
-          workflow: "Current"
-        }, callback);
-      } else if ("Accepted" === this.state.status) {
-        this.setState({
-          workflow: "Done"
-        }, callback);
-      } else {
-        callback();
-      }
-    }
-  }, {
     key: "update",
     value: function update(prop) {
       var _this2 = this;
@@ -2287,19 +2255,16 @@ function (_Component) {
   }, {
     key: "submit",
     value: function submit(e) {
-      var _this3 = this;
+      var _this$props,
+          _this3 = this;
 
       e.preventDefault();
-      this.changeWorkflowBasedOnStatus(function () {
-        var _this3$props;
+      var args = this.props.workflowId ? [this.props.workflowId, this.state] : [this.state];
 
-        var args = _this3.props.projectId ? [_this3.props.projectId, _this3.state] : [_this3.state];
+      (_this$props = this.props).action.apply(_this$props, args).then(function () {
+        _this3.setState(_this3.props.story);
 
-        (_this3$props = _this3.props).action.apply(_this3$props, args).then(function () {
-          _this3.setState(_this3.props.story);
-
-          _this3.props.toggleForm();
-        });
+        _this3.props.toggleForm();
       });
     }
   }, {
@@ -2318,6 +2283,9 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-trash"
         })));
+      }
+
+      if (this.props.story.points > 0) {
         status = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STATUS", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           className: "story-form-right",
           onChange: this.update('status'),
@@ -2392,9 +2360,9 @@ var mapStateToProps = function mapStateToProps(_, ownProps) {
       kind: "Feature",
       points: "Unestimated",
       description: "",
-      workflow: ownProps.workflow
+      workflow: ownProps.workflow.id
     },
-    workflow: ownProps.workflow
+    workflowId: ownProps.workflow.id
   };
 };
 
@@ -2825,7 +2793,6 @@ function (_Component) {
         className: "story-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
         canDelete: false,
-        projectId: this.props.projectId,
         show: this.state.showForm,
         toggleForm: this.toggleForm,
         workflow: this.props.workflow
@@ -3755,7 +3722,7 @@ var deleteSession = function deleteSession(id) {
 /*!***********************************!*\
   !*** ./client/utils/storyUtil.js ***!
   \***********************************/
-/*! exports provided: createStory, updateStory, deleteStory */
+/*! exports provided: createStory, updateStory, deleteStory, nextStatusForStory, rejectStory, acceptStory */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3763,10 +3730,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStory", function() { return createStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStory", function() { return updateStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteStory", function() { return deleteStory; });
-var createStory = function createStory(projectId, story) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nextStatusForStory", function() { return nextStatusForStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rejectStory", function() { return rejectStory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "acceptStory", function() { return acceptStory; });
+var createStory = function createStory(workflowId, story) {
   return $.ajax({
     method: 'POST',
-    url: "/api/projects/".concat(projectId, "/stories"),
+    url: "/api/workflows/".concat(workflowId, "/stories"),
     data: {
       story: story
     }
@@ -3785,6 +3755,24 @@ var deleteStory = function deleteStory(id) {
   return $.ajax({
     method: 'DELETE',
     url: "/api/stories/".concat(id)
+  });
+};
+var nextStatusForStory = function nextStatusForStory(story) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/stories/".concat(story.id, "/next")
+  });
+};
+var rejectStory = function rejectStory(story) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/stories/".concat(story.id, "/reject")
+  });
+};
+var acceptStory = function acceptStory(story) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/stories/".concat(story.id, "/accept")
   });
 };
 

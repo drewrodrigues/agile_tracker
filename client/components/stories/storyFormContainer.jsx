@@ -10,9 +10,9 @@ const mapStateToProps = (_, ownProps) => {
       kind: "Feature",
       points: "Unestimated",
       description: "",
-      workflow: ownProps.workflow
+      workflow: ownProps.workflow.id
     },
-    workflow: ownProps.workflow
+    workflowId: ownProps.workflow.id
   }
 }
 

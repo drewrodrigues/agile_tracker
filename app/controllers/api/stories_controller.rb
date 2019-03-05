@@ -1,5 +1,6 @@
 class Api::StoriesController < ApplicationController
   before_action :require_sign_in
+  before_action :set_story, except: :create
 
   def create
     @story = current_user.workflows.find(params[:workflow_id]).stories.build(story_params)
@@ -11,7 +12,6 @@ class Api::StoriesController < ApplicationController
   end
   
   def update
-    @story = current_user.stories.find(params[:id])
     if @story.update(story_params)
       render :show
     else
@@ -20,14 +20,42 @@ class Api::StoriesController < ApplicationController
   end
 
   def destroy
-    @story = current_user.stories.find(params[:id]).destroy
+    @story.destroy
+  end
+
+  def next
+    if @story.next_status_and_workflow
+      render :show
+    else
+      render json: @story.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def accept
+    if @story.accept
+      render :show
+    else
+      render json: @story.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def reject
+    if @story.reject
+      render :show
+    else
+      render json: @story.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   private
 
   def story_params
     params.require(:story).permit(
-      :description, :kind, :order, :points, :status, :title, :workflow
+      :description, :kind, :order, :points, :status, :title, :workflow_id
     )
+  end
+
+  def set_story
+    @story = current_user.stories.find(params[:id])
   end
 end

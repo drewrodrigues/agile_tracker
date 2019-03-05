@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_05_004328) do
+ActiveRecord::Schema.define(version: 2019_03_05_170716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_004328) do
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position", null: false
-    t.integer "workflow_id", null: false
-    t.index ["workflow_id", "position"], name: "index_stories_on_workflow_id_and_position", unique: true
+    t.integer "position"
+    t.integer "workflow_id"
     t.index ["workflow_id"], name: "index_stories_on_workflow_id"
   end
 
@@ -54,7 +53,6 @@ ActiveRecord::Schema.define(version: 2019_03_05_004328) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id", "position"], name: "index_workflows_on_project_id_and_position", unique: true
     t.index ["project_id"], name: "index_workflows_on_project_id"
     t.index ["title", "project_id"], name: "index_workflows_on_title_and_project_id", unique: true
   end

@@ -1,7 +1,7 @@
-export const createStory = (projectId, story) => {
+export const createStory = (workflowId, story) => {
   return $.ajax({
     method: 'POST',
-    url: `/api/projects/${projectId}/stories`,
+    url: `/api/workflows/${workflowId}/stories`,
     data: { story }
   })
 }
@@ -18,5 +18,26 @@ export const deleteStory = id => {
   return $.ajax({
     method: 'DELETE',
     url: `/api/stories/${id}`
+  })
+}
+
+export const nextStatusForStory = story => {
+  return $.ajax({
+    method: "POST",
+    url: `/api/stories/${story.id}/next`
+  })
+}
+
+export const rejectStory = story => {
+  return $.ajax({
+    method: "POST",
+    url: `/api/stories/${story.id}/reject`
+  })
+}
+
+export const acceptStory = story => {
+  return $.ajax({
+    method: "POST",
+    url: `/api/stories/${story.id}/accept`
   })
 }

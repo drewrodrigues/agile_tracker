@@ -21,6 +21,21 @@ export const deleteStory = story => dispatch => {
     .then(() => dispatch(removeStory(story)))
 }
 
+export const nextStatusForStory = story => dispatch => {
+  return APIUtil.nextStatusForStory(story)
+    .then(storyResponse => dispatch(receiveStory(storyResponse)))
+}
+
+export const rejectStory = story => dispatch => {
+  return APIUtil.rejectStory(story)
+    .then(storyResponse => dispatch(receiveStory(storyResponse)))
+}
+
+export const acceptStory = story => dispatch => {
+  return APIUtil.acceptStory(story)
+    .then(storyResponse => dispatch(receiveStory(storyResponse)))
+}
+
 const receiveStory = story => {
   return {
     type: RECEIVE_STORY,

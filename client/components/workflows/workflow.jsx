@@ -39,7 +39,6 @@ class Workflow extends Component {
         <div className="story-container">
           <StoryFormContainer
             canDelete={ false }
-            projectId={ this.props.projectId }
             show={ this.state.showForm }
             toggleForm={ this.toggleForm }
             workflow={ this.props.workflow }/>

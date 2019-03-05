@@ -30,34 +30,6 @@ class ProjectShow extends Component {
             {this.props.workflows.map(workflow => (
               <WorkflowContainer workflow={workflow}/>
             ))}
-            {/* <WorkflowContainer 
-              canAddStory={true}
-              projectStories={this.props.stories}
-              projectId={ this.props.project.id }
-              show={true}
-              workflow="Icebox"
-            />
-            <WorkflowContainer 
-              canAddStory={true}
-              projectStories={this.props.stories}
-              projectId={ this.props.project.id }
-              show={true}
-              workflow="Backlog"
-            />
-            <WorkflowContainer 
-              canAddStory={true}
-              projectStories={this.props.stories}
-              projectId={ this.props.project.id }
-              show={true}
-              workflow="Current"
-            />
-            <WorkflowContainer 
-              canAddStory={false}
-              projectStories={this.props.stories}
-              projectId={ this.props.project.id }
-              show={true}
-              workflow="Done"
-            /> */}
           </section>
         </section>
       </div>

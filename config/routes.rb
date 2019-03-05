@@ -7,6 +7,12 @@ Rails.application.routes.draw do
     resources :workflows do
       resources :stories, only: :create
     end
-    resources :stories, only: [:update, :destroy]
+    resources :stories, only: [:update, :destroy] do
+      member do
+        post :accept
+        post :reject
+        post :next
+      end
+    end
   end
 end

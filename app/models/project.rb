@@ -20,7 +20,9 @@ class Project < ApplicationRecord
 
   after_create :create_base_workflows
 
-  private
+  def workflow(title)
+    workflows.where(title: title).first
+  end
   
   def create_base_workflows
     Workflow.create_base_workflows(id)

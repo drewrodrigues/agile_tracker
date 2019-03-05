@@ -28,11 +28,14 @@ class Story extends Component {
           <StoryButton
             status={ this.props.data.status }
             story={ this.props.data }
-            updateStory={ this.props.updateStory }/>
+            nextStatusForStory={ this.props.nextStatusForStory }
+            rejectStory={ this.props.rejectStory }
+            acceptStory={ this.props.acceptStory }
+          />
         </>
         break
       case false:
-        if (this.props.data.workflow !== "Done") {
+        if (this.props.data.status !== "Accepted") {
           estimateOrButton = <StoryEstimate story={ this.props.data } update={ this.props.updateStory }/>
         }
         break
@@ -58,7 +61,9 @@ class Story extends Component {
 
             <StoryIcon kind={ this.props.data.kind }/>
 
-            <StoryPoints points={ this.props.data.points }/>
+            {this.props.data.status !== "Accepted" ? (
+              <StoryPoints points={ this.props.data.points }/>
+            ) : null}
           </div>
 
           <div className="story-content">

@@ -23,31 +23,60 @@ ActiveRecord::Base.transaction do
     { title: "Trip Mates",           user: demo_user }
   ])
 
+  project_id_offset = Project.first.id
+  project_count     = Project.count
+
   workflow_id_offset = Workflow.first.id
   workflow_count     = Workflow.count
   kinds     =  %w(Bug Chore Feature)
   statuses  =  %w(Unstarted Started Finished Delivered Rejected Accepted)
   workflows =  %w(Backlog Current Done)
 
-  # 1000.times do
-  #   random_project_id = project_id_offset + rand(project_count)
-  #   Story.create!(
-  #     description: "",
-  #     kind: kinds.sample,
-  #     project_id: random_project_id,
-  #     status: statuses.sample,
-  #     title: "Random Story Title",
-  #     workflow: workflows.sample
-  #   )
-  # end
-
   200.times do
     random_workflow_id = workflow_id_offset + rand(workflow_count)
+    random_project    = project_id_offset + rand(project_count)
     Story.create!(
       description: "",
       kind: kinds.sample,
-      workflow_id: random_workflow_id,
+      workflow: Project.find(random_project).workflow('Icebox'),
       status: "Unstarted",
+      title: "Random Story Title"
+    ) 
+  end
+
+  100.times do
+    random_workflow_id = workflow_id_offset + rand(workflow_count)
+    random_project    = project_id_offset + rand(project_count)
+    Story.create!(
+      description: "",
+      kind: kinds.sample,
+      workflow: Project.find(random_project).workflow('Backlog'),
+      status: "Unstarted",
+      title: "Random Story Title"
+    ) 
+  end
+
+  75.times do
+    random_workflow_id = workflow_id_offset + rand(workflow_count)
+    random_project    = project_id_offset + rand(project_count)
+    Story.create!(
+      description: "",
+      kind: kinds.sample,
+      workflow: Project.find(random_project).workflow('Current'),
+      status: "Started",
+      title: "Random Story Title"
+    ) 
+  end
+
+  100.times do
+    random_workflow_id = workflow_id_offset + rand(workflow_count)
+    random_project    = project_id_offset + rand(project_count)
+    Story.create!(
+      description: "",
+      kind: kinds.sample,
+      workflow: Project.find(random_project).workflow('Done'),
+      points: rand(3) + 2,
+      status: "Accepted",
       title: "Random Story Title"
     ) 
   end
