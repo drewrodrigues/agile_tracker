@@ -1,13 +1,6 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 User.destroy_all
 Project.destroy_all
+Workflow.destroy_all
 Story.destroy_all
 
 ActiveRecord::Base.transaction do
@@ -38,6 +31,7 @@ ActiveRecord::Base.transaction do
     Story.create!(
       description: "",
       kind: kinds.sample,
+      points: 0,
       workflow: Project.find(random_project).workflow('Icebox'),
       status: "Unstarted",
       title: "Random Story Title"
@@ -50,6 +44,7 @@ ActiveRecord::Base.transaction do
     Story.create!(
       description: "",
       kind: kinds.sample,
+      points: 0,
       workflow: Project.find(random_project).workflow('Backlog'),
       status: "Unstarted",
       title: "Random Story Title"
@@ -62,6 +57,7 @@ ActiveRecord::Base.transaction do
     Story.create!(
       description: "",
       kind: kinds.sample,
+      points: 0,
       workflow: Project.find(random_project).workflow('Current'),
       status: "Started",
       title: "Random Story Title"
@@ -75,7 +71,7 @@ ActiveRecord::Base.transaction do
       description: "",
       kind: kinds.sample,
       workflow: Project.find(random_project).workflow('Done'),
-      points: rand(3) + 2,
+      points: rand(4),
       status: "Accepted",
       title: "Random Story Title"
     ) 
