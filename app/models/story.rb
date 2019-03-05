@@ -17,14 +17,13 @@
 # TODO: don't allow icebox && anything other than unstarted
 
 class Story < ApplicationRecord
-  # default_scope { order(position: :asc)}
+  default_scope { order(position: :asc)}
 
   acts_as_list scope: :workflow
 
-  belongs_to :project
-  # belongs_to :workflow
-  # has_one :project,
-  #   through: :workflow
+  belongs_to :workflow
+  has_one :project,
+    through: :workflow
   
   validates :description, presence: true, allow_blank: true
   validates :title, presence: true
@@ -33,15 +32,15 @@ class Story < ApplicationRecord
   validates :points, inclusion: [0, 1, 2, 3]
   validates :status, inclusion: %w(Unstarted Started Finished Delivered Rejected Accepted)
 
-  # validate :icebox_must_be_unstarted
-  # validate :backlog_must_be_unstarted
-  # validate :current_cant_be_accepted
-  # validate :done_must_be_accepted
+  validate :icebox_must_be_unstarted
+  validate :backlog_must_be_unstarted
+  validate :current_cant_be_accepted
+  validate :done_must_be_accepted
 
-  # before_validation :move_to_done_if_accepted
-  # before_validation :move_from_icebox_if_needed
-  # before_validation :move_from_backlog_if_needed
-  # before_validation :move_from_done_if_needed
+  before_validation :move_to_done_if_accepted
+  before_validation :move_from_icebox_if_needed
+  before_validation :move_from_backlog_if_needed
+  before_validation :move_from_done_if_needed
 
   # TODO: write specs for
   def next_status_and_workflow
