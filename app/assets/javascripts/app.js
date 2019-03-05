@@ -2744,6 +2744,50 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./client/components/workflows/placeholder.jsx":
+/*!*****************************************************!*\
+  !*** ./client/components/workflows/placeholder.jsx ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Placeholder = function Placeholder(_ref) {
+  var show = _ref.show,
+      workflow = _ref.workflow,
+      toggleForm = _ref.toggleForm;
+  var text = {
+    "Icebox": "Loose ideas for later go here",
+    "Backlog": "These are next up",
+    "Current": "Worked on stories go here",
+    "Done": "Stories go here once accepted"
+  };
+  var icon = {
+    "Icebox": "fa fa-snowflake-o",
+    "Backlog": "fa fa-cog",
+    "Current": "fa fa-list-ul",
+    "Done": "fa fa-check"
+  };
+  if (!show) return null;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "placeholder"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: icon[workflow]
+  }), " ", text[workflow]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: toggleForm,
+    className: "button button-green"
+  }, "Add a story"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Placeholder);
+
+/***/ }),
+
 /***/ "./client/components/workflows/workflow.jsx":
 /*!**************************************************!*\
   !*** ./client/components/workflows/workflow.jsx ***!
@@ -2757,7 +2801,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
 /* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./placeholder */ "./client/components/workflows/placeholder.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -2779,6 +2824,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2844,13 +2890,19 @@ function (_Component) {
         show: this.state.showForm,
         toggleForm: this.toggleForm,
         workflow: this.props.workflow
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__["Droppable"], {
-        droppableId: String(this.props.workflow.id)
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__["Droppable"], {
+        droppableId: String(this.props.workflow.id),
+        placeholder: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Do the things")
       }, function (provided) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({}, provided.droppableProps, {
-          ref: provided.innerRef
-        }), _this2.props.stories.map(function (story, index) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__["Draggable"], {
+          ref: provided.innerRef,
+          className: "droppable-container"
+        }), provided.placeholder, _this2.props.stories.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_placeholder__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          show: !_this2.state.showForm,
+          workflow: _this2.props.workflow.title,
+          toggleForm: _this2.toggleForm
+        }) : null, _this2.props.stories.map(function (story, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__["Draggable"], {
             draggableId: String(story.id),
             key: story.id,
             index: index

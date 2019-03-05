@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import StoryContainer from '../stories/storyContainer'
 import StoryFormContainer from '../stories/storyFormContainer'
+import Placeholder from './placeholder'
 
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -45,11 +46,16 @@ class Workflow extends Component {
             toggleForm={ this.toggleForm }
             workflow={ this.props.workflow }/>
 
-          <Droppable droppableId={ String(this.props.workflow.id) }>
+          <Droppable droppableId={ String(this.props.workflow.id) } placeholder={<div>Do the things</div>}>
             { provided => (
               <div 
                 { ...provided.droppableProps }
-                ref={ provided.innerRef }>
+                ref={ provided.innerRef }
+                className="droppable-container">
+                { provided.placeholder }
+                { this.props.stories.length === 0 ? (
+                  <Placeholder show={ !this.state.showForm }workflow={ this.props.workflow.title } toggleForm={this.toggleForm } />
+                ) : null }
 
                 { this.props.stories.map((story, index) => (
                   <Draggable draggableId={ String(story.id) } key={ story.id } index={ index }>

@@ -172,3 +172,23 @@
   color: #a72c38;
   margin-right: 5px;
 }
+
+.droppable-container {
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder {
+  margin-top: 100px;
+  font-weight: 600;
+  text-align: center;
+  color: white;
+
+  h4 {
+    margin-bottom: 10px;
+  }
+  
+  i {
+    margin-right: 10px;
+  }
+}
