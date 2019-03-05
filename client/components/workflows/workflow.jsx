@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import StoryContainer from '../stories/storyContainer'
 import StoryFormContainer from '../stories/storyFormContainer'
 
+import { Droppable, Draggable } from 'react-beautiful-dnd'
+
 class Workflow extends Component {
   constructor(props) {
     super(props)
@@ -43,7 +45,28 @@ class Workflow extends Component {
             toggleForm={ this.toggleForm }
             workflow={ this.props.workflow }/>
 
-          { this.props.stories.map(story => <StoryContainer key={story.id} story={story}/>)}
+          <Droppable droppableId={ String(this.props.workflow.id) }>
+            { provided => (
+              <div 
+                { ...provided.droppableProps }
+                ref={ provided.innerRef }>
+
+                { this.props.stories.map((story, index) => (
+                  <Draggable draggableId={ String(story.id) } key={ story.id } index={ index }>
+                    { provided  => (
+                      <StoryContainer
+                        key={ story.id } 
+                        innerRef={ provided.innerRef }
+                        provided={ provided }
+                        story={ story }
+                        innerRef={ provided.innerRef }
+                      />
+                    )}
+                  </Draggable>
+                ))}
+              </div>
+            )}
+          </Droppable>
         </div>
       </section>
     )

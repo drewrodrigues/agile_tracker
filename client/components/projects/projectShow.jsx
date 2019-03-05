@@ -1,15 +1,37 @@
 import React, { Component } from 'react'
+import { DragDropContext } from 'react-beautiful-dnd'
+
 import AppNavbarContainer from '../shared/appNavbarContainer'
 import WorkflowSidebarContainer from '../workflows/workflowSidebarContainer'
 import WorkflowContainer from '../workflows/workflowContainer'
 
+
 class ProjectShow extends Component {
   constructor(props) {
     super(props)
+    this.onDragEnd = this.onDragEnd.bind(this)
   }
 
   componentDidMount() {
     this.props.getProject(this.props.match.params.id)
+  }
+
+  onDragEnd(e) {
+    const { destination, source } = e
+    console.log(e)
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index       === source.index
+    ) {
+      return
+    } else {
+      // TODO: shift all items with position below my index, down to reflect backend
+      this.props.updateStory({
+        id: e.draggableId, 
+        position: destination.index + 1,
+        workflow_id: destination.droppableId
+      })
+    }
   }
 
   render() {
@@ -25,12 +47,13 @@ class ProjectShow extends Component {
             projectStories={ this.props.stories }
           />
 
-
-          <section className="workflow-container">
-            {this.props.workflows.map(workflow => (
-              <WorkflowContainer workflow={workflow}/>
-            ))}
-          </section>
+          <DragDropContext onDragEnd={ this.onDragEnd } onDragUpdate={ this.onDragUpdate }>
+            <section className="workflow-container">
+              { this.props.workflows.map((workflow, index) => (
+                <WorkflowContainer workflow={ workflow } key={ index }/>
+              ))}
+            </section>
+          </DragDropContext>
         </section>
       </div>
     )

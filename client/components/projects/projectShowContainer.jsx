@@ -1,7 +1,10 @@
 import { connect } from 'react-redux'
+
 import ProjectShow from './projectShow'
+
 import { getProject } from '../../actions/projectActions'
 import { selectWorkflowsByProjectId } from '../../reducers/selectors'
+import { updateStory } from "../../actions/storyActions"
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -12,7 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProject: (id) => dispatch(getProject(id))
+    getProject: (id) => dispatch(getProject(id)),
+    updateStory: story => dispatch(updateStory(story))
   }
 }
 

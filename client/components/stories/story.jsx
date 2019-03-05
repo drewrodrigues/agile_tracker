@@ -22,6 +22,8 @@ class Story extends Component {
     let estimated = this.props.data.points > 0 ? true : false
     let estimateOrButton
 
+    const { provided, innerRef } = this.props
+
     switch (estimated) {
       case true:
         estimateOrButton = <>
@@ -52,7 +54,12 @@ class Story extends Component {
       )
     } else {
       return (
-        <div className={`story story-${this.props.data.status} story-${this.props.data.workflow}`}>
+        <div 
+          className={`story story-${this.props.data.status} story-${this.props.data.workflow}`}
+          { ...provided.draggableProps }
+          { ...provided.dragHandleProps }
+          ref={innerRef}
+        >
           <div className="icons">
             <StoryCaret
               showForm={ this.props.showForm }

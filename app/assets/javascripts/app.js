@@ -1182,9 +1182,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
-/* harmony import */ var _workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../workflows/workflowSidebarContainer */ "./client/components/workflows/workflowSidebarContainer.jsx");
-/* harmony import */ var _workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../workflows/workflowContainer */ "./client/components/workflows/workflowContainer.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
+/* harmony import */ var _workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../workflows/workflowSidebarContainer */ "./client/components/workflows/workflowSidebarContainer.jsx");
+/* harmony import */ var _workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../workflows/workflowContainer */ "./client/components/workflows/workflowContainer.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1195,13 +1196,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1214,9 +1216,13 @@ function (_Component) {
   _inherits(ProjectShow, _Component);
 
   function ProjectShow(props) {
+    var _this;
+
     _classCallCheck(this, ProjectShow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ProjectShow).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectShow).call(this, props));
+    _this.onDragEnd = _this.onDragEnd.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(ProjectShow, [{
@@ -1225,26 +1231,48 @@ function (_Component) {
       this.props.getProject(this.props.match.params.id);
     }
   }, {
+    key: "onDragEnd",
+    value: function onDragEnd(e) {
+      var destination = e.destination,
+          source = e.source;
+      console.log(e);
+
+      if (destination.droppableId === source.droppableId && destination.index === source.index) {
+        return;
+      } else {
+        // TODO: shift all items with position below my index, down to reflect backend
+        this.props.updateStory({
+          id: e.draggableId,
+          position: destination.index + 1,
+          workflow_id: destination.droppableId
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.props.project) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: "project-show",
         title: this.props.project.title
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "project-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         projectId: this.props.project.id,
         projectStories: this.props.stories
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["DragDropContext"], {
+        onDragEnd: this.onDragEnd,
+        onDragUpdate: this.onDragUpdate
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "workflow-container"
-      }, this.props.workflows.map(function (workflow) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          workflow: workflow
+      }, this.props.workflows.map(function (workflow, index) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          workflow: workflow,
+          key: index
         });
-      }))));
+      })))));
     }
   }]);
 
@@ -1268,6 +1296,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _projectShow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectShow */ "./client/components/projects/projectShow.jsx");
 /* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
 /* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
 
 
 
@@ -1284,6 +1314,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getProject: function getProject(id) {
       return dispatch(Object(_actions_projectActions__WEBPACK_IMPORTED_MODULE_2__["getProject"])(id));
+    },
+    updateStory: function updateStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_4__["updateStory"])(story));
     }
   };
 };
@@ -1837,6 +1870,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storyEstimate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./storyEstimate */ "./client/components/stories/storyEstimate.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1891,6 +1926,9 @@ function (_Component) {
     value: function render() {
       var estimated = this.props.data.points > 0 ? true : false;
       var estimateOrButton;
+      var _this$props = this.props,
+          provided = _this$props.provided,
+          innerRef = _this$props.innerRef;
 
       switch (estimated) {
         case true:
@@ -1922,9 +1960,11 @@ function (_Component) {
           toggleForm: this.toggleForm
         });
       } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({
           className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, provided.draggableProps, provided.dragHandleProps, {
+          ref: innerRef
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "icons"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyCaret__WEBPACK_IMPORTED_MODULE_2__["default"], {
           showForm: this.props.showForm,
@@ -2717,7 +2757,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
 /* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2734,6 +2779,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2768,6 +2814,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       if (!this.props.show) return null;
       var addStoryButton = null;
 
@@ -2796,11 +2844,25 @@ function (_Component) {
         show: this.state.showForm,
         toggleForm: this.toggleForm,
         workflow: this.props.workflow
-      }), this.props.stories.map(function (story) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: story.id,
-          story: story
-        });
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__["Droppable"], {
+        droppableId: String(this.props.workflow.id)
+      }, function (provided) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({}, provided.droppableProps, {
+          ref: provided.innerRef
+        }), _this2.props.stories.map(function (story, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__["Draggable"], {
+            draggableId: String(story.id),
+            key: story.id,
+            index: index
+          }, function (provided) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], _defineProperty({
+              key: story.id,
+              innerRef: provided.innerRef,
+              provided: provided,
+              story: story
+            }, "innerRef", provided.innerRef));
+          });
+        }));
       })));
     }
   }]);
@@ -3439,25 +3501,13 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!**************************************!*\
   !*** ./client/reducers/selectors.js ***!
   \**************************************/
-/*! exports provided: selectStoriesByProjectId, selectStoriesByWorkflowId, selectWorkflowsByProjectId */
+/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByProjectId", function() { return selectStoriesByProjectId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflowId", function() { return selectStoriesByWorkflowId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectWorkflowsByProjectId", function() { return selectWorkflowsByProjectId; });
-var selectStoriesByProjectId = function selectStoriesByProjectId(state, id) {
-  var projectId = parseInt(id);
-  var stories = Object.values(state.entities.stories);
-  var selectedStories = [];
-  stories.forEach(function (story) {
-    if (story.project_id === projectId) {
-      selectedStories.push(story);
-    }
-  });
-  return selectedStories;
-};
 var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
   var workflowId = parseInt(id);
   var selectedStories = [];
@@ -3467,7 +3517,9 @@ var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
       selectedStories.push(story);
     }
   });
-  return selectedStories;
+  return selectedStories.sort(function (a, b) {
+    return a.position - b.position;
+  });
 };
 var selectWorkflowsByProjectId = function selectWorkflowsByProjectId(state, id) {
   var projectId = parseInt(id);
@@ -3800,6 +3852,126 @@ var createUser = function createUser(user) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/date/now.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/date/now */ "./node_modules/core-js/library/fn/date/now.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/number/is-integer.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/number/is-integer.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/number/is-integer */ "./node_modules/core-js/library/fn/number/is-integer.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/object/assign.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/assign */ "./node_modules/core-js/library/fn/object/assign.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/object/create.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/object/create.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/create */ "./node_modules/core-js/library/fn/object/create.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/object/keys.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/keys */ "./node_modules/core-js/library/fn/object/keys.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/object/values.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/object/values.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/values */ "./node_modules/core-js/library/fn/object/values.js");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
+/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
+/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+
+function _extends() {
+  _extends = _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default.a || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/inheritsLoose.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/inheritsLoose.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _inheritsLoose; });
+/* harmony import */ var _core_js_object_create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/create */ "./node_modules/@babel/runtime-corejs2/core-js/object/create.js");
+/* harmony import */ var _core_js_object_create__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_create__WEBPACK_IMPORTED_MODULE_0__);
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = _core_js_object_create__WEBPACK_IMPORTED_MODULE_0___default()(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js ***!
@@ -3892,6 +4064,1223 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
   return target;
 }
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/date/now.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/library/fn/date/now.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.date.now */ "./node_modules/core-js/library/modules/es6.date.now.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Date.now;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/number/is-integer.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/fn/number/is-integer.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.number.is-integer */ "./node_modules/core-js/library/modules/es6.number.is-integer.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Number.isInteger;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/assign.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/assign.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.object.assign */ "./node_modules/core-js/library/modules/es6.object.assign.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object.assign;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/create.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/create.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.object.create */ "./node_modules/core-js/library/modules/es6.object.create.js");
+var $Object = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object;
+module.exports = function create(P, D) {
+  return $Object.create(P, D);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/keys.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/keys.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.object.keys */ "./node_modules/core-js/library/modules/es6.object.keys.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object.keys;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/values.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/values.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es7.object.values */ "./node_modules/core-js/library/modules/es7.object.values.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object.values;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_a-function.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_a-function.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_an-object.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_an-object.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/library/modules/_is-object.js");
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_array-includes.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_array-includes.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/library/modules/_to-iobject.js");
+var toLength = __webpack_require__(/*! ./_to-length */ "./node_modules/core-js/library/modules/_to-length.js");
+var toAbsoluteIndex = __webpack_require__(/*! ./_to-absolute-index */ "./node_modules/core-js/library/modules/_to-absolute-index.js");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_cof.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_cof.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_core.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_core.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.6.5' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_ctx.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_ctx.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__(/*! ./_a-function */ "./node_modules/core-js/library/modules/_a-function.js");
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_defined.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_defined.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_descriptors.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_descriptors.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js")(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_dom-create.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_dom-create.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/library/modules/_is-object.js");
+var document = __webpack_require__(/*! ./_global */ "./node_modules/core-js/library/modules/_global.js").document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_enum-bug-keys.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_enum-bug-keys.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_export.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_export.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/library/modules/_global.js");
+var core = __webpack_require__(/*! ./_core */ "./node_modules/core-js/library/modules/_core.js");
+var ctx = __webpack_require__(/*! ./_ctx */ "./node_modules/core-js/library/modules/_ctx.js");
+var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/library/modules/_hide.js");
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/library/modules/_has.js");
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var IS_WRAP = type & $export.W;
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE];
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+  var key, own, out;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if (own && has(exports, key)) continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function (C) {
+      var F = function (a, b, c) {
+        if (this instanceof C) {
+          switch (arguments.length) {
+            case 0: return new C();
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if (IS_PROTO) {
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_fails.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_fails.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_global.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_global.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_has.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_has.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_hide.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_hide.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/library/modules/_object-dp.js");
+var createDesc = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/library/modules/_property-desc.js");
+module.exports = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js") ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_html.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_html.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__(/*! ./_global */ "./node_modules/core-js/library/modules/_global.js").document;
+module.exports = document && document.documentElement;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_ie8-dom-define.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_ie8-dom-define.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js") && !__webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js")(function () {
+  return Object.defineProperty(__webpack_require__(/*! ./_dom-create */ "./node_modules/core-js/library/modules/_dom-create.js")('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_iobject.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_iobject.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(/*! ./_cof */ "./node_modules/core-js/library/modules/_cof.js");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_is-integer.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_is-integer.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.1.2.3 Number.isInteger(number)
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/library/modules/_is-object.js");
+var floor = Math.floor;
+module.exports = function isInteger(it) {
+  return !isObject(it) && isFinite(it) && floor(it) === it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_is-object.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_is-object.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_library.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_library.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-assign.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-assign.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/library/modules/_object-keys.js");
+var gOPS = __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/library/modules/_object-gops.js");
+var pIE = __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/library/modules/_object-pie.js");
+var toObject = __webpack_require__(/*! ./_to-object */ "./node_modules/core-js/library/modules/_to-object.js");
+var IObject = __webpack_require__(/*! ./_iobject */ "./node_modules/core-js/library/modules/_iobject.js");
+var $assign = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js")(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function (k) { B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+  } return T;
+} : $assign;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-create.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-create.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/library/modules/_an-object.js");
+var dPs = __webpack_require__(/*! ./_object-dps */ "./node_modules/core-js/library/modules/_object-dps.js");
+var enumBugKeys = __webpack_require__(/*! ./_enum-bug-keys */ "./node_modules/core-js/library/modules/_enum-bug-keys.js");
+var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "./node_modules/core-js/library/modules/_shared-key.js")('IE_PROTO');
+var Empty = function () { /* empty */ };
+var PROTOTYPE = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__(/*! ./_dom-create */ "./node_modules/core-js/library/modules/_dom-create.js")('iframe');
+  var i = enumBugKeys.length;
+  var lt = '<';
+  var gt = '>';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__(/*! ./_html */ "./node_modules/core-js/library/modules/_html.js").appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-dp.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-dp.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/library/modules/_an-object.js");
+var IE8_DOM_DEFINE = __webpack_require__(/*! ./_ie8-dom-define */ "./node_modules/core-js/library/modules/_ie8-dom-define.js");
+var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "./node_modules/core-js/library/modules/_to-primitive.js");
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-dps.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-dps.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/library/modules/_object-dp.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/library/modules/_an-object.js");
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/library/modules/_object-keys.js");
+
+module.exports = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js") ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-gops.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-gops.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-keys-internal.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-keys-internal.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/library/modules/_has.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/library/modules/_to-iobject.js");
+var arrayIndexOf = __webpack_require__(/*! ./_array-includes */ "./node_modules/core-js/library/modules/_array-includes.js")(false);
+var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "./node_modules/core-js/library/modules/_shared-key.js")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-keys.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-keys.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(/*! ./_object-keys-internal */ "./node_modules/core-js/library/modules/_object-keys-internal.js");
+var enumBugKeys = __webpack_require__(/*! ./_enum-bug-keys */ "./node_modules/core-js/library/modules/_enum-bug-keys.js");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-pie.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-pie.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-sap.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-sap.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+var core = __webpack_require__(/*! ./_core */ "./node_modules/core-js/library/modules/_core.js");
+var fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/library/modules/_fails.js");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-to-array.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_object-to-array.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/library/modules/_object-keys.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/library/modules/_to-iobject.js");
+var isEnum = __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/library/modules/_object-pie.js").f;
+module.exports = function (isEntries) {
+  return function (it) {
+    var O = toIObject(it);
+    var keys = getKeys(O);
+    var length = keys.length;
+    var i = 0;
+    var result = [];
+    var key;
+    while (length > i) if (isEnum.call(O, key = keys[i++])) {
+      result.push(isEntries ? [key, O[key]] : O[key]);
+    } return result;
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_property-desc.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_property-desc.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_shared-key.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_shared-key.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(/*! ./_shared */ "./node_modules/core-js/library/modules/_shared.js")('keys');
+var uid = __webpack_require__(/*! ./_uid */ "./node_modules/core-js/library/modules/_uid.js");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_shared.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_shared.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__(/*! ./_core */ "./node_modules/core-js/library/modules/_core.js");
+var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/library/modules/_global.js");
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__(/*! ./_library */ "./node_modules/core-js/library/modules/_library.js") ? 'pure' : 'global',
+  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-absolute-index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-absolute-index.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(/*! ./_to-integer */ "./node_modules/core-js/library/modules/_to-integer.js");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-integer.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-integer.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-iobject.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-iobject.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(/*! ./_iobject */ "./node_modules/core-js/library/modules/_iobject.js");
+var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/library/modules/_defined.js");
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-length.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-length.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.15 ToLength
+var toInteger = __webpack_require__(/*! ./_to-integer */ "./node_modules/core-js/library/modules/_to-integer.js");
+var min = Math.min;
+module.exports = function (it) {
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-object.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-object.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/library/modules/_defined.js");
+module.exports = function (it) {
+  return Object(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-primitive.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_to-primitive.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/library/modules/_is-object.js");
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_uid.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/library/modules/_uid.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var id = 0;
+var px = Math.random();
+module.exports = function (key) {
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.date.now.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.date.now.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.3.3.1 / 15.9.4.4 Date.now()
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+
+$export($export.S, 'Date', { now: function () { return new Date().getTime(); } });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.number.is-integer.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.number.is-integer.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 20.1.2.3 Number.isInteger(number)
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+
+$export($export.S, 'Number', { isInteger: __webpack_require__(/*! ./_is-integer */ "./node_modules/core-js/library/modules/_is-integer.js") });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.assign.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.object.assign.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(/*! ./_object-assign */ "./node_modules/core-js/library/modules/_object-assign.js") });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.create.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.object.create.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+$export($export.S, 'Object', { create: __webpack_require__(/*! ./_object-create */ "./node_modules/core-js/library/modules/_object-create.js") });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.keys.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.object.keys.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__(/*! ./_to-object */ "./node_modules/core-js/library/modules/_to-object.js");
+var $keys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/library/modules/_object-keys.js");
+
+__webpack_require__(/*! ./_object-sap */ "./node_modules/core-js/library/modules/_object-sap.js")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
+  };
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es7.object.values.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es7.object.values.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-values-entries
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+var $values = __webpack_require__(/*! ./_object-to-array */ "./node_modules/core-js/library/modules/_object-to-array.js")(false);
+
+$export($export.S, 'Object', {
+  values: function values(it) {
+    return $values(it);
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/css-box-model/dist/css-box-model.esm.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/css-box-model/dist/css-box-model.esm.js ***!
+  \**************************************************************/
+/*! exports provided: getRect, expand, shrink, createBox, offset, withScroll, calculateBox, getBox */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRect", function() { return getRect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expand", function() { return expand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shrink", function() { return shrink; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBox", function() { return createBox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withScroll", function() { return withScroll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateBox", function() { return calculateBox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBox", function() { return getBox; });
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
+
+
+var getRect = function getRect(_ref) {
+  var top = _ref.top,
+      right = _ref.right,
+      bottom = _ref.bottom,
+      left = _ref.left;
+  var width = right - left;
+  var height = bottom - top;
+  var rect = {
+    top: top,
+    right: right,
+    bottom: bottom,
+    left: left,
+    width: width,
+    height: height,
+    x: left,
+    y: top,
+    center: {
+      x: (right + left) / 2,
+      y: (bottom + top) / 2
+    }
+  };
+  return rect;
+};
+var expand = function expand(target, expandBy) {
+  return {
+    top: target.top - expandBy.top,
+    left: target.left - expandBy.left,
+    bottom: target.bottom + expandBy.bottom,
+    right: target.right + expandBy.right
+  };
+};
+var shrink = function shrink(target, shrinkBy) {
+  return {
+    top: target.top + shrinkBy.top,
+    left: target.left + shrinkBy.left,
+    bottom: target.bottom - shrinkBy.bottom,
+    right: target.right - shrinkBy.right
+  };
+};
+
+var shift = function shift(target, shiftBy) {
+  return {
+    top: target.top + shiftBy.y,
+    left: target.left + shiftBy.x,
+    bottom: target.bottom + shiftBy.y,
+    right: target.right + shiftBy.x
+  };
+};
+
+var noSpacing = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+};
+var createBox = function createBox(_ref2) {
+  var borderBox = _ref2.borderBox,
+      _ref2$margin = _ref2.margin,
+      margin = _ref2$margin === void 0 ? noSpacing : _ref2$margin,
+      _ref2$border = _ref2.border,
+      border = _ref2$border === void 0 ? noSpacing : _ref2$border,
+      _ref2$padding = _ref2.padding,
+      padding = _ref2$padding === void 0 ? noSpacing : _ref2$padding;
+  var marginBox = getRect(expand(borderBox, margin));
+  var paddingBox = getRect(shrink(borderBox, border));
+  var contentBox = getRect(shrink(paddingBox, padding));
+  return {
+    marginBox: marginBox,
+    borderBox: getRect(borderBox),
+    paddingBox: paddingBox,
+    contentBox: contentBox,
+    margin: margin,
+    border: border,
+    padding: padding
+  };
+};
+
+var parse = function parse(raw) {
+  var value = raw.slice(0, -2);
+  var suffix = raw.slice(-2);
+  !(suffix === 'px') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(false, "Expected value to be a pixel value.\n      Expected form: 10px\n      Actual value: " + raw + "\n    ") : undefined : void 0;
+  var result = Number(value);
+  !!isNaN(result) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_0__["default"])(false, "Could not parse value [raw: " + raw + ", without suffix: " + value + "]") : undefined : void 0;
+  return result;
+};
+
+var getWindowScroll = function getWindowScroll() {
+  return {
+    x: window.pageXOffset,
+    y: window.pageYOffset
+  };
+};
+
+var offset = function offset(original, change) {
+  var borderBox = original.borderBox,
+      border = original.border,
+      margin = original.margin,
+      padding = original.padding;
+  var shifted = shift(borderBox, change);
+  return createBox({
+    borderBox: shifted,
+    border: border,
+    margin: margin,
+    padding: padding
+  });
+};
+var withScroll = function withScroll(original, scroll) {
+  if (scroll === void 0) {
+    scroll = getWindowScroll();
+  }
+
+  return offset(original, scroll);
+};
+var calculateBox = function calculateBox(borderBox, styles) {
+  var margin = {
+    top: parse(styles.marginTop),
+    right: parse(styles.marginRight),
+    bottom: parse(styles.marginBottom),
+    left: parse(styles.marginLeft)
+  };
+  var padding = {
+    top: parse(styles.paddingTop),
+    right: parse(styles.paddingRight),
+    bottom: parse(styles.paddingBottom),
+    left: parse(styles.paddingLeft)
+  };
+  var border = {
+    top: parse(styles.borderTopWidth),
+    right: parse(styles.borderRightWidth),
+    bottom: parse(styles.borderBottomWidth),
+    left: parse(styles.borderLeftWidth)
+  };
+  return createBox({
+    borderBox: borderBox,
+    margin: margin,
+    padding: padding,
+    border: border
+  });
+};
+var getBox = function getBox(el) {
+  var borderBox = el.getBoundingClientRect();
+  var styles = window.getComputedStyle(el);
+  return calculateBox(borderBox, styles);
+};
+
+
+
 
 /***/ }),
 
@@ -5316,6 +6705,59 @@ module.exports = invariant;
 
 /***/ }),
 
+/***/ "./node_modules/memoize-one/dist/memoize-one.esm.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/memoize-one/dist/memoize-one.esm.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var shallowEqual = function shallowEqual(newValue, oldValue) {
+  return newValue === oldValue;
+};
+
+var simpleIsEqual = function simpleIsEqual(newArgs, lastArgs) {
+  return newArgs.length === lastArgs.length && newArgs.every(function (newArg, index) {
+    return shallowEqual(newArg, lastArgs[index]);
+  });
+};
+
+function index (resultFn, isEqual) {
+  if (isEqual === void 0) {
+    isEqual = simpleIsEqual;
+  }
+
+  var lastThis;
+  var lastArgs = [];
+  var lastResult;
+  var calledOnce = false;
+
+  var result = function result() {
+    for (var _len = arguments.length, newArgs = new Array(_len), _key = 0; _key < _len; _key++) {
+      newArgs[_key] = arguments[_key];
+    }
+
+    if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+      return lastResult;
+    }
+
+    lastResult = resultFn.apply(this, newArgs);
+    calledOnce = true;
+    lastThis = this;
+    lastArgs = newArgs;
+    return lastResult;
+  };
+
+  return result;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/***/ }),
+
 /***/ "./node_modules/object-assign/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/object-assign/index.js ***!
@@ -6633,6 +8075,9146 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
+
+/***/ }),
+
+/***/ "./node_modules/raf-schd/dist/raf-schd.esm.js":
+/*!****************************************************!*\
+  !*** ./node_modules/raf-schd/dist/raf-schd.esm.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var index = (function (fn) {
+  var lastArgs = [];
+  var frameId = null;
+
+  var wrapperFn = function wrapperFn() {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    lastArgs = args;
+
+    if (frameId) {
+      return;
+    }
+
+    frameId = requestAnimationFrame(function () {
+      frameId = null;
+      fn.apply(undefined, lastArgs);
+    });
+  };
+
+  wrapperFn.cancel = function () {
+    if (!frameId) {
+      return;
+    }
+
+    cancelAnimationFrame(frameId);
+    frameId = null;
+  };
+
+  var resultFn = wrapperFn;
+
+  return resultFn;
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js ***!
+  \**************************************************************************/
+/*! exports provided: DragDropContext, Droppable, Draggable, resetServerContext */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DragDropContext", function() { return DragDropContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Droppable", function() { return ConnectedDroppable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Draggable", function() { return ConnectedDraggable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetServerContext", function() { return resetServerContext; });
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime-corejs2/helpers/esm/inheritsLoose.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var css_box_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! css-box-model */ "./node_modules/css-box-model/dist/css-box-model.esm.js");
+/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_values__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/values */ "./node_modules/@babel/runtime-corejs2/core-js/object/values.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_values__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_values__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/date/now */ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var raf_schd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! raf-schd */ "./node_modules/raf-schd/dist/raf-schd.esm.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-redux */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/index.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_number_is_integer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/number/is-integer */ "./node_modules/@babel/runtime-corejs2/core-js/number/is-integer.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_number_is_integer__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_number_is_integer__WEBPACK_IMPORTED_MODULE_14__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var origin = {
+  x: 0,
+  y: 0
+};
+var add = function add(point1, point2) {
+  return {
+    x: point1.x + point2.x,
+    y: point1.y + point2.y
+  };
+};
+var subtract = function subtract(point1, point2) {
+  return {
+    x: point1.x - point2.x,
+    y: point1.y - point2.y
+  };
+};
+var isEqual = function isEqual(point1, point2) {
+  return point1.x === point2.x && point1.y === point2.y;
+};
+var negate = function negate(point) {
+  return {
+    x: point.x !== 0 ? -point.x : 0,
+    y: point.y !== 0 ? -point.y : 0
+  };
+};
+var patch = function patch(line, value, otherValue) {
+  var _ref;
+
+  if (otherValue === void 0) {
+    otherValue = 0;
+  }
+
+  return _ref = {}, _ref[line] = value, _ref[line === 'x' ? 'y' : 'x'] = otherValue, _ref;
+};
+var distance = function distance(point1, point2) {
+  return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+};
+var closest = function closest(target, points) {
+  return Math.min.apply(Math, points.map(function (point) {
+    return distance(target, point);
+  }));
+};
+var apply = function apply(fn) {
+  return function (point) {
+    return {
+      x: fn(point.x),
+      y: fn(point.y)
+    };
+  };
+};
+
+var executeClip = (function (frame, subject) {
+  var result = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getRect"])({
+    top: Math.max(subject.top, frame.top),
+    right: Math.min(subject.right, frame.right),
+    bottom: Math.min(subject.bottom, frame.bottom),
+    left: Math.max(subject.left, frame.left)
+  });
+
+  if (result.width <= 0 || result.height <= 0) {
+    return null;
+  }
+
+  return result;
+});
+
+var isEqual$1 = function isEqual(first, second) {
+  return first.top === second.top && first.right === second.right && first.bottom === second.bottom && first.left === second.left;
+};
+var offsetByPosition = function offsetByPosition(spacing, point) {
+  return {
+    top: spacing.top + point.y,
+    left: spacing.left + point.x,
+    bottom: spacing.bottom + point.y,
+    right: spacing.right + point.x
+  };
+};
+var getCorners = function getCorners(spacing) {
+  return [{
+    x: spacing.left,
+    y: spacing.top
+  }, {
+    x: spacing.right,
+    y: spacing.top
+  }, {
+    x: spacing.left,
+    y: spacing.bottom
+  }, {
+    x: spacing.right,
+    y: spacing.bottom
+  }];
+};
+
+var scroll = function scroll(target, frame) {
+  if (!frame) {
+    return target;
+  }
+
+  return offsetByPosition(target, frame.scroll.diff.displacement);
+};
+
+var increase = function increase(target, axis, withPlaceholder) {
+  if (withPlaceholder && withPlaceholder.increasedBy) {
+    var _extends2;
+
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, target, (_extends2 = {}, _extends2[axis.end] = target[axis.end] + withPlaceholder.increasedBy[axis.line], _extends2));
+  }
+
+  return target;
+};
+
+var clip = function clip(target, frame) {
+  if (frame && frame.shouldClipSubject) {
+    return executeClip(frame.pageMarginBox, target);
+  }
+
+  return Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getRect"])(target);
+};
+
+var getSubject = (function (_ref) {
+  var page = _ref.page,
+      withPlaceholder = _ref.withPlaceholder,
+      axis = _ref.axis,
+      frame = _ref.frame;
+  var scrolled = scroll(page.marginBox, frame);
+  var increased = increase(scrolled, axis, withPlaceholder);
+  var clipped = clip(increased, frame);
+  return {
+    page: page,
+    withPlaceholder: withPlaceholder,
+    active: clipped
+  };
+});
+
+var scrollDroppable = (function (droppable, newScroll) {
+  !droppable.frame ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false) : undefined : void 0;
+  var scrollable = droppable.frame;
+  var scrollDiff = subtract(newScroll, scrollable.scroll.initial);
+  var scrollDisplacement = negate(scrollDiff);
+
+  var frame = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, scrollable, {
+    scroll: {
+      initial: scrollable.scroll.initial,
+      current: newScroll,
+      diff: {
+        value: scrollDiff,
+        displacement: scrollDisplacement
+      },
+      max: scrollable.scroll.max
+    }
+  });
+
+  var subject = getSubject({
+    page: droppable.subject.page,
+    withPlaceholder: droppable.subject.withPlaceholder,
+    axis: droppable.axis,
+    frame: frame
+  });
+
+  var result = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, droppable, {
+    frame: frame,
+    subject: subject
+  });
+
+  return result;
+});
+
+var records = {};
+var isEnabled = false;
+
+var isTimingsEnabled = function isTimingsEnabled() {
+  return isEnabled;
+};
+var start = function start(key) {
+  if (true) {
+    if (!isTimingsEnabled()) {
+      return;
+    }
+
+    var now = performance.now();
+    records[key] = now;
+  }
+};
+var finish = function finish(key) {
+  if (true) {
+    if (!isTimingsEnabled()) {
+      return;
+    }
+
+    var now = performance.now();
+    var previous = records[key];
+
+    if (!previous) {
+      console.warn('cannot finish timing as no previous time found', key);
+      return;
+    }
+
+    var result = now - previous;
+    var rounded = result.toFixed(2);
+
+    var style = function () {
+      if (result < 12) {
+        return {
+          textColor: 'green',
+          symbol: '✅'
+        };
+      }
+
+      if (result < 40) {
+        return {
+          textColor: 'orange',
+          symbol: '⚠️'
+        };
+      }
+
+      return {
+        textColor: 'red',
+        symbol: '❌'
+      };
+    }();
+
+    console.log(style.symbol + " %cTiming %c" + rounded + " %cms %c" + key, 'color: blue; font-weight: bold;', "color: " + style.textColor + "; font-size: 1.1em;", 'color: grey;', 'color: purple; font-weight: bold;');
+  }
+};
+
+function values(map) {
+  return _babel_runtime_corejs2_core_js_object_values__WEBPACK_IMPORTED_MODULE_8___default()(map);
+}
+function findIndex(list, predicate) {
+  if (list.findIndex) {
+    return list.findIndex(predicate);
+  }
+
+  for (var i = 0; i < list.length; i++) {
+    if (predicate(list[i])) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+function find(list, predicate) {
+  if (list.find) {
+    return list.find(predicate);
+  }
+
+  var index = findIndex(list, predicate);
+
+  if (index !== -1) {
+    return list[index];
+  }
+
+  return undefined;
+}
+
+var toDroppableMap = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (droppables) {
+  return droppables.reduce(function (previous, current) {
+    previous[current.descriptor.id] = current;
+    return previous;
+  }, {});
+});
+var toDraggableMap = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (draggables) {
+  return draggables.reduce(function (previous, current) {
+    previous[current.descriptor.id] = current;
+    return previous;
+  }, {});
+});
+var toDroppableList = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (droppables) {
+  return values(droppables);
+});
+var toDraggableList = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (draggables) {
+  return values(draggables);
+});
+
+var isWithin = (function (lowerBound, upperBound) {
+  return function (value) {
+    return lowerBound <= value && value <= upperBound;
+  };
+});
+
+var isPositionInFrame = (function (frame) {
+  var isWithinVertical = isWithin(frame.top, frame.bottom);
+  var isWithinHorizontal = isWithin(frame.left, frame.right);
+  return function (point) {
+    return isWithinVertical(point.y) && isWithinVertical(point.y) && isWithinHorizontal(point.x) && isWithinHorizontal(point.x);
+  };
+});
+
+var getDroppableOver = (function (_ref) {
+  var target = _ref.target,
+      droppables = _ref.droppables;
+  var maybe = find(toDroppableList(droppables), function (droppable) {
+    if (!droppable.isEnabled) {
+      return false;
+    }
+
+    var active = droppable.subject.active;
+
+    if (!active) {
+      return false;
+    }
+
+    return isPositionInFrame(active)(target);
+  });
+  return maybe ? maybe.descriptor.id : null;
+});
+
+var getDraggablesInsideDroppable = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (droppableId, draggables) {
+  var result = toDraggableList(draggables).filter(function (draggable) {
+    return droppableId === draggable.descriptor.droppableId;
+  }).sort(function (a, b) {
+    return a.descriptor.index - b.descriptor.index;
+  });
+  return result;
+});
+
+var isPartiallyVisibleThroughFrame = (function (frame) {
+  var isWithinVertical = isWithin(frame.top, frame.bottom);
+  var isWithinHorizontal = isWithin(frame.left, frame.right);
+  return function (subject) {
+    var isContained = isWithinVertical(subject.top) && isWithinVertical(subject.bottom) && isWithinHorizontal(subject.left) && isWithinHorizontal(subject.right);
+
+    if (isContained) {
+      return true;
+    }
+
+    var isPartiallyVisibleVertically = isWithinVertical(subject.top) || isWithinVertical(subject.bottom);
+    var isPartiallyVisibleHorizontally = isWithinHorizontal(subject.left) || isWithinHorizontal(subject.right);
+    var isPartiallyContained = isPartiallyVisibleVertically && isPartiallyVisibleHorizontally;
+
+    if (isPartiallyContained) {
+      return true;
+    }
+
+    var isBiggerVertically = subject.top < frame.top && subject.bottom > frame.bottom;
+    var isBiggerHorizontally = subject.left < frame.left && subject.right > frame.right;
+    var isTargetBiggerThanFrame = isBiggerVertically && isBiggerHorizontally;
+
+    if (isTargetBiggerThanFrame) {
+      return true;
+    }
+
+    var isTargetBiggerOnOneAxis = isBiggerVertically && isPartiallyVisibleHorizontally || isBiggerHorizontally && isPartiallyVisibleVertically;
+    return isTargetBiggerOnOneAxis;
+  };
+});
+
+var isTotallyVisibleThroughFrame = (function (frame) {
+  var isWithinVertical = isWithin(frame.top, frame.bottom);
+  var isWithinHorizontal = isWithin(frame.left, frame.right);
+  return function (subject) {
+    var isContained = isWithinVertical(subject.top) && isWithinVertical(subject.bottom) && isWithinHorizontal(subject.left) && isWithinHorizontal(subject.right);
+    return isContained;
+  };
+});
+
+var vertical = {
+  direction: 'vertical',
+  line: 'y',
+  crossAxisLine: 'x',
+  start: 'top',
+  end: 'bottom',
+  size: 'height',
+  crossAxisStart: 'left',
+  crossAxisEnd: 'right',
+  crossAxisSize: 'width'
+};
+var horizontal = {
+  direction: 'horizontal',
+  line: 'x',
+  crossAxisLine: 'y',
+  start: 'left',
+  end: 'right',
+  size: 'width',
+  crossAxisStart: 'top',
+  crossAxisEnd: 'bottom',
+  crossAxisSize: 'height'
+};
+
+var isTotallyVisibleThroughFrameOnAxis = (function (axis) {
+  return function (frame) {
+    var isWithinVertical = isWithin(frame.top, frame.bottom);
+    var isWithinHorizontal = isWithin(frame.left, frame.right);
+    return function (subject) {
+      if (axis === vertical) {
+        return isWithinVertical(subject.top) && isWithinVertical(subject.bottom);
+      }
+
+      return isWithinHorizontal(subject.left) && isWithinHorizontal(subject.right);
+    };
+  };
+});
+
+var getDroppableDisplaced = function getDroppableDisplaced(target, destination) {
+  var displacement = destination.frame ? destination.frame.scroll.diff.displacement : origin;
+  return offsetByPosition(target, displacement);
+};
+
+var isVisibleInDroppable = function isVisibleInDroppable(target, destination, isVisibleThroughFrameFn) {
+  if (!destination.subject.active) {
+    return false;
+  }
+
+  return isVisibleThroughFrameFn(destination.subject.active)(target);
+};
+
+var isVisibleInViewport = function isVisibleInViewport(target, viewport, isVisibleThroughFrameFn) {
+  return isVisibleThroughFrameFn(viewport)(target);
+};
+
+var isVisible = function isVisible(_ref) {
+  var toBeDisplaced = _ref.target,
+      destination = _ref.destination,
+      viewport = _ref.viewport,
+      withDroppableDisplacement = _ref.withDroppableDisplacement,
+      isVisibleThroughFrameFn = _ref.isVisibleThroughFrameFn;
+  var displacedTarget = withDroppableDisplacement ? getDroppableDisplaced(toBeDisplaced, destination) : toBeDisplaced;
+  return isVisibleInDroppable(displacedTarget, destination, isVisibleThroughFrameFn) && isVisibleInViewport(displacedTarget, viewport, isVisibleThroughFrameFn);
+};
+
+var isPartiallyVisible = function isPartiallyVisible(args) {
+  return isVisible(Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, args, {
+    isVisibleThroughFrameFn: isPartiallyVisibleThroughFrame
+  }));
+};
+var isTotallyVisible = function isTotallyVisible(args) {
+  return isVisible(Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, args, {
+    isVisibleThroughFrameFn: isTotallyVisibleThroughFrame
+  }));
+};
+var isTotallyVisibleOnAxis = function isTotallyVisibleOnAxis(args) {
+  return isVisible(Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, args, {
+    isVisibleThroughFrameFn: isTotallyVisibleThroughFrameOnAxis(args.destination.axis)
+  }));
+};
+
+var getShouldAnimate = function getShouldAnimate(isVisible, previous) {
+  if (!isVisible) {
+    return false;
+  }
+
+  if (!previous) {
+    return true;
+  }
+
+  return previous.shouldAnimate;
+};
+
+var getDisplacement = (function (_ref) {
+  var draggable = _ref.draggable,
+      destination = _ref.destination,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport;
+  var id = draggable.descriptor.id;
+  var map = previousImpact.movement.map;
+  var isVisible = isPartiallyVisible({
+    target: draggable.page.marginBox,
+    destination: destination,
+    viewport: viewport,
+    withDroppableDisplacement: true
+  });
+  var shouldAnimate = getShouldAnimate(isVisible, map[id]);
+  var displacement = {
+    draggableId: id,
+    isVisible: isVisible,
+    shouldAnimate: shouldAnimate
+  };
+  return displacement;
+});
+
+var getDisplacementMap = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (displaced) {
+  return displaced.reduce(function (map, displacement) {
+    map[displacement.draggableId] = displacement;
+    return map;
+  }, {});
+});
+
+var isUserMovingForward = (function (axis, direction) {
+  return axis === vertical ? direction.vertical === 'down' : direction.horizontal === 'right';
+});
+
+var getDisplacedBy = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (axis, displaceBy, willDisplaceForward) {
+  var modifier = willDisplaceForward ? 1 : -1;
+  var displacement = displaceBy[axis.line] * modifier;
+  return {
+    value: displacement,
+    point: patch(axis.line, displacement)
+  };
+});
+
+var getNewIndex = function getNewIndex(startIndex, amountOfDisplaced, isInFrontOfStart) {
+  if (!amountOfDisplaced) {
+    return startIndex;
+  }
+
+  if (isInFrontOfStart) {
+    return startIndex + amountOfDisplaced;
+  }
+
+  return startIndex - amountOfDisplaced;
+};
+
+var inHomeList = (function (_ref) {
+  var currentCenter = _ref.pageBorderBoxCenterWithDroppableScrollChange,
+      draggable = _ref.draggable,
+      home = _ref.home,
+      insideHome = _ref.insideHome,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport,
+      currentUserDirection = _ref.userDirection;
+  var axis = home.axis;
+  var originalCenter = draggable.page.borderBox.center;
+  var targetCenter = currentCenter[axis.line];
+  var isInFrontOfStart = targetCenter > originalCenter[axis.line];
+  var willDisplaceForward = !isInFrontOfStart;
+  var isMovingForward = isUserMovingForward(home.axis, currentUserDirection);
+  var isMovingTowardStart = isInFrontOfStart ? !isMovingForward : isMovingForward;
+  var displacedBy = getDisplacedBy(home.axis, draggable.displaceBy, willDisplaceForward);
+  var displacement = displacedBy.value;
+  var displaced = insideHome.filter(function (child) {
+    if (child === draggable) {
+      return false;
+    }
+
+    var borderBox = child.page.borderBox;
+    var start = borderBox[axis.start];
+    var end = borderBox[axis.end];
+
+    if (isInFrontOfStart) {
+      if (child.descriptor.index < draggable.descriptor.index) {
+        return false;
+      }
+
+      if (isMovingTowardStart) {
+        var displacedEndEdge = end + displacement;
+        return targetCenter > displacedEndEdge;
+      }
+
+      return targetCenter >= start;
+    }
+
+    if (child.descriptor.index > draggable.descriptor.index) {
+      return false;
+    }
+
+    if (isMovingTowardStart) {
+      var displacedStartEdge = start + displacement;
+      return targetCenter < displacedStartEdge;
+    }
+
+    return targetCenter <= end;
+  }).map(function (dimension) {
+    return getDisplacement({
+      draggable: dimension,
+      destination: home,
+      previousImpact: previousImpact,
+      viewport: viewport.frame
+    });
+  });
+  var ordered = isInFrontOfStart ? displaced.reverse() : displaced;
+  var index = getNewIndex(draggable.descriptor.index, ordered.length, isInFrontOfStart);
+  var newMovement = {
+    displaced: ordered,
+    map: getDisplacementMap(ordered),
+    willDisplaceForward: willDisplaceForward,
+    displacedBy: displacedBy
+  };
+  var impact = {
+    movement: newMovement,
+    direction: axis.direction,
+    destination: {
+      droppableId: home.descriptor.id,
+      index: index
+    },
+    merge: null
+  };
+  return impact;
+});
+
+var inForeignList = (function (_ref) {
+  var currentCenter = _ref.pageBorderBoxCenterWithDroppableScrollChange,
+      draggable = _ref.draggable,
+      destination = _ref.destination,
+      insideDestination = _ref.insideDestination,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport,
+      userDirection = _ref.userDirection;
+  var axis = destination.axis;
+  var isMovingForward = isUserMovingForward(destination.axis, userDirection);
+  var displacedBy = getDisplacedBy(destination.axis, draggable.displaceBy, true);
+  var targetCenter = currentCenter[axis.line];
+  var displacement = displacedBy.value;
+  var displaced = insideDestination.filter(function (child) {
+    var borderBox = child.page.borderBox;
+    var start = borderBox[axis.start];
+    var end = borderBox[axis.end];
+
+    if (isMovingForward) {
+      return targetCenter <= start + displacement;
+    }
+
+    return targetCenter < end;
+  }).map(function (dimension) {
+    return getDisplacement({
+      draggable: dimension,
+      destination: destination,
+      previousImpact: previousImpact,
+      viewport: viewport.frame
+    });
+  });
+  var newIndex = insideDestination.length - displaced.length;
+  var movement = {
+    displacedBy: displacedBy,
+    displaced: displaced,
+    map: getDisplacementMap(displaced),
+    willDisplaceForward: true
+  };
+  var impact = {
+    movement: movement,
+    direction: axis.direction,
+    destination: {
+      droppableId: destination.descriptor.id,
+      index: newIndex
+    },
+    merge: null
+  };
+  return impact;
+});
+
+var noDisplacedBy = {
+  point: origin,
+  value: 0
+};
+var noMovement = {
+  displaced: [],
+  map: {},
+  displacedBy: noDisplacedBy,
+  willDisplaceForward: false
+};
+var noImpact = {
+  movement: noMovement,
+  direction: null,
+  destination: null,
+  merge: null
+};
+
+var withDroppableScroll = (function (droppable, point) {
+  var frame = droppable.frame;
+
+  if (!frame) {
+    return point;
+  }
+
+  return add(point, frame.scroll.diff.value);
+});
+
+var isHomeOf = (function (draggable, destination) {
+  return draggable.descriptor.droppableId === destination.descriptor.id;
+});
+
+var getWhenEntered = function getWhenEntered(id, current, oldMerge) {
+  if (!oldMerge) {
+    return current;
+  }
+
+  if (id !== oldMerge.combine.draggableId) {
+    return current;
+  }
+
+  return oldMerge.whenEntered;
+};
+
+var isCombiningWith = function isCombiningWith(_ref) {
+  var id = _ref.id,
+      currentCenter = _ref.currentCenter,
+      axis = _ref.axis,
+      borderBox = _ref.borderBox,
+      displacedBy = _ref.displacedBy,
+      currentUserDirection = _ref.currentUserDirection,
+      oldMerge = _ref.oldMerge;
+  var start = borderBox[axis.start] + displacedBy;
+  var end = borderBox[axis.end] + displacedBy;
+  var size = borderBox[axis.size];
+  var twoThirdsOfSize = size * 0.666;
+  var whenEntered = getWhenEntered(id, currentUserDirection, oldMerge);
+  var isMovingForward = isUserMovingForward(axis, whenEntered);
+  var targetCenter = currentCenter[axis.line];
+
+  if (isMovingForward) {
+    return isWithin(start, start + twoThirdsOfSize)(targetCenter);
+  }
+
+  return isWithin(end - twoThirdsOfSize, end)(targetCenter);
+};
+
+var getCombineImpact = (function (_ref2) {
+  var currentCenter = _ref2.pageBorderBoxCenterWithDroppableScrollChange,
+      previousImpact = _ref2.previousImpact,
+      draggable = _ref2.draggable,
+      destination = _ref2.destination,
+      insideDestination = _ref2.insideDestination,
+      userDirection = _ref2.userDirection;
+
+  if (!destination.isCombineEnabled) {
+    return null;
+  }
+
+  var axis = destination.axis;
+  var map = previousImpact.movement.map;
+  var canBeDisplacedBy = previousImpact.movement.displacedBy.value;
+  var oldMerge = previousImpact.merge;
+  var target = find(insideDestination, function (child) {
+    var id = child.descriptor.id;
+
+    if (id === draggable.descriptor.id) {
+      return false;
+    }
+
+    var isDisplaced = Boolean(map[id]);
+    var displacedBy = isDisplaced ? canBeDisplacedBy : 0;
+    return isCombiningWith({
+      id: id,
+      currentCenter: currentCenter,
+      axis: axis,
+      borderBox: child.page.borderBox,
+      displacedBy: displacedBy,
+      currentUserDirection: userDirection,
+      oldMerge: oldMerge
+    });
+  });
+
+  if (!target) {
+    return null;
+  }
+
+  var merge = {
+    whenEntered: getWhenEntered(target.descriptor.id, userDirection, oldMerge),
+    combine: {
+      draggableId: target.descriptor.id,
+      droppableId: destination.descriptor.id
+    }
+  };
+
+  var withMerge = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, previousImpact, {
+    destination: null,
+    merge: merge
+  });
+
+  return withMerge;
+});
+
+var getDragImpact = (function (_ref) {
+  var pageBorderBoxCenter = _ref.pageBorderBoxCenter,
+      draggable = _ref.draggable,
+      draggables = _ref.draggables,
+      droppables = _ref.droppables,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport,
+      userDirection = _ref.userDirection;
+  var destinationId = getDroppableOver({
+    target: pageBorderBoxCenter,
+    droppables: droppables
+  });
+
+  if (!destinationId) {
+    return noImpact;
+  }
+
+  var destination = droppables[destinationId];
+  var isWithinHomeDroppable = isHomeOf(draggable, destination);
+  var insideDestination = getDraggablesInsideDroppable(destination.descriptor.id, draggables);
+  var pageBorderBoxCenterWithDroppableScrollChange = withDroppableScroll(destination, pageBorderBoxCenter);
+  var withMerge = getCombineImpact({
+    pageBorderBoxCenterWithDroppableScrollChange: pageBorderBoxCenterWithDroppableScrollChange,
+    previousImpact: previousImpact,
+    draggable: draggable,
+    destination: destination,
+    insideDestination: insideDestination,
+    userDirection: userDirection
+  });
+
+  if (withMerge) {
+    return withMerge;
+  }
+
+  return isWithinHomeDroppable ? inHomeList({
+    pageBorderBoxCenterWithDroppableScrollChange: pageBorderBoxCenterWithDroppableScrollChange,
+    draggable: draggable,
+    home: destination,
+    insideHome: insideDestination,
+    previousImpact: previousImpact,
+    viewport: viewport,
+    userDirection: userDirection
+  }) : inForeignList({
+    pageBorderBoxCenterWithDroppableScrollChange: pageBorderBoxCenterWithDroppableScrollChange,
+    draggable: draggable,
+    destination: destination,
+    insideDestination: insideDestination,
+    previousImpact: previousImpact,
+    viewport: viewport,
+    userDirection: userDirection
+  });
+});
+
+var getDragPositions = (function (_ref) {
+  var oldInitial = _ref.initial,
+      oldCurrent = _ref.current,
+      oldClientBorderBoxCenter = _ref.oldClientBorderBoxCenter,
+      newClientBorderBoxCenter = _ref.newClientBorderBoxCenter,
+      viewport = _ref.viewport;
+  var shift = subtract(newClientBorderBoxCenter, oldClientBorderBoxCenter);
+
+  var initial = function () {
+    var client = {
+      selection: add(oldInitial.client.selection, shift),
+      borderBoxCenter: newClientBorderBoxCenter,
+      offset: origin
+    };
+    var page = {
+      selection: add(client.selection, viewport.scroll.initial),
+      borderBoxCenter: add(client.selection, viewport.scroll.initial)
+    };
+    return {
+      client: client,
+      page: page
+    };
+  }();
+
+  var current = function () {
+    var reverse = negate(shift);
+    var offset$$1 = add(oldCurrent.client.offset, reverse);
+    var client = {
+      selection: add(initial.client.selection, offset$$1),
+      borderBoxCenter: add(initial.client.borderBoxCenter, offset$$1),
+      offset: offset$$1
+    };
+    var page = {
+      selection: add(client.selection, viewport.scroll.current),
+      borderBoxCenter: add(client.borderBoxCenter, viewport.scroll.current)
+    };
+    !isEqual(oldCurrent.client.borderBoxCenter, client.borderBoxCenter) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "\n        Incorrect new client center position.\n        Expected (" + oldCurrent.client.borderBoxCenter.x + ", " + oldCurrent.client.borderBoxCenter.y + ")\n        to equal (" + client.borderBoxCenter.x + ", " + client.borderBoxCenter.y + ")\n      ") : undefined : void 0;
+    return {
+      client: client,
+      page: page
+    };
+  }();
+
+  return {
+    current: current,
+    initial: initial
+  };
+});
+
+var getMaxScroll = (function (_ref) {
+  var scrollHeight = _ref.scrollHeight,
+      scrollWidth = _ref.scrollWidth,
+      height = _ref.height,
+      width = _ref.width;
+  var maxScroll = subtract({
+    x: scrollWidth,
+    y: scrollHeight
+  }, {
+    x: width,
+    y: height
+  });
+  var adjustedMaxScroll = {
+    x: Math.max(0, maxScroll.x),
+    y: Math.max(0, maxScroll.y)
+  };
+  return adjustedMaxScroll;
+});
+
+var getDroppableDimension = (function (_ref) {
+  var descriptor = _ref.descriptor,
+      isEnabled = _ref.isEnabled,
+      isCombineEnabled = _ref.isCombineEnabled,
+      isFixedOnPage = _ref.isFixedOnPage,
+      direction = _ref.direction,
+      client = _ref.client,
+      page = _ref.page,
+      closest$$1 = _ref.closest;
+
+  var frame = function () {
+    if (!closest$$1) {
+      return null;
+    }
+
+    var scrollSize = closest$$1.scrollSize,
+        frameClient = closest$$1.client;
+    var maxScroll = getMaxScroll({
+      scrollHeight: scrollSize.scrollHeight,
+      scrollWidth: scrollSize.scrollWidth,
+      height: frameClient.paddingBox.height,
+      width: frameClient.paddingBox.width
+    });
+    return {
+      pageMarginBox: closest$$1.page.marginBox,
+      frameClient: frameClient,
+      scrollSize: scrollSize,
+      shouldClipSubject: closest$$1.shouldClipSubject,
+      scroll: {
+        initial: closest$$1.scroll,
+        current: closest$$1.scroll,
+        max: maxScroll,
+        diff: {
+          value: origin,
+          displacement: origin
+        }
+      }
+    };
+  }();
+
+  var axis = direction === 'vertical' ? vertical : horizontal;
+  var subject = getSubject({
+    page: page,
+    withPlaceholder: null,
+    axis: axis,
+    frame: frame
+  });
+  var dimension = {
+    descriptor: descriptor,
+    isCombineEnabled: isCombineEnabled,
+    isFixedOnPage: isFixedOnPage,
+    axis: axis,
+    isEnabled: isEnabled,
+    client: client,
+    page: page,
+    frame: frame,
+    subject: subject
+  };
+  return dimension;
+});
+
+var getRequiredGrowthForPlaceholder = function getRequiredGrowthForPlaceholder(droppable, placeholderSize, draggables) {
+  var axis = droppable.axis;
+  var availableSpace = droppable.subject.page.contentBox[axis.size];
+  var insideDroppable = getDraggablesInsideDroppable(droppable.descriptor.id, draggables);
+  var spaceUsed = insideDroppable.reduce(function (sum, dimension) {
+    return sum + dimension.client.marginBox[axis.size];
+  }, 0);
+  var requiredSpace = spaceUsed + placeholderSize[axis.line];
+  var needsToGrowBy = requiredSpace - availableSpace;
+
+  if (needsToGrowBy <= 0) {
+    return null;
+  }
+
+  return patch(axis.line, needsToGrowBy);
+};
+
+var withMaxScroll = function withMaxScroll(frame, max) {
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, frame, {
+    scroll: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, frame.scroll, {
+      max: max
+    })
+  });
+};
+
+var addPlaceholder = function addPlaceholder(droppable, displaceBy, draggables) {
+  var frame = droppable.frame;
+  !!droppable.subject.withPlaceholder ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot add placeholder size to a subject when it already has one') : undefined : void 0;
+  var placeholderSize = patch(droppable.axis.line, displaceBy[droppable.axis.line]);
+  var requiredGrowth = getRequiredGrowthForPlaceholder(droppable, placeholderSize, draggables);
+  var added = {
+    placeholderSize: placeholderSize,
+    increasedBy: requiredGrowth,
+    oldFrameMaxScroll: droppable.frame ? droppable.frame.scroll.max : null
+  };
+
+  if (!frame) {
+    var _subject = getSubject({
+      page: droppable.subject.page,
+      withPlaceholder: added,
+      axis: droppable.axis,
+      frame: droppable.frame
+    });
+
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, droppable, {
+      subject: _subject
+    });
+  }
+
+  var maxScroll = requiredGrowth ? add(frame.scroll.max, requiredGrowth) : frame.scroll.max;
+  var newFrame = withMaxScroll(frame, maxScroll);
+  var subject = getSubject({
+    page: droppable.subject.page,
+    withPlaceholder: added,
+    axis: droppable.axis,
+    frame: newFrame
+  });
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, droppable, {
+    subject: subject,
+    frame: newFrame
+  });
+};
+var removePlaceholder = function removePlaceholder(droppable) {
+  var added = droppable.subject.withPlaceholder;
+  !added ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot remove placeholder form subject when there was none') : undefined : void 0;
+  var frame = droppable.frame;
+
+  if (!frame) {
+    var _subject2 = getSubject({
+      page: droppable.subject.page,
+      axis: droppable.axis,
+      frame: null,
+      withPlaceholder: null
+    });
+
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, droppable, {
+      subject: _subject2
+    });
+  }
+
+  var oldMaxScroll = added.oldFrameMaxScroll;
+  !oldMaxScroll ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Expected droppable with frame to have old max frame scroll when removing placeholder') : undefined : void 0;
+  var newFrame = withMaxScroll(frame, oldMaxScroll);
+  var subject = getSubject({
+    page: droppable.subject.page,
+    axis: droppable.axis,
+    frame: newFrame,
+    withPlaceholder: null
+  });
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, droppable, {
+    subject: subject,
+    frame: newFrame
+  });
+};
+
+var getFrame = (function (droppable) {
+  var frame = droppable.frame;
+  !frame ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Expected Droppable to have a frame') : undefined : void 0;
+  return frame;
+});
+
+var throwIfSpacingChange = function throwIfSpacingChange(old, fresh) {
+  if (true) {
+    var getMessage = function getMessage(spacingType) {
+      return "Cannot change the " + spacingType + " of a Droppable during a drag";
+    };
+
+    !isEqual$1(old.margin, fresh.margin) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, getMessage('margin')) : undefined : void 0;
+    !isEqual$1(old.border, fresh.border) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, getMessage('border')) : undefined : void 0;
+    !isEqual$1(old.padding, fresh.padding) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, getMessage('padding')) : undefined : void 0;
+  }
+};
+
+var adjustBorderBoxSize = function adjustBorderBoxSize(axis, old, fresh) {
+  return {
+    top: old.top,
+    left: old.left,
+    right: old.left + fresh.width,
+    bottom: old.top + fresh.height
+  };
+};
+
+var adjustModifiedDroppables = (function (_ref) {
+  var modified = _ref.modified,
+      existingDroppables = _ref.existingDroppables,
+      initialWindowScroll = _ref.initialWindowScroll;
+
+  if (!modified.length) {
+    return modified;
+  }
+
+  var adjusted = modified.map(function (provided) {
+    var raw = existingDroppables[provided.descriptor.id];
+    !raw ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Could not locate droppable in existing droppables') : undefined : void 0;
+    var existing = raw.subject.withPlaceholder ? removePlaceholder(raw) : raw;
+    var oldClient = existing.client;
+    var newClient = provided.client;
+    var oldScrollable = getFrame(existing);
+    var newScrollable = getFrame(provided);
+
+    if (true) {
+      throwIfSpacingChange(existing.client, provided.client);
+      throwIfSpacingChange(oldScrollable.frameClient, newScrollable.frameClient);
+      var isFrameEqual = oldScrollable.frameClient.borderBox.height === newScrollable.frameClient.borderBox.height && oldScrollable.frameClient.borderBox.width === newScrollable.frameClient.borderBox.width;
+      !isFrameEqual ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'The width and height of your Droppable scroll container cannot change when adding or removing Draggables during a drag') : undefined : void 0;
+    }
+
+    var client = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["createBox"])({
+      borderBox: adjustBorderBoxSize(existing.axis, oldClient.borderBox, newClient.borderBox),
+      margin: oldClient.margin,
+      border: oldClient.border,
+      padding: oldClient.padding
+    });
+    var closest = {
+      client: oldScrollable.frameClient,
+      page: Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(oldScrollable.frameClient, initialWindowScroll),
+      shouldClipSubject: oldScrollable.shouldClipSubject,
+      scrollSize: newScrollable.scrollSize,
+      scroll: oldScrollable.scroll.initial
+    };
+    var withSizeChanged = getDroppableDimension({
+      descriptor: provided.descriptor,
+      isEnabled: provided.isEnabled,
+      isCombineEnabled: provided.isCombineEnabled,
+      isFixedOnPage: provided.isFixedOnPage,
+      direction: provided.axis.direction,
+      client: client,
+      page: Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(client, initialWindowScroll),
+      closest: closest
+    });
+    var scrolled = scrollDroppable(withSizeChanged, newScrollable.scroll.current);
+    return scrolled;
+  });
+  return adjusted;
+});
+
+var adjustAdditionsForScrollChanges = (function (_ref) {
+  var additions = _ref.additions,
+      modifiedDroppables = _ref.modified,
+      viewport = _ref.viewport;
+  var windowScrollChange = viewport.scroll.diff.value;
+  var modifiedMap = toDroppableMap(modifiedDroppables);
+  return additions.map(function (draggable) {
+    var droppableId = draggable.descriptor.droppableId;
+    var modified = modifiedMap[droppableId];
+    var frame = modified.frame;
+    !frame ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false) : undefined : void 0;
+    var droppableScrollChange = frame.scroll.diff.value;
+    var totalChange = add(windowScrollChange, droppableScrollChange);
+    var client = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["offset"])(draggable.client, totalChange);
+    var page = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(client, viewport.scroll.initial);
+
+    var moved = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, draggable, {
+      placeholder: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, draggable.placeholder, {
+        client: client
+      }),
+      client: client,
+      page: page
+    });
+
+    return moved;
+  });
+});
+
+var getDraggableMap = (function (_ref) {
+  var existing = _ref.existing,
+      addedDraggables = _ref.additions,
+      removedDraggables = _ref.removals,
+      initialWindowScroll = _ref.initialWindowScroll;
+  var droppables = toDroppableList(existing.droppables);
+  var shifted = {};
+  droppables.forEach(function (droppable) {
+    var axis = droppable.axis;
+    var original = getDraggablesInsideDroppable(droppable.descriptor.id, existing.draggables);
+    var toShift = {};
+
+    var addShift = function addShift(id, shift) {
+      var previous = toShift[id];
+
+      if (!previous) {
+        toShift[id] = shift;
+        return;
+      }
+
+      toShift[id] = {
+        indexChange: previous.indexChange + shift.indexChange,
+        offset: add(previous.offset, shift.offset)
+      };
+    };
+
+    var removals = toDraggableMap(removedDraggables.map(function (id) {
+      return existing.draggables[id];
+    }).filter(function (draggable) {
+      return draggable.descriptor.droppableId === droppable.descriptor.id;
+    }));
+    var withRemovals = original.filter(function (item, index) {
+      var isBeingRemoved = Boolean(removals[item.descriptor.id]);
+
+      if (!isBeingRemoved) {
+        return true;
+      }
+
+      var offset$$1 = negate(patch(axis.line, item.client.marginBox[axis.size]));
+      original.slice(index).forEach(function (sibling) {
+        if (removals[sibling.descriptor.id]) {
+          return;
+        }
+
+        addShift(sibling.descriptor.id, {
+          indexChange: -1,
+          offset: offset$$1
+        });
+      });
+      return false;
+    });
+    var additions = addedDraggables.filter(function (draggable) {
+      return draggable.descriptor.droppableId === droppable.descriptor.id;
+    });
+    var withAdditions = withRemovals.slice(0);
+    additions.forEach(function (item) {
+      withAdditions.splice(item.descriptor.index, 0, item);
+    });
+    var additionMap = toDraggableMap(additions);
+    withAdditions.forEach(function (item, index) {
+      var wasAdded = Boolean(additionMap[item.descriptor.id]);
+
+      if (!wasAdded) {
+        return;
+      }
+
+      var offset$$1 = patch(axis.line, item.client.marginBox[axis.size]);
+      withAdditions.slice(index).forEach(function (sibling) {
+        if (additionMap[sibling.descriptor.id]) {
+          return;
+        }
+
+        addShift(sibling.descriptor.id, {
+          indexChange: 1,
+          offset: offset$$1
+        });
+      });
+    });
+    withAdditions.forEach(function (item) {
+      if (additionMap[item.descriptor.id]) {
+        return;
+      }
+
+      var shift = toShift[item.descriptor.id];
+
+      if (!shift) {
+        return;
+      }
+
+      var client = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["offset"])(item.client, shift.offset);
+      var page = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(client, initialWindowScroll);
+      var index = item.descriptor.index + shift.indexChange;
+
+      var moved = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, item, {
+        descriptor: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, item.descriptor, {
+          index: index
+        }),
+        placeholder: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, item.placeholder, {
+          client: client
+        }),
+        client: client,
+        page: page
+      });
+
+      shifted[moved.descriptor.id] = moved;
+    });
+  });
+
+  var draggableMap = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, existing.draggables, {}, shifted, {}, toDraggableMap(addedDraggables));
+
+  removedDraggables.forEach(function (id) {
+    delete draggableMap[id];
+  });
+  return draggableMap;
+});
+
+var withNoAnimatedDisplacement = (function (impact) {
+  var displaced = impact.movement.displaced;
+
+  if (!displaced.length) {
+    return impact;
+  }
+
+  var withoutAnimation = displaced.map(function (displacement) {
+    if (!displacement.shouldAnimate) {
+      return displacement;
+    }
+
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, displacement, {
+      shouldAnimate: false
+    });
+  });
+
+  var result = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, impact, {
+    movement: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, impact.movement, {
+      displaced: withoutAnimation,
+      map: getDisplacementMap(withoutAnimation)
+    })
+  });
+
+  return result;
+});
+
+var whatIsDraggedOver = (function (impact) {
+  var merge = impact.merge,
+      destination = impact.destination;
+
+  if (destination) {
+    return destination.droppableId;
+  }
+
+  if (merge) {
+    return merge.combine.droppableId;
+  }
+
+  return null;
+});
+
+var shouldUsePlaceholder = (function (descriptor, impact) {
+  var isOver = whatIsDraggedOver(impact);
+
+  if (!isOver) {
+    return false;
+  }
+
+  return isOver !== descriptor.droppableId;
+});
+
+var patchDroppableMap = (function (dimensions, updated) {
+  var _extends2;
+
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, dimensions, {
+    droppables: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, dimensions.droppables, (_extends2 = {}, _extends2[updated.descriptor.id] = updated, _extends2))
+  });
+});
+
+var clearUnusedPlaceholder = function clearUnusedPlaceholder(_ref) {
+  var previousImpact = _ref.previousImpact,
+      impact = _ref.impact,
+      dimensions = _ref.dimensions;
+  var last = whatIsDraggedOver(previousImpact);
+  var now = whatIsDraggedOver(impact);
+
+  if (!last) {
+    return dimensions;
+  }
+
+  if (last === now) {
+    return dimensions;
+  }
+
+  var lastDroppable = dimensions.droppables[last];
+
+  if (!lastDroppable.subject.withPlaceholder) {
+    return dimensions;
+  }
+
+  var updated = removePlaceholder(lastDroppable);
+  return patchDroppableMap(dimensions, updated);
+};
+
+var getDimensionMapWithPlaceholder = (function (_ref2) {
+  var dimensions = _ref2.dimensions,
+      previousImpact = _ref2.previousImpact,
+      draggable = _ref2.draggable,
+      impact = _ref2.impact;
+  var base = clearUnusedPlaceholder({
+    previousImpact: previousImpact,
+    impact: impact,
+    dimensions: dimensions
+  });
+  var usePlaceholder = shouldUsePlaceholder(draggable.descriptor, impact);
+
+  if (!usePlaceholder) {
+    return base;
+  }
+
+  var droppableId = whatIsDraggedOver(impact);
+
+  if (!droppableId) {
+    return base;
+  }
+
+  var droppable = base.droppables[droppableId];
+
+  if (droppable.subject.withPlaceholder) {
+    return base;
+  }
+
+  var patched = addPlaceholder(droppable, draggable.displaceBy, base.draggables);
+  return patchDroppableMap(base, patched);
+});
+
+var timingsKey = 'Processing dynamic changes';
+var publishWhileDragging = (function (_ref) {
+  var _extends2, _extends3;
+
+  var state = _ref.state,
+      published = _ref.published;
+  start(timingsKey);
+  var adjusted = adjustModifiedDroppables({
+    modified: published.modified,
+    existingDroppables: state.dimensions.droppables,
+    initialWindowScroll: state.viewport.scroll.initial
+  });
+  var shifted = adjustAdditionsForScrollChanges({
+    additions: published.additions,
+    modified: adjusted,
+    viewport: state.viewport
+  });
+  var patched = {
+    draggables: state.dimensions.draggables,
+    droppables: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.dimensions.droppables, {}, toDroppableMap(adjusted))
+  };
+  var draggables = getDraggableMap({
+    existing: patched,
+    additions: shifted,
+    removals: published.removals,
+    initialWindowScroll: state.viewport.scroll.initial
+  });
+  var dragging = state.critical.draggable.id;
+  var original = state.dimensions.draggables[dragging];
+  var updated = draggables[dragging];
+  var dimensions = getDimensionMapWithPlaceholder({
+    previousImpact: state.impact,
+    impact: state.impact,
+    draggable: updated,
+    dimensions: {
+      draggables: draggables,
+      droppables: patched.droppables
+    }
+  });
+  var critical = {
+    droppable: state.critical.droppable,
+    draggable: updated.descriptor
+  };
+
+  var _getDragPositions = getDragPositions({
+    initial: state.initial,
+    current: state.current,
+    oldClientBorderBoxCenter: original.client.borderBox.center,
+    newClientBorderBoxCenter: updated.client.borderBox.center,
+    viewport: state.viewport
+  }),
+      initial = _getDragPositions.initial,
+      current = _getDragPositions.current;
+
+  var impact = withNoAnimatedDisplacement(getDragImpact({
+    pageBorderBoxCenter: current.page.borderBoxCenter,
+    draggable: dimensions.draggables[state.critical.draggable.id],
+    draggables: dimensions.draggables,
+    droppables: dimensions.droppables,
+    previousImpact: noImpact,
+    viewport: state.viewport,
+    userDirection: state.userDirection
+  }));
+  var isOrphaned = Boolean(state.movementMode === 'SNAP' && state.impact.destination && !impact.destination);
+  !!isOrphaned ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Dragging item no longer has a valid destination after a dynamic update. This is not supported') : undefined : void 0;
+  finish(timingsKey);
+
+  var draggingState = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    phase: 'DRAGGING'
+  }, state, (_extends2 = {}, _extends2["phase"] = 'DRAGGING', _extends2.critical = critical, _extends2.current = current, _extends2.initial = initial, _extends2.impact = impact, _extends2.dimensions = dimensions, _extends2.forceShouldAnimate = false, _extends2));
+
+  if (state.phase === 'COLLECTING') {
+    return draggingState;
+  }
+
+  var dropPending = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    phase: 'DROP_PENDING'
+  }, draggingState, (_extends3 = {}, _extends3["phase"] = 'DROP_PENDING', _extends3.reason = state.reason, _extends3.isWaiting = false, _extends3));
+
+  return dropPending;
+});
+
+var getKnownActive = function getKnownActive(droppable) {
+  var rect = droppable.subject.active;
+  !rect ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot get clipped area from droppable') : undefined : void 0;
+  return rect;
+};
+
+var getBestCrossAxisDroppable = (function (_ref) {
+  var isMovingForward = _ref.isMovingForward,
+      pageBorderBoxCenter = _ref.pageBorderBoxCenter,
+      source = _ref.source,
+      droppables = _ref.droppables,
+      viewport = _ref.viewport;
+  var active = source.subject.active;
+
+  if (!active) {
+    return null;
+  }
+
+  var axis = source.axis;
+  var isBetweenSourceClipped = isWithin(active[axis.start], active[axis.end]);
+  var candidates = toDroppableList(droppables).filter(function (droppable) {
+    return droppable !== source;
+  }).filter(function (droppable) {
+    return droppable.isEnabled;
+  }).filter(function (droppable) {
+    return Boolean(droppable.subject.active);
+  }).filter(function (droppable) {
+    return isPartiallyVisibleThroughFrame(viewport.frame)(getKnownActive(droppable));
+  }).filter(function (droppable) {
+    var activeOfTarget = getKnownActive(droppable);
+
+    if (isMovingForward) {
+      return active[axis.crossAxisEnd] < activeOfTarget[axis.crossAxisEnd];
+    }
+
+    return activeOfTarget[axis.crossAxisStart] < active[axis.crossAxisStart];
+  }).filter(function (droppable) {
+    var activeOfTarget = getKnownActive(droppable);
+    var isBetweenDestinationClipped = isWithin(activeOfTarget[axis.start], activeOfTarget[axis.end]);
+    return isBetweenSourceClipped(activeOfTarget[axis.start]) || isBetweenSourceClipped(activeOfTarget[axis.end]) || isBetweenDestinationClipped(active[axis.start]) || isBetweenDestinationClipped(active[axis.end]);
+  }).sort(function (a, b) {
+    var first = getKnownActive(a)[axis.crossAxisStart];
+    var second = getKnownActive(b)[axis.crossAxisStart];
+
+    if (isMovingForward) {
+      return first - second;
+    }
+
+    return second - first;
+  }).filter(function (droppable, index, array) {
+    return getKnownActive(droppable)[axis.crossAxisStart] === getKnownActive(array[0])[axis.crossAxisStart];
+  });
+
+  if (!candidates.length) {
+    return null;
+  }
+
+  if (candidates.length === 1) {
+    return candidates[0];
+  }
+
+  var contains = candidates.filter(function (droppable) {
+    var isWithinDroppable = isWithin(getKnownActive(droppable)[axis.start], getKnownActive(droppable)[axis.end]);
+    return isWithinDroppable(pageBorderBoxCenter[axis.line]);
+  });
+
+  if (contains.length === 1) {
+    return contains[0];
+  }
+
+  if (contains.length > 1) {
+    return contains.sort(function (a, b) {
+      return getKnownActive(a)[axis.start] - getKnownActive(b)[axis.start];
+    })[0];
+  }
+
+  return candidates.sort(function (a, b) {
+    var first = closest(pageBorderBoxCenter, getCorners(getKnownActive(a)));
+    var second = closest(pageBorderBoxCenter, getCorners(getKnownActive(b)));
+
+    if (first !== second) {
+      return first - second;
+    }
+
+    return getKnownActive(a)[axis.start] - getKnownActive(b)[axis.start];
+  })[0];
+});
+
+var withDroppableDisplacement = (function (droppable, point) {
+  var frame = droppable.frame;
+
+  if (!frame) {
+    return point;
+  }
+
+  return add(point, frame.scroll.diff.displacement);
+});
+
+var getClosestDraggable = (function (_ref) {
+  var axis = _ref.axis,
+      pageBorderBoxCenter = _ref.pageBorderBoxCenter,
+      viewport = _ref.viewport,
+      destination = _ref.destination,
+      insideDestination = _ref.insideDestination;
+  var sorted = insideDestination.filter(function (draggable) {
+    return isTotallyVisible({
+      target: draggable.page.borderBox,
+      destination: destination,
+      viewport: viewport.frame,
+      withDroppableDisplacement: true
+    });
+  }).sort(function (a, b) {
+    var distanceToA = distance(pageBorderBoxCenter, withDroppableDisplacement(destination, a.page.borderBox.center));
+    var distanceToB = distance(pageBorderBoxCenter, withDroppableDisplacement(destination, b.page.borderBox.center));
+
+    if (distanceToA < distanceToB) {
+      return -1;
+    }
+
+    if (distanceToB < distanceToA) {
+      return 1;
+    }
+
+    return a.page.borderBox[axis.start] - b.page.borderBox[axis.start];
+  });
+  return sorted[0] || null;
+});
+
+var getWillDisplaceForward = (function (_ref) {
+  var isInHomeList = _ref.isInHomeList,
+      proposedIndex = _ref.proposedIndex,
+      startIndexInHome = _ref.startIndexInHome;
+  return isInHomeList ? proposedIndex < startIndexInHome : true;
+});
+
+var getHomeLocation = (function (descriptor) {
+  return {
+    index: descriptor.index,
+    droppableId: descriptor.droppableId
+  };
+});
+
+var getHomeImpact = (function (draggable, home) {
+  return {
+    movement: noMovement,
+    direction: home.axis.direction,
+    destination: getHomeLocation(draggable.descriptor),
+    merge: null
+  };
+});
+
+var toHomeList = (function (_ref) {
+  var moveIntoIndexOf = _ref.moveIntoIndexOf,
+      insideDestination = _ref.insideDestination,
+      draggable = _ref.draggable,
+      destination = _ref.destination,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport;
+
+  if (!moveIntoIndexOf) {
+    return null;
+  }
+
+  var axis = destination.axis;
+  var homeIndex = draggable.descriptor.index;
+  var targetIndex = moveIntoIndexOf.descriptor.index;
+
+  if (homeIndex === targetIndex) {
+    return getHomeImpact(draggable, destination);
+  }
+
+  var willDisplaceForward = getWillDisplaceForward({
+    isInHomeList: true,
+    proposedIndex: targetIndex,
+    startIndexInHome: homeIndex
+  });
+  var isMovingAfterStart = !willDisplaceForward;
+  var modified = isMovingAfterStart ? insideDestination.slice(homeIndex + 1, targetIndex + 1).reverse() : insideDestination.slice(targetIndex, homeIndex);
+  var displaced = modified.map(function (dimension) {
+    return getDisplacement({
+      draggable: dimension,
+      destination: destination,
+      previousImpact: previousImpact,
+      viewport: viewport.frame
+    });
+  });
+  !displaced.length ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Must displace as least one thing if not moving into the home index') : undefined : void 0;
+  var displacedBy = getDisplacedBy(destination.axis, draggable.displaceBy, willDisplaceForward);
+  var impact = {
+    movement: {
+      displacedBy: displacedBy,
+      displaced: displaced,
+      map: getDisplacementMap(displaced),
+      willDisplaceForward: willDisplaceForward
+    },
+    direction: axis.direction,
+    destination: {
+      droppableId: destination.descriptor.id,
+      index: targetIndex
+    },
+    merge: null
+  };
+  return impact;
+});
+
+var whenCombining = (function (_ref) {
+  var combine = _ref.combine,
+      movement = _ref.movement,
+      draggables = _ref.draggables;
+  var groupingWith = combine.draggableId;
+  var isDisplaced = Boolean(movement.map[groupingWith]);
+  var center = draggables[groupingWith].page.borderBox.center;
+  return isDisplaced ? add(center, movement.displacedBy.point) : center;
+});
+
+var distanceFromStartToBorderBoxCenter = function distanceFromStartToBorderBoxCenter(axis, box) {
+  return box.margin[axis.start] + box.borderBox[axis.size] / 2;
+};
+
+var distanceFromEndToBorderBoxCenter = function distanceFromEndToBorderBoxCenter(axis, box) {
+  return box.margin[axis.end] + box.borderBox[axis.size] / 2;
+};
+
+var getCrossAxisBorderBoxCenter = function getCrossAxisBorderBoxCenter(axis, target, isMoving) {
+  return target[axis.crossAxisStart] + isMoving.margin[axis.crossAxisStart] + isMoving.borderBox[axis.crossAxisSize] / 2;
+};
+
+var goAfter = function goAfter(_ref) {
+  var axis = _ref.axis,
+      moveRelativeTo = _ref.moveRelativeTo,
+      isMoving = _ref.isMoving;
+  return patch(axis.line, moveRelativeTo.marginBox[axis.end] + distanceFromStartToBorderBoxCenter(axis, isMoving), getCrossAxisBorderBoxCenter(axis, moveRelativeTo.marginBox, isMoving));
+};
+var goBefore = function goBefore(_ref2) {
+  var axis = _ref2.axis,
+      moveRelativeTo = _ref2.moveRelativeTo,
+      isMoving = _ref2.isMoving;
+  return patch(axis.line, moveRelativeTo.marginBox[axis.start] - distanceFromEndToBorderBoxCenter(axis, isMoving), getCrossAxisBorderBoxCenter(axis, moveRelativeTo.marginBox, isMoving));
+};
+var goIntoStart = function goIntoStart(_ref3) {
+  var axis = _ref3.axis,
+      moveInto = _ref3.moveInto,
+      isMoving = _ref3.isMoving;
+  return patch(axis.line, moveInto.contentBox[axis.start] + distanceFromStartToBorderBoxCenter(axis, isMoving), getCrossAxisBorderBoxCenter(axis, moveInto.contentBox, isMoving));
+};
+
+var whenReordering = (function (_ref) {
+  var movement = _ref.movement,
+      draggable = _ref.draggable,
+      draggables = _ref.draggables,
+      droppable = _ref.droppable;
+  var insideDestination = getDraggablesInsideDroppable(droppable.descriptor.id, draggables);
+  var draggablePage = draggable.page;
+  var axis = droppable.axis;
+
+  if (!insideDestination.length) {
+    return goIntoStart({
+      axis: axis,
+      moveInto: droppable.page,
+      isMoving: draggablePage
+    });
+  }
+
+  var displaced = movement.displaced,
+      willDisplaceForward = movement.willDisplaceForward,
+      displacedBy = movement.displacedBy;
+  var isOverHome = isHomeOf(draggable, droppable);
+  var closest = displaced.length ? draggables[displaced[0].draggableId] : null;
+
+  if (!closest) {
+    if (isOverHome) {
+      return draggable.page.borderBox.center;
+    }
+
+    var moveRelativeTo = insideDestination[insideDestination.length - 1];
+    return goAfter({
+      axis: axis,
+      moveRelativeTo: moveRelativeTo.page,
+      isMoving: draggablePage
+    });
+  }
+
+  var displacedClosest = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["offset"])(closest.page, displacedBy.point);
+
+  if (willDisplaceForward) {
+    return goBefore({
+      axis: axis,
+      moveRelativeTo: displacedClosest,
+      isMoving: draggablePage
+    });
+  }
+
+  return goAfter({
+    axis: axis,
+    moveRelativeTo: displacedClosest,
+    isMoving: draggablePage
+  });
+});
+
+var getResultWithoutDroppableDisplacement = function getResultWithoutDroppableDisplacement(_ref) {
+  var impact = _ref.impact,
+      draggable = _ref.draggable,
+      droppable = _ref.droppable,
+      draggables = _ref.draggables;
+  var merge = impact.merge;
+  var destination = impact.destination;
+  var original = draggable.page.borderBox.center;
+
+  if (!droppable) {
+    return original;
+  }
+
+  if (destination) {
+    return whenReordering({
+      movement: impact.movement,
+      draggable: draggable,
+      draggables: draggables,
+      droppable: droppable
+    });
+  }
+
+  if (merge) {
+    return whenCombining({
+      movement: impact.movement,
+      combine: merge.combine,
+      draggables: draggables
+    });
+  }
+
+  return original;
+};
+
+var getPageBorderBoxCenter = (function (args) {
+  var withoutDisplacement = getResultWithoutDroppableDisplacement(args);
+  var droppable = args.droppable;
+  var withDisplacement = droppable ? withDroppableDisplacement(droppable, withoutDisplacement) : withoutDisplacement;
+  return withDisplacement;
+});
+
+var isTotallyVisibleInNewLocation = (function (_ref) {
+  var draggable = _ref.draggable,
+      destination = _ref.destination,
+      newPageBorderBoxCenter = _ref.newPageBorderBoxCenter,
+      viewport = _ref.viewport,
+      withDroppableDisplacement = _ref.withDroppableDisplacement,
+      _ref$onlyOnMainAxis = _ref.onlyOnMainAxis,
+      onlyOnMainAxis = _ref$onlyOnMainAxis === void 0 ? false : _ref$onlyOnMainAxis;
+  var diff = subtract(newPageBorderBoxCenter, draggable.page.borderBox.center);
+  var shifted = offsetByPosition(draggable.page.borderBox, diff);
+  var args = {
+    target: shifted,
+    destination: destination,
+    withDroppableDisplacement: withDroppableDisplacement,
+    viewport: viewport
+  };
+
+  if (onlyOnMainAxis) {
+    return isTotallyVisibleOnAxis(args);
+  }
+
+  return isTotallyVisible(args);
+});
+
+var toForeignList = (function (_ref) {
+  var previousPageBorderBoxCenter = _ref.previousPageBorderBoxCenter,
+      moveRelativeTo = _ref.moveRelativeTo,
+      insideDestination = _ref.insideDestination,
+      draggable = _ref.draggable,
+      draggables = _ref.draggables,
+      destination = _ref.destination,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport;
+  var axis = destination.axis;
+
+  if (!moveRelativeTo || !insideDestination.length) {
+    var proposed = {
+      movement: noMovement,
+      direction: axis.direction,
+      destination: {
+        droppableId: destination.descriptor.id,
+        index: 0
+      },
+      merge: null
+    };
+    var pageBorderBoxCenter = getPageBorderBoxCenter({
+      impact: proposed,
+      draggable: draggable,
+      droppable: destination,
+      draggables: draggables
+    });
+    var withPlaceholder = addPlaceholder(destination, draggable.displaceBy, draggables);
+    var isVisibleInNewLocation = isTotallyVisibleInNewLocation({
+      draggable: draggable,
+      destination: withPlaceholder,
+      newPageBorderBoxCenter: pageBorderBoxCenter,
+      viewport: viewport.frame,
+      withDroppableDisplacement: false,
+      onlyOnMainAxis: true
+    });
+    return isVisibleInNewLocation ? proposed : null;
+  }
+
+  var targetIndex = insideDestination.indexOf(moveRelativeTo);
+  !(targetIndex !== -1) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find draggable in foreign list') : undefined : void 0;
+  var isGoingBeforeTarget = Boolean(previousPageBorderBoxCenter[destination.axis.line] < moveRelativeTo.page.borderBox.center[destination.axis.line]);
+  var proposedIndex = isGoingBeforeTarget ? targetIndex : targetIndex + 1;
+  var displaced = insideDestination.slice(proposedIndex).map(function (dimension) {
+    return getDisplacement({
+      draggable: dimension,
+      destination: destination,
+      viewport: viewport.frame,
+      previousImpact: previousImpact
+    });
+  });
+  var willDisplaceForward = true;
+  var displacedBy = getDisplacedBy(destination.axis, draggable.displaceBy, willDisplaceForward);
+  var impact = {
+    movement: {
+      displacedBy: displacedBy,
+      displaced: displaced,
+      map: getDisplacementMap(displaced),
+      willDisplaceForward: willDisplaceForward
+    },
+    direction: axis.direction,
+    destination: {
+      droppableId: destination.descriptor.id,
+      index: proposedIndex
+    },
+    merge: null
+  };
+  return impact;
+});
+
+var moveToNewDroppable = (function (_ref) {
+  var previousPageBorderBoxCenter = _ref.previousPageBorderBoxCenter,
+      destination = _ref.destination,
+      insideDestination = _ref.insideDestination,
+      draggable = _ref.draggable,
+      draggables = _ref.draggables,
+      moveRelativeTo = _ref.moveRelativeTo,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport;
+
+  if (insideDestination.length && !moveRelativeTo) {
+    return null;
+  }
+
+  if (moveRelativeTo) {
+    !(moveRelativeTo.descriptor.droppableId === destination.descriptor.id) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Unable to find target in destination droppable') : undefined : void 0;
+  }
+
+  var isMovingToHome = isHomeOf(draggable, destination);
+  return isMovingToHome ? toHomeList({
+    moveIntoIndexOf: moveRelativeTo,
+    insideDestination: insideDestination,
+    draggable: draggable,
+    destination: destination,
+    previousImpact: previousImpact,
+    viewport: viewport
+  }) : toForeignList({
+    previousPageBorderBoxCenter: previousPageBorderBoxCenter,
+    moveRelativeTo: moveRelativeTo,
+    insideDestination: insideDestination,
+    draggable: draggable,
+    draggables: draggables,
+    destination: destination,
+    previousImpact: previousImpact,
+    viewport: viewport
+  });
+});
+
+var withViewportDisplacement = (function (viewport, point) {
+  return add(viewport.scroll.diff.displacement, point);
+});
+
+var getClientFromPageBorderBoxCenter = (function (_ref) {
+  var pageBorderBoxCenter = _ref.pageBorderBoxCenter,
+      draggable = _ref.draggable,
+      viewport = _ref.viewport;
+  var withoutPageScrollChange = withViewportDisplacement(viewport, pageBorderBoxCenter);
+  var offset$$1 = subtract(withoutPageScrollChange, draggable.page.borderBox.center);
+  return add(draggable.client.borderBox.center, offset$$1);
+});
+
+var moveCrossAxis = (function (_ref) {
+  var isMovingForward = _ref.isMovingForward,
+      previousPageBorderBoxCenter = _ref.previousPageBorderBoxCenter,
+      draggable = _ref.draggable,
+      isOver = _ref.isOver,
+      draggables = _ref.draggables,
+      droppables = _ref.droppables,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport;
+  var destination = getBestCrossAxisDroppable({
+    isMovingForward: isMovingForward,
+    pageBorderBoxCenter: previousPageBorderBoxCenter,
+    source: isOver,
+    droppables: droppables,
+    viewport: viewport
+  });
+
+  if (!destination) {
+    return null;
+  }
+
+  var insideDestination = getDraggablesInsideDroppable(destination.descriptor.id, draggables);
+  var moveRelativeTo = getClosestDraggable({
+    axis: destination.axis,
+    pageBorderBoxCenter: previousPageBorderBoxCenter,
+    viewport: viewport,
+    destination: destination,
+    insideDestination: insideDestination
+  });
+  var impact = moveToNewDroppable({
+    previousPageBorderBoxCenter: previousPageBorderBoxCenter,
+    destination: destination,
+    draggable: draggable,
+    draggables: draggables,
+    moveRelativeTo: moveRelativeTo,
+    insideDestination: insideDestination,
+    previousImpact: previousImpact,
+    viewport: viewport
+  });
+
+  if (!impact) {
+    return null;
+  }
+
+  var pageBorderBoxCenter = getPageBorderBoxCenter({
+    impact: impact,
+    draggable: draggable,
+    droppable: destination,
+    draggables: draggables
+  });
+  var clientSelection = getClientFromPageBorderBoxCenter({
+    pageBorderBoxCenter: pageBorderBoxCenter,
+    draggable: draggable,
+    viewport: viewport
+  });
+  return {
+    clientSelection: clientSelection,
+    impact: impact,
+    scrollJumpRequest: null
+  };
+});
+
+var forward = {
+  vertical: 'down',
+  horizontal: 'right'
+};
+var backward = {
+  vertical: 'up',
+  horizontal: 'left'
+};
+
+var moveToNextCombine = (function (_ref) {
+  var isMovingForward = _ref.isMovingForward,
+      isInHomeList = _ref.isInHomeList,
+      draggable = _ref.draggable,
+      destination = _ref.destination,
+      originalInsideDestination = _ref.insideDestination,
+      previousImpact = _ref.previousImpact;
+
+  if (!destination.isCombineEnabled) {
+    return null;
+  }
+
+  if (previousImpact.merge) {
+    return null;
+  }
+
+  var location = previousImpact.destination;
+  !location ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Need a previous location to move from into a combine') : undefined : void 0;
+  var currentIndex = location.index;
+
+  var currentInsideDestination = function () {
+    var shallow = originalInsideDestination.slice();
+
+    if (isInHomeList) {
+      shallow.splice(draggable.descriptor.index, 1);
+    }
+
+    shallow.splice(location.index, 0, draggable);
+    return shallow;
+  }();
+
+  var targetIndex = isMovingForward ? currentIndex + 1 : currentIndex - 1;
+
+  if (targetIndex < 0) {
+    return null;
+  }
+
+  if (targetIndex > currentInsideDestination.length - 1) {
+    return null;
+  }
+
+  var target = currentInsideDestination[targetIndex];
+  var merge = {
+    whenEntered: isMovingForward ? forward : backward,
+    combine: {
+      draggableId: target.descriptor.id,
+      droppableId: destination.descriptor.id
+    }
+  };
+  var impact = {
+    movement: previousImpact.movement,
+    destination: null,
+    direction: destination.axis.direction,
+    merge: merge
+  };
+  return impact;
+});
+
+var addClosest = function addClosest(add, displaced) {
+  var added = {
+    draggableId: add.descriptor.id,
+    isVisible: true,
+    shouldAnimate: true
+  };
+  return [added].concat(displaced);
+};
+var removeClosest = function removeClosest(displaced) {
+  return displaced.slice(1);
+};
+
+var fromReorder = (function (_ref) {
+  var isMovingForward = _ref.isMovingForward,
+      isInHomeList = _ref.isInHomeList,
+      previousImpact = _ref.previousImpact,
+      draggable = _ref.draggable,
+      initialInside = _ref.insideDestination;
+
+  if (previousImpact.merge) {
+    return null;
+  }
+
+  var location = previousImpact.destination;
+  !location ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot move to next index without previous destination') : undefined : void 0;
+  var insideDestination = initialInside.slice();
+  var currentIndex = location.index;
+  var isInForeignList = !isInHomeList;
+
+  if (isInForeignList) {
+    insideDestination.splice(location.index, 0, draggable);
+  }
+
+  var proposedIndex = isMovingForward ? currentIndex + 1 : currentIndex - 1;
+
+  if (proposedIndex < 0) {
+    return null;
+  }
+
+  if (proposedIndex > insideDestination.length - 1) {
+    return null;
+  }
+
+  return {
+    proposedIndex: proposedIndex,
+    modifyDisplacement: true
+  };
+});
+
+var fromCombine = (function (_ref) {
+  var isInHomeList = _ref.isInHomeList,
+      isMovingForward = _ref.isMovingForward,
+      draggable = _ref.draggable,
+      destination = _ref.destination,
+      previousImpact = _ref.previousImpact,
+      draggables = _ref.draggables,
+      merge = _ref.merge;
+
+  if (!destination.isCombineEnabled) {
+    return null;
+  }
+
+  var movement = previousImpact.movement;
+  var combineId = merge.combine.draggableId;
+  var combine = draggables[combineId];
+  var combineIndex = combine.descriptor.index;
+  var isCombineDisplaced = Boolean(movement.map[combineId]);
+
+  if (!isCombineDisplaced) {
+    var willDisplaceForward = getWillDisplaceForward({
+      isInHomeList: isInHomeList,
+      proposedIndex: combineIndex,
+      startIndexInHome: draggable.descriptor.index
+    });
+
+    if (willDisplaceForward) {
+      if (isMovingForward) {
+        return {
+          proposedIndex: combineIndex + 1,
+          modifyDisplacement: false
+        };
+      }
+
+      return {
+        proposedIndex: combineIndex,
+        modifyDisplacement: true
+      };
+    }
+
+    if (isMovingForward) {
+      return {
+        proposedIndex: combineIndex,
+        modifyDisplacement: true
+      };
+    }
+
+    return {
+      proposedIndex: combineIndex - 1,
+      modifyDisplacement: false
+    };
+  }
+
+  var isDisplacedForward = movement.willDisplaceForward;
+  var visualIndex = isDisplacedForward ? combineIndex + 1 : combineIndex - 1;
+
+  if (isDisplacedForward) {
+    if (isMovingForward) {
+      return {
+        proposedIndex: visualIndex,
+        modifyDisplacement: true
+      };
+    }
+
+    return {
+      proposedIndex: visualIndex - 1,
+      modifyDisplacement: false
+    };
+  }
+
+  if (isMovingForward) {
+    return {
+      proposedIndex: visualIndex + 1,
+      modifyDisplacement: false
+    };
+  }
+
+  return {
+    proposedIndex: visualIndex,
+    modifyDisplacement: true
+  };
+});
+
+var getIsIncreasingDisplacement = function getIsIncreasingDisplacement(_ref) {
+  var isInHomeList = _ref.isInHomeList,
+      isMovingForward = _ref.isMovingForward,
+      proposedIndex = _ref.proposedIndex,
+      startIndexInHome = _ref.startIndexInHome;
+
+  if (!isInHomeList) {
+    return !isMovingForward;
+  }
+
+  if (isMovingForward) {
+    return proposedIndex > startIndexInHome;
+  }
+
+  return proposedIndex < startIndexInHome;
+};
+
+var moveToNextIndex = (function (_ref2) {
+  var isMovingForward = _ref2.isMovingForward,
+      isInHomeList = _ref2.isInHomeList,
+      draggable = _ref2.draggable,
+      draggables = _ref2.draggables,
+      destination = _ref2.destination,
+      insideDestination = _ref2.insideDestination,
+      previousImpact = _ref2.previousImpact;
+
+  var instruction = function () {
+    if (previousImpact.destination) {
+      return fromReorder({
+        isMovingForward: isMovingForward,
+        isInHomeList: isInHomeList,
+        draggable: draggable,
+        previousImpact: previousImpact,
+        insideDestination: insideDestination
+      });
+    }
+
+    !previousImpact.merge ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot move to next spot without a destination or merge') : undefined : void 0;
+    return fromCombine({
+      isInHomeList: isInHomeList,
+      isMovingForward: isMovingForward,
+      draggable: draggable,
+      destination: destination,
+      previousImpact: previousImpact,
+      draggables: draggables,
+      merge: previousImpact.merge
+    });
+  }();
+
+  if (instruction == null) {
+    return null;
+  }
+
+  var proposedIndex = instruction.proposedIndex,
+      modifyDisplacement = instruction.modifyDisplacement;
+  var startIndexInHome = draggable.descriptor.index;
+  var willDisplaceForward = getWillDisplaceForward({
+    isInHomeList: isInHomeList,
+    proposedIndex: proposedIndex,
+    startIndexInHome: startIndexInHome
+  });
+  var displacedBy = getDisplacedBy(destination.axis, draggable.displaceBy, willDisplaceForward);
+  var atProposedIndex = insideDestination[proposedIndex];
+
+  var displaced = function () {
+    if (!modifyDisplacement) {
+      return previousImpact.movement.displaced;
+    }
+
+    var isIncreasingDisplacement = getIsIncreasingDisplacement({
+      isInHomeList: isInHomeList,
+      isMovingForward: isMovingForward,
+      proposedIndex: proposedIndex,
+      startIndexInHome: startIndexInHome
+    });
+    var lastDisplaced = previousImpact.movement.displaced;
+    return isIncreasingDisplacement ? addClosest(atProposedIndex, lastDisplaced) : removeClosest(lastDisplaced);
+  }();
+
+  return {
+    movement: {
+      displacedBy: displacedBy,
+      willDisplaceForward: willDisplaceForward,
+      displaced: displaced,
+      map: getDisplacementMap(displaced)
+    },
+    direction: destination.axis.direction,
+    destination: {
+      droppableId: destination.descriptor.id,
+      index: proposedIndex
+    },
+    merge: null
+  };
+});
+
+var scrollViewport = (function (viewport, newScroll) {
+  var diff = subtract(newScroll, viewport.scroll.initial);
+  var displacement = negate(diff);
+  var frame = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getRect"])({
+    top: newScroll.y,
+    bottom: newScroll.y + viewport.frame.height,
+    left: newScroll.x,
+    right: newScroll.x + viewport.frame.width
+  });
+  var updated = {
+    frame: frame,
+    scroll: {
+      initial: viewport.scroll.initial,
+      max: viewport.scroll.max,
+      current: newScroll,
+      diff: {
+        value: diff,
+        displacement: displacement
+      }
+    }
+  };
+  return updated;
+});
+
+var withNewDisplacement = (function (impact, displaced) {
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, impact, {
+    movement: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, impact.movement, {
+      displaced: displaced,
+      map: getDisplacementMap(displaced)
+    })
+  });
+});
+
+var speculativelyIncrease = (function (_ref) {
+  var impact = _ref.impact,
+      viewport = _ref.viewport,
+      destination = _ref.destination,
+      draggables = _ref.draggables,
+      maxScrollChange = _ref.maxScrollChange;
+  var displaced = impact.movement.displaced;
+  var scrolledViewport = scrollViewport(viewport, add(viewport.scroll.current, maxScrollChange));
+  var scrolledDroppable = destination.frame ? scrollDroppable(destination, add(destination.frame.scroll.current, maxScrollChange)) : destination;
+  var updated = displaced.map(function (entry) {
+    if (entry.isVisible) {
+      return entry;
+    }
+
+    var result = getDisplacement({
+      draggable: draggables[entry.draggableId],
+      destination: scrolledDroppable,
+      previousImpact: impact,
+      viewport: scrolledViewport.frame
+    });
+
+    if (!result.isVisible) {
+      return entry;
+    }
+
+    return {
+      draggableId: entry.draggableId,
+      isVisible: true,
+      shouldAnimate: false
+    };
+  });
+  return withNewDisplacement(impact, updated);
+});
+
+var moveToNextPlace = (function (_ref) {
+  var isMovingForward = _ref.isMovingForward,
+      draggable = _ref.draggable,
+      destination = _ref.destination,
+      draggables = _ref.draggables,
+      previousImpact = _ref.previousImpact,
+      viewport = _ref.viewport,
+      previousPageBorderBoxCenter = _ref.previousPageBorderBoxCenter,
+      previousClientSelection = _ref.previousClientSelection;
+
+  if (!destination.isEnabled) {
+    return null;
+  }
+
+  var insideDestination = getDraggablesInsideDroppable(destination.descriptor.id, draggables);
+  var isInHomeList = isHomeOf(draggable, destination);
+  var impact = moveToNextCombine({
+    isInHomeList: isInHomeList,
+    isMovingForward: isMovingForward,
+    draggable: draggable,
+    destination: destination,
+    insideDestination: insideDestination,
+    previousImpact: previousImpact
+  }) || moveToNextIndex({
+    isMovingForward: isMovingForward,
+    isInHomeList: isInHomeList,
+    draggable: draggable,
+    draggables: draggables,
+    destination: destination,
+    insideDestination: insideDestination,
+    previousImpact: previousImpact
+  });
+
+  if (!impact) {
+    return null;
+  }
+
+  var pageBorderBoxCenter = getPageBorderBoxCenter({
+    impact: impact,
+    draggable: draggable,
+    droppable: destination,
+    draggables: draggables
+  });
+  var isVisibleInNewLocation = isTotallyVisibleInNewLocation({
+    draggable: draggable,
+    destination: destination,
+    newPageBorderBoxCenter: pageBorderBoxCenter,
+    viewport: viewport.frame,
+    withDroppableDisplacement: false,
+    onlyOnMainAxis: true
+  });
+
+  if (isVisibleInNewLocation) {
+    var clientSelection = getClientFromPageBorderBoxCenter({
+      pageBorderBoxCenter: pageBorderBoxCenter,
+      draggable: draggable,
+      viewport: viewport
+    });
+    return {
+      clientSelection: clientSelection,
+      impact: impact,
+      scrollJumpRequest: null
+    };
+  }
+
+  var distance$$1 = subtract(pageBorderBoxCenter, previousPageBorderBoxCenter);
+  var cautious = speculativelyIncrease({
+    impact: impact,
+    viewport: viewport,
+    destination: destination,
+    draggables: draggables,
+    maxScrollChange: distance$$1
+  });
+  return {
+    clientSelection: previousClientSelection,
+    impact: cautious,
+    scrollJumpRequest: distance$$1
+  };
+});
+
+var getDroppableOver$1 = function getDroppableOver(impact, droppables) {
+  var id = whatIsDraggedOver(impact);
+  return id ? droppables[id] : null;
+};
+
+var moveInDirection = (function (_ref) {
+  var state = _ref.state,
+      type = _ref.type;
+  var isActuallyOver = getDroppableOver$1(state.impact, state.dimensions.droppables);
+  var isMainAxisMovementAllowed = Boolean(isActuallyOver);
+  var home = state.dimensions.droppables[state.critical.droppable.id];
+  var isOver = isActuallyOver || home;
+  var direction = isOver.axis.direction;
+  var isMovingOnMainAxis = direction === 'vertical' && (type === 'MOVE_UP' || type === 'MOVE_DOWN') || direction === 'horizontal' && (type === 'MOVE_LEFT' || type === 'MOVE_RIGHT');
+
+  if (isMovingOnMainAxis && !isMainAxisMovementAllowed) {
+    return null;
+  }
+
+  var isMovingForward = type === 'MOVE_DOWN' || type === 'MOVE_RIGHT';
+  var draggable = state.dimensions.draggables[state.critical.draggable.id];
+  var previousPageBorderBoxCenter = state.current.page.borderBoxCenter;
+  var _state$dimensions = state.dimensions,
+      draggables = _state$dimensions.draggables,
+      droppables = _state$dimensions.droppables;
+  var viewport = state.viewport;
+  return isMovingOnMainAxis ? moveToNextPlace({
+    isMovingForward: isMovingForward,
+    draggable: draggable,
+    destination: isOver,
+    draggables: draggables,
+    viewport: viewport,
+    previousPageBorderBoxCenter: previousPageBorderBoxCenter,
+    previousClientSelection: state.current.client.selection,
+    previousImpact: state.impact
+  }) : moveCrossAxis({
+    isMovingForward: isMovingForward,
+    previousPageBorderBoxCenter: previousPageBorderBoxCenter,
+    draggable: draggable,
+    isOver: isOver,
+    draggables: draggables,
+    droppables: droppables,
+    previousImpact: state.impact,
+    viewport: viewport
+  });
+});
+
+function isMovementAllowed(state) {
+  return state.phase === 'DRAGGING' || state.phase === 'COLLECTING';
+}
+
+var getVertical = function getVertical(previous, diff) {
+  if (diff === 0) {
+    return previous;
+  }
+
+  return diff > 0 ? 'down' : 'up';
+};
+
+var getHorizontal = function getHorizontal(previous, diff) {
+  if (diff === 0) {
+    return previous;
+  }
+
+  return diff > 0 ? 'right' : 'left';
+};
+
+var getUserDirection = (function (previous, oldPageBorderBoxCenter, newPageBorderBoxCenter) {
+  var diff = subtract(newPageBorderBoxCenter, oldPageBorderBoxCenter);
+  return {
+    horizontal: getHorizontal(previous.horizontal, diff.x),
+    vertical: getVertical(previous.vertical, diff.y)
+  };
+});
+
+var update = (function (_ref) {
+  var state = _ref.state,
+      forcedClientSelection = _ref.clientSelection,
+      forcedDimensions = _ref.dimensions,
+      forcedViewport = _ref.viewport,
+      forcedImpact = _ref.impact,
+      scrollJumpRequest = _ref.scrollJumpRequest;
+  var viewport = forcedViewport || state.viewport;
+  var currentWindowScroll = viewport.scroll.current;
+  var dimensions = forcedDimensions || state.dimensions;
+  var clientSelection = forcedClientSelection || state.current.client.selection;
+  var offset$$1 = subtract(clientSelection, state.initial.client.selection);
+  var client = {
+    offset: offset$$1,
+    selection: clientSelection,
+    borderBoxCenter: add(state.initial.client.borderBoxCenter, offset$$1)
+  };
+  var page = {
+    selection: add(client.selection, currentWindowScroll),
+    borderBoxCenter: add(client.borderBoxCenter, currentWindowScroll)
+  };
+  var current = {
+    client: client,
+    page: page
+  };
+  var userDirection = getUserDirection(state.userDirection, state.current.page.borderBoxCenter, current.page.borderBoxCenter);
+
+  if (state.phase === 'COLLECTING') {
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      phase: 'COLLECTING'
+    }, state, {
+      dimensions: dimensions,
+      viewport: viewport,
+      current: current,
+      userDirection: userDirection
+    });
+  }
+
+  var draggable = dimensions.draggables[state.critical.draggable.id];
+  var newImpact = forcedImpact || getDragImpact({
+    pageBorderBoxCenter: page.borderBoxCenter,
+    draggable: draggable,
+    draggables: dimensions.draggables,
+    droppables: dimensions.droppables,
+    previousImpact: state.impact,
+    viewport: viewport,
+    userDirection: userDirection
+  });
+  var withUpdatedPlaceholders = getDimensionMapWithPlaceholder({
+    draggable: draggable,
+    impact: newImpact,
+    previousImpact: state.impact,
+    dimensions: dimensions
+  });
+
+  var result = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+    current: current,
+    userDirection: userDirection,
+    dimensions: withUpdatedPlaceholders,
+    impact: newImpact,
+    viewport: viewport,
+    scrollJumpRequest: scrollJumpRequest || null,
+    forceShouldAnimate: scrollJumpRequest ? false : null
+  });
+
+  return result;
+});
+
+var recomputeDisplacementVisibility = (function (_ref) {
+  var impact = _ref.impact,
+      viewport = _ref.viewport,
+      destination = _ref.destination,
+      draggables = _ref.draggables;
+  var updated = impact.movement.displaced.map(function (entry) {
+    return getDisplacement({
+      draggable: draggables[entry.draggableId],
+      destination: destination,
+      previousImpact: impact,
+      viewport: viewport.frame
+    });
+  });
+  return withNewDisplacement(impact, updated);
+});
+
+var getClientBorderBoxCenter = (function (_ref) {
+  var impact = _ref.impact,
+      draggable = _ref.draggable,
+      droppable = _ref.droppable,
+      draggables = _ref.draggables,
+      viewport = _ref.viewport;
+  var pageBorderBoxCenter = getPageBorderBoxCenter({
+    impact: impact,
+    draggable: draggable,
+    draggables: draggables,
+    droppable: droppable
+  });
+  return getClientFromPageBorderBoxCenter({
+    pageBorderBoxCenter: pageBorderBoxCenter,
+    draggable: draggable,
+    viewport: viewport
+  });
+});
+
+var refreshSnap = (function (_ref) {
+  var state = _ref.state,
+      forcedDimensions = _ref.dimensions,
+      forcedViewport = _ref.viewport;
+  !(state.movementMode === 'SNAP') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false) : undefined : void 0;
+  var needsVisibilityCheck = state.impact;
+  var viewport = forcedViewport || state.viewport;
+  var dimensions = forcedDimensions || state.dimensions;
+  var draggables = dimensions.draggables,
+      droppables = dimensions.droppables;
+  var draggable = draggables[state.critical.draggable.id];
+  var isOver = whatIsDraggedOver(needsVisibilityCheck);
+  !isOver ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Must be over a destination in SNAP movement mode') : undefined : void 0;
+  var destination = droppables[isOver];
+  var impact = recomputeDisplacementVisibility({
+    impact: needsVisibilityCheck,
+    viewport: viewport,
+    destination: destination,
+    draggables: draggables
+  });
+  var clientSelection = getClientBorderBoxCenter({
+    impact: impact,
+    draggable: draggable,
+    droppable: destination,
+    draggables: draggables,
+    viewport: viewport
+  });
+  return update({
+    impact: impact,
+    clientSelection: clientSelection,
+    state: state,
+    dimensions: dimensions,
+    viewport: viewport
+  });
+});
+
+var isSnapping = function isSnapping(state) {
+  return state.movementMode === 'SNAP';
+};
+
+var postDroppableChange = function postDroppableChange(state, updated, isEnabledChanging) {
+  var dimensions = patchDroppableMap(state.dimensions, updated);
+
+  if (!isSnapping(state) || isEnabledChanging) {
+    return update({
+      state: state,
+      dimensions: dimensions
+    });
+  }
+
+  return refreshSnap({
+    state: state,
+    dimensions: dimensions
+  });
+};
+
+var idle = {
+  phase: 'IDLE'
+};
+var reducer = (function (state, action) {
+  if (state === void 0) {
+    state = idle;
+  }
+
+  if (action.type === 'CLEAN') {
+    return idle;
+  }
+
+  if (action.type === 'INITIAL_PUBLISH') {
+    !(state.phase === 'IDLE') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'INITIAL_PUBLISH must come after a IDLE phase') : undefined : void 0;
+    var _action$payload = action.payload,
+        critical = _action$payload.critical,
+        clientSelection = _action$payload.clientSelection,
+        viewport = _action$payload.viewport,
+        dimensions = _action$payload.dimensions,
+        movementMode = _action$payload.movementMode;
+    var draggable = dimensions.draggables[critical.draggable.id];
+    var home = dimensions.droppables[critical.droppable.id];
+    var client = {
+      selection: clientSelection,
+      borderBoxCenter: draggable.client.borderBox.center,
+      offset: origin
+    };
+    var initial = {
+      client: client,
+      page: {
+        selection: add(client.selection, viewport.scroll.initial),
+        borderBoxCenter: add(client.selection, viewport.scroll.initial)
+      }
+    };
+    var isWindowScrollAllowed = toDroppableList(dimensions.droppables).every(function (item) {
+      return !item.isFixedOnPage;
+    });
+    var result = {
+      phase: 'DRAGGING',
+      isDragging: true,
+      critical: critical,
+      movementMode: movementMode,
+      dimensions: dimensions,
+      initial: initial,
+      current: initial,
+      isWindowScrollAllowed: isWindowScrollAllowed,
+      impact: getHomeImpact(draggable, home),
+      viewport: viewport,
+      userDirection: forward,
+      scrollJumpRequest: null,
+      forceShouldAnimate: null
+    };
+    return result;
+  }
+
+  if (action.type === 'COLLECTION_STARTING') {
+    var _extends2;
+
+    if (state.phase === 'COLLECTING' || state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    !(state.phase === 'DRAGGING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Collection cannot start from phase " + state.phase) : undefined : void 0;
+
+    var _result = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      phase: 'COLLECTING'
+    }, state, (_extends2 = {}, _extends2["phase"] = 'COLLECTING', _extends2));
+
+    return _result;
+  }
+
+  if (action.type === 'PUBLISH_WHILE_DRAGGING') {
+    !(state.phase === 'COLLECTING' || state.phase === 'DROP_PENDING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Unexpected " + action.type + " received in phase " + state.phase) : undefined : void 0;
+    return publishWhileDragging({
+      state: state,
+      published: action.payload
+    });
+  }
+
+  if (action.type === 'MOVE') {
+    if (state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, action.type + " not permitted in phase " + state.phase) : undefined : void 0;
+    var _clientSelection = action.payload.client;
+
+    if (isEqual(_clientSelection, state.current.client.selection)) {
+      return state;
+    }
+
+    return update({
+      state: state,
+      clientSelection: _clientSelection,
+      impact: isSnapping(state) ? state.impact : null
+    });
+  }
+
+  if (action.type === 'UPDATE_DROPPABLE_SCROLL') {
+    if (state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    if (state.phase === 'COLLECTING') {
+      return state;
+    }
+
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, action.type + " not permitted in phase " + state.phase) : undefined : void 0;
+    var _action$payload2 = action.payload,
+        id = _action$payload2.id,
+        offset$$1 = _action$payload2.offset;
+    var target = state.dimensions.droppables[id];
+
+    if (!target) {
+      return state;
+    }
+
+    var scrolled = scrollDroppable(target, offset$$1);
+    return postDroppableChange(state, scrolled, false);
+  }
+
+  if (action.type === 'UPDATE_DROPPABLE_IS_ENABLED') {
+    if (state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Attempting to move in an unsupported phase " + state.phase) : undefined : void 0;
+    var _action$payload3 = action.payload,
+        _id = _action$payload3.id,
+        isEnabled = _action$payload3.isEnabled;
+    var _target = state.dimensions.droppables[_id];
+    !_target ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot find Droppable[id: " + _id + "] to toggle its enabled state") : undefined : void 0;
+    !(_target.isEnabled !== isEnabled) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Trying to set droppable isEnabled to " + String(isEnabled) + "\n      but it is already " + String(_target.isEnabled)) : undefined : void 0;
+
+    var updated = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _target, {
+      isEnabled: isEnabled
+    });
+
+    return postDroppableChange(state, updated, true);
+  }
+
+  if (action.type === 'UPDATE_DROPPABLE_IS_COMBINE_ENABLED') {
+    if (state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Attempting to move in an unsupported phase " + state.phase) : undefined : void 0;
+    var _action$payload4 = action.payload,
+        _id2 = _action$payload4.id,
+        isCombineEnabled = _action$payload4.isCombineEnabled;
+    var _target2 = state.dimensions.droppables[_id2];
+    !_target2 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot find Droppable[id: " + _id2 + "] to toggle its isCombineEnabled state") : undefined : void 0;
+    !(_target2.isCombineEnabled !== isCombineEnabled) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Trying to set droppable isCombineEnabled to " + String(isCombineEnabled) + "\n      but it is already " + String(_target2.isCombineEnabled)) : undefined : void 0;
+
+    var _updated = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _target2, {
+      isCombineEnabled: isCombineEnabled
+    });
+
+    return postDroppableChange(state, _updated, true);
+  }
+
+  if (action.type === 'MOVE_BY_WINDOW_SCROLL') {
+    if (state.phase === 'DROP_PENDING' || state.phase === 'DROP_ANIMATING') {
+      return state;
+    }
+
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot move by window in phase " + state.phase) : undefined : void 0;
+    !state.isWindowScrollAllowed ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Window scrolling is currently not supported for fixed lists. Aborting drag') : undefined : void 0;
+    var newScroll = action.payload.newScroll;
+
+    if (isEqual(state.viewport.scroll.current, newScroll)) {
+      return state;
+    }
+
+    var _viewport = scrollViewport(state.viewport, newScroll);
+
+    if (isSnapping(state)) {
+      return refreshSnap({
+        state: state,
+        viewport: _viewport
+      });
+    }
+
+    return update({
+      state: state,
+      viewport: _viewport
+    });
+  }
+
+  if (action.type === 'UPDATE_VIEWPORT_MAX_SCROLL') {
+    !isMovementAllowed(state) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot update viewport scroll in phase " + state.phase) : undefined : void 0;
+    var maxScroll = action.payload.maxScroll;
+
+    var withMaxScroll = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.viewport, {
+      scroll: Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.viewport.scroll, {
+        max: maxScroll
+      })
+    });
+
+    return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      phase: 'DRAGGING'
+    }, state, {
+      viewport: withMaxScroll
+    });
+  }
+
+  if (action.type === 'MOVE_UP' || action.type === 'MOVE_DOWN' || action.type === 'MOVE_LEFT' || action.type === 'MOVE_RIGHT') {
+    if (state.phase === 'COLLECTING' || state.phase === 'DROP_PENDING') {
+      return state;
+    }
+
+    !(state.phase === 'DRAGGING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, action.type + " received while not in DRAGGING phase") : undefined : void 0;
+
+    var _result2 = moveInDirection({
+      state: state,
+      type: action.type
+    });
+
+    if (!_result2) {
+      return state;
+    }
+
+    return update({
+      state: state,
+      impact: _result2.impact,
+      clientSelection: _result2.clientSelection,
+      scrollJumpRequest: _result2.scrollJumpRequest
+    });
+  }
+
+  if (action.type === 'DROP_PENDING') {
+    var _extends3;
+
+    var reason = action.payload.reason;
+    !(state.phase === 'COLLECTING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Can only move into the DROP_PENDING phase from the COLLECTING phase') : undefined : void 0;
+
+    var newState = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      phase: 'DROP_PENDING'
+    }, state, (_extends3 = {}, _extends3["phase"] = 'DROP_PENDING', _extends3.isWaiting = true, _extends3.reason = reason, _extends3));
+
+    return newState;
+  }
+
+  if (action.type === 'DROP_ANIMATE') {
+    var pending = action.payload;
+    !(state.phase === 'DRAGGING' || state.phase === 'DROP_PENDING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot animate drop from phase " + state.phase) : undefined : void 0;
+    var _result3 = {
+      phase: 'DROP_ANIMATING',
+      pending: pending,
+      dimensions: state.dimensions
+    };
+    return _result3;
+  }
+
+  if (action.type === 'DROP_COMPLETE') {
+    return idle;
+  }
+
+  return state;
+});
+
+var lift = function lift(args) {
+  return {
+    type: 'LIFT',
+    payload: args
+  };
+};
+var initialPublish = function initialPublish(args) {
+  return {
+    type: 'INITIAL_PUBLISH',
+    payload: args
+  };
+};
+var publishWhileDragging$1 = function publishWhileDragging(args) {
+  return {
+    type: 'PUBLISH_WHILE_DRAGGING',
+    payload: args
+  };
+};
+var collectionStarting = function collectionStarting() {
+  return {
+    type: 'COLLECTION_STARTING',
+    payload: null
+  };
+};
+var updateDroppableScroll = function updateDroppableScroll(args) {
+  return {
+    type: 'UPDATE_DROPPABLE_SCROLL',
+    payload: args
+  };
+};
+var updateDroppableIsEnabled = function updateDroppableIsEnabled(args) {
+  return {
+    type: 'UPDATE_DROPPABLE_IS_ENABLED',
+    payload: args
+  };
+};
+var updateDroppableIsCombineEnabled = function updateDroppableIsCombineEnabled(args) {
+  return {
+    type: 'UPDATE_DROPPABLE_IS_COMBINE_ENABLED',
+    payload: args
+  };
+};
+var move = function move(args) {
+  return {
+    type: 'MOVE',
+    payload: args
+  };
+};
+var moveByWindowScroll = function moveByWindowScroll(args) {
+  return {
+    type: 'MOVE_BY_WINDOW_SCROLL',
+    payload: args
+  };
+};
+var updateViewportMaxScroll = function updateViewportMaxScroll(args) {
+  return {
+    type: 'UPDATE_VIEWPORT_MAX_SCROLL',
+    payload: args
+  };
+};
+var moveUp = function moveUp() {
+  return {
+    type: 'MOVE_UP',
+    payload: null
+  };
+};
+var moveDown = function moveDown() {
+  return {
+    type: 'MOVE_DOWN',
+    payload: null
+  };
+};
+var moveRight = function moveRight() {
+  return {
+    type: 'MOVE_RIGHT',
+    payload: null
+  };
+};
+var moveLeft = function moveLeft() {
+  return {
+    type: 'MOVE_LEFT',
+    payload: null
+  };
+};
+var clean = function clean() {
+  return {
+    type: 'CLEAN',
+    payload: null
+  };
+};
+var animateDrop = function animateDrop(pending) {
+  return {
+    type: 'DROP_ANIMATE',
+    payload: pending
+  };
+};
+var completeDrop = function completeDrop(result) {
+  return {
+    type: 'DROP_COMPLETE',
+    payload: result
+  };
+};
+var drop = function drop(args) {
+  return {
+    type: 'DROP',
+    payload: args
+  };
+};
+var dropPending = function dropPending(args) {
+  return {
+    type: 'DROP_PENDING',
+    payload: args
+  };
+};
+var dropAnimationFinished = function dropAnimationFinished() {
+  return {
+    type: 'DROP_ANIMATION_FINISHED',
+    payload: null
+  };
+};
+
+var lift$1 = (function (getMarshal) {
+  return function (_ref) {
+    var getState = _ref.getState,
+        dispatch = _ref.dispatch;
+    return function (next) {
+      return function (action) {
+        if (action.type !== 'LIFT') {
+          next(action);
+          return;
+        }
+
+        var marshal = getMarshal();
+        var _action$payload = action.payload,
+            id = _action$payload.id,
+            clientSelection = _action$payload.clientSelection,
+            movementMode = _action$payload.movementMode;
+        var initial = getState();
+
+        if (initial.phase === 'DROP_ANIMATING') {
+          dispatch(completeDrop(initial.pending.result));
+        }
+
+        !(getState().phase === 'IDLE') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Incorrect phase to start a drag') : undefined : void 0;
+        var scrollOptions = {
+          shouldPublishImmediately: movementMode === 'SNAP'
+        };
+        var request = {
+          draggableId: id,
+          scrollOptions: scrollOptions
+        };
+
+        var _marshal$startPublish = marshal.startPublishing(request),
+            critical = _marshal$startPublish.critical,
+            dimensions = _marshal$startPublish.dimensions,
+            viewport = _marshal$startPublish.viewport;
+
+        dispatch(initialPublish({
+          critical: critical,
+          dimensions: dimensions,
+          clientSelection: clientSelection,
+          movementMode: movementMode,
+          viewport: viewport
+        }));
+      };
+    };
+  };
+});
+
+var style = (function (marshal) {
+  return function () {
+    return function (next) {
+      return function (action) {
+        if (action.type === 'INITIAL_PUBLISH') {
+          marshal.dragging();
+        }
+
+        if (action.type === 'DROP_ANIMATE') {
+          marshal.dropping(action.payload.result.reason);
+        }
+
+        if (action.type === 'CLEAN' || action.type === 'DROP_COMPLETE') {
+          marshal.resting();
+        }
+
+        next(action);
+      };
+    };
+  };
+});
+
+var minDropTime = 0.33;
+var maxDropTime = 0.55;
+var dropTimeRange = maxDropTime - minDropTime;
+var maxDropTimeAtDistance = 1500;
+var cancelDropModifier = 0.6;
+var getDropDuration = (function (_ref) {
+  var current = _ref.current,
+      destination = _ref.destination,
+      reason = _ref.reason;
+  var distance$$1 = distance(current, destination);
+
+  if (distance$$1 <= 0) {
+    return minDropTime;
+  }
+
+  if (distance$$1 >= maxDropTimeAtDistance) {
+    return maxDropTime;
+  }
+
+  var percentage = distance$$1 / maxDropTimeAtDistance;
+  var duration = minDropTime + dropTimeRange * percentage;
+  var withDuration = reason === 'CANCEL' ? duration * cancelDropModifier : duration;
+  return Number(withDuration.toFixed(2));
+});
+
+var getNewHomeClientOffset = (function (_ref) {
+  var impact = _ref.impact,
+      draggable = _ref.draggable,
+      dimensions = _ref.dimensions,
+      viewport = _ref.viewport;
+  var draggables = dimensions.draggables,
+      droppables = dimensions.droppables;
+  var droppableId = whatIsDraggedOver(impact);
+  var destination = droppableId ? droppables[droppableId] : null;
+  var home = droppables[draggable.descriptor.droppableId];
+  var newClientCenter = getClientBorderBoxCenter({
+    impact: impact,
+    draggable: draggable,
+    draggables: draggables,
+    droppable: destination || home,
+    viewport: viewport
+  });
+  var offset$$1 = subtract(newClientCenter, draggable.client.borderBox.center);
+  return offset$$1;
+});
+
+var drop$1 = (function (_ref) {
+  var getState = _ref.getState,
+      dispatch = _ref.dispatch;
+  return function (next) {
+    return function (action) {
+      if (action.type !== 'DROP') {
+        next(action);
+        return;
+      }
+
+      var state = getState();
+      var reason = action.payload.reason;
+
+      if (state.phase === 'COLLECTING') {
+        dispatch(dropPending({
+          reason: reason
+        }));
+        return;
+      }
+
+      if (state.phase === 'IDLE') {
+        return;
+      }
+
+      var isWaitingForDrop = state.phase === 'DROP_PENDING' && state.isWaiting;
+      !!isWaitingForDrop ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'A DROP action occurred while DROP_PENDING and still waiting') : undefined : void 0;
+      !(state.phase === 'DRAGGING' || state.phase === 'DROP_PENDING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot drop in phase: " + state.phase) : undefined : void 0;
+      var critical = state.critical;
+      var dimensions = state.dimensions;
+      var impact = reason === 'DROP' ? state.impact : noImpact;
+      var draggable = dimensions.draggables[state.critical.draggable.id];
+      var destination = impact ? impact.destination : null;
+      var combine = impact && impact.merge ? impact.merge.combine : null;
+      var source = {
+        index: critical.draggable.index,
+        droppableId: critical.droppable.id
+      };
+      var result = {
+        draggableId: draggable.descriptor.id,
+        type: draggable.descriptor.type,
+        source: source,
+        mode: state.movementMode,
+        destination: destination,
+        combine: combine,
+        reason: reason
+      };
+      var newHomeClientOffset = getNewHomeClientOffset({
+        impact: impact,
+        draggable: draggable,
+        dimensions: dimensions,
+        viewport: state.viewport
+      });
+      var isAnimationRequired = !isEqual(state.current.client.offset, newHomeClientOffset) || Boolean(result.combine);
+
+      if (!isAnimationRequired) {
+        dispatch(completeDrop(result));
+        return;
+      }
+
+      var dropDuration = getDropDuration({
+        current: state.current.client.offset,
+        destination: newHomeClientOffset,
+        reason: reason
+      });
+      var pending = {
+        newHomeClientOffset: newHomeClientOffset,
+        dropDuration: dropDuration,
+        result: result,
+        impact: impact
+      };
+      dispatch(animateDrop(pending));
+    };
+  };
+});
+
+var position = function position(index) {
+  return index + 1;
+};
+
+var onDragStart = function onDragStart(start) {
+  return "\n  You have lifted an item in position " + position(start.source.index) + ".\n  Use the arrow keys to move, space bar to drop, and escape to cancel.\n";
+};
+
+var withLocation = function withLocation(source, destination) {
+  var isInHomeList = source.droppableId === destination.droppableId;
+  var startPosition = position(source.index);
+  var endPosition = position(destination.index);
+
+  if (isInHomeList) {
+    return "\n      You have moved the item from position " + startPosition + "\n      to position " + endPosition + "\n    ";
+  }
+
+  return "\n    You have moved the item from position " + startPosition + "\n    in list " + source.droppableId + "\n    to list " + destination.droppableId + "\n    in position " + endPosition + "\n  ";
+};
+
+var withCombine = function withCombine(id, source, combine) {
+  var inHomeList = source.droppableId === combine.droppableId;
+
+  if (inHomeList) {
+    return "\n      The item " + id + "\n      has been combined with " + combine.draggableId;
+  }
+
+  return "\n      The item " + id + "\n      in list " + source.droppableId + "\n      has been combined with " + combine.draggableId + "\n      in list " + combine.droppableId + "\n    ";
+};
+
+var onDragUpdate = function onDragUpdate(update) {
+  var location = update.destination;
+
+  if (location) {
+    return withLocation(update.source, location);
+  }
+
+  var combine = update.combine;
+
+  if (combine) {
+    return withCombine(update.draggableId, update.source, combine);
+  }
+
+  return 'You are over an area that cannot be dropped on';
+};
+
+var returnedToStart = function returnedToStart(source) {
+  return "\n  The item has returned to its starting position\n  of " + position(source.index) + "\n";
+};
+
+var onDragEnd = function onDragEnd(result) {
+  if (result.reason === 'CANCEL') {
+    return "\n      Movement cancelled.\n      " + returnedToStart(result.source) + "\n    ";
+  }
+
+  var location = result.destination;
+  var combine = result.combine;
+
+  if (location) {
+    return "\n      You have dropped the item.\n      " + withLocation(result.source, location) + "\n    ";
+  }
+
+  if (combine) {
+    return "\n      You have dropped the item.\n      " + withCombine(result.draggableId, result.source, combine) + "\n    ";
+  }
+
+  return "\n    The item has been dropped while not over a drop area.\n    " + returnedToStart(result.source) + "\n  ";
+};
+
+var preset = {
+  onDragStart: onDragStart,
+  onDragUpdate: onDragUpdate,
+  onDragEnd: onDragEnd
+};
+
+var isProduction = "development" === 'production';
+var spacesAndTabs = /[ \t]{2,}/g;
+
+var clean$1 = function clean(value) {
+  return value.replace(spacesAndTabs, ' ').trim();
+};
+
+var getDevMessage = function getDevMessage(message) {
+  return clean$1("\n  %creact-beautiful-dnd\n\n  %c" + clean$1(message) + "\n\n  %c\uD83D\uDC77\u200D This is a development only message. It will be removed in production builds.\n");
+};
+
+var getFormattedMessage = function getFormattedMessage(message) {
+  return [getDevMessage(message), 'color: #00C584; font-size: 1.2em; font-weight: bold;', 'line-height: 1.5', 'color: #723874;'];
+};
+var isDisabledFlag = '__react-beautiful-dnd-disable-dev-warnings';
+var warning = function warning(message) {
+  var _console;
+
+  if (isProduction) {
+    return;
+  }
+
+  if (typeof window !== 'undefined' && window[isDisabledFlag]) {
+    return;
+  }
+
+  (_console = console).warn.apply(_console, getFormattedMessage(message));
+};
+
+var getExpiringAnnounce = (function (announce) {
+  var wasCalled = false;
+  var isExpired = false;
+  var timeoutId = setTimeout(function () {
+    isExpired = true;
+  });
+
+  var result = function result(message) {
+    if (wasCalled) {
+       true ? warning('Announcement already made. Not making a second announcement') : undefined;
+      return;
+    }
+
+    if (isExpired) {
+       true ? warning("\n        Announcements cannot be made asynchronously.\n        Default message has already been announced.\n      ") : undefined;
+      return;
+    }
+
+    wasCalled = true;
+    announce(message);
+    clearTimeout(timeoutId);
+  };
+
+  result.wasCalled = function () {
+    return wasCalled;
+  };
+
+  return result;
+});
+
+var getAsyncMarshal = (function () {
+  var entries = [];
+
+  var execute = function execute(timerId) {
+    var index = findIndex(entries, function (item) {
+      return item.timerId === timerId;
+    });
+    !(index !== -1) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Could not find timer') : undefined : void 0;
+
+    var _entries$splice = entries.splice(index, 1),
+        entry = _entries$splice[0];
+
+    entry.callback();
+  };
+
+  var add = function add(fn) {
+    var timerId = setTimeout(function () {
+      return execute(timerId);
+    });
+    var entry = {
+      timerId: timerId,
+      callback: fn
+    };
+    entries.push(entry);
+  };
+
+  var flush = function flush() {
+    if (!entries.length) {
+      return;
+    }
+
+    var shallow = entries.concat();
+    entries.length = 0;
+    shallow.forEach(function (entry) {
+      clearTimeout(entry.timerId);
+      entry.callback();
+    });
+  };
+
+  return {
+    add: add,
+    flush: flush
+  };
+});
+
+var areLocationsEqual = function areLocationsEqual(first, second) {
+  if (first == null && second == null) {
+    return true;
+  }
+
+  if (first == null || second == null) {
+    return false;
+  }
+
+  return first.droppableId === second.droppableId && first.index === second.index;
+};
+var isCombineEqual = function isCombineEqual(first, second) {
+  if (first == null && second == null) {
+    return true;
+  }
+
+  if (first == null || second == null) {
+    return false;
+  }
+
+  return first.draggableId === second.draggableId && first.droppableId === second.droppableId;
+};
+var isCriticalEqual = function isCriticalEqual(first, second) {
+  if (first === second) {
+    return true;
+  }
+
+  var isDraggableEqual = first.draggable.id === second.draggable.id && first.draggable.droppableId === second.draggable.droppableId && first.draggable.type === second.draggable.type && first.draggable.index === second.draggable.index;
+  var isDroppableEqual = first.droppable.id === second.droppable.id && first.droppable.type === second.droppable.type;
+  return isDraggableEqual && isDroppableEqual;
+};
+
+var withTimings = function withTimings(key, fn) {
+  start(key);
+  fn();
+  finish(key);
+};
+
+var getDragStart = function getDragStart(critical, mode) {
+  return {
+    draggableId: critical.draggable.id,
+    type: critical.droppable.type,
+    source: {
+      droppableId: critical.droppable.id,
+      index: critical.draggable.index
+    },
+    mode: mode
+  };
+};
+
+var execute = function execute(responder, data, announce, getDefaultMessage) {
+  if (!responder) {
+    announce(getDefaultMessage(data));
+    return;
+  }
+
+  var willExpire = getExpiringAnnounce(announce);
+  var provided = {
+    announce: willExpire
+  };
+  responder(data, provided);
+
+  if (!willExpire.wasCalled()) {
+    announce(getDefaultMessage(data));
+  }
+};
+
+var getPublisher = (function (getResponders, announce) {
+  var asyncMarshal = getAsyncMarshal();
+  var dragging = null;
+
+  var beforeStart = function beforeStart(critical, mode) {
+    !!dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot fire onBeforeDragStart as a drag start has already been published') : undefined : void 0;
+    withTimings('onBeforeDragStart', function () {
+      var fn = getResponders().onBeforeDragStart;
+
+      if (fn) {
+        fn(getDragStart(critical, mode));
+      }
+    });
+  };
+
+  var start$$1 = function start$$1(critical, mode) {
+    !!dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot fire onBeforeDragStart as a drag start has already been published') : undefined : void 0;
+    var data = getDragStart(critical, mode);
+    dragging = {
+      mode: mode,
+      lastCritical: critical,
+      lastLocation: data.source,
+      lastCombine: null
+    };
+    asyncMarshal.add(function () {
+      withTimings('onDragStart', function () {
+        return execute(getResponders().onDragStart, data, announce, preset.onDragStart);
+      });
+    });
+  };
+
+  var update = function update(critical, impact) {
+    var location = impact.destination;
+    var combine = impact.merge ? impact.merge.combine : null;
+    !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot fire onDragMove when onDragStart has not been called') : undefined : void 0;
+    var hasCriticalChanged = !isCriticalEqual(critical, dragging.lastCritical);
+
+    if (hasCriticalChanged) {
+      dragging.lastCritical = critical;
+    }
+
+    var hasLocationChanged = !areLocationsEqual(dragging.lastLocation, location);
+
+    if (hasLocationChanged) {
+      dragging.lastLocation = location;
+    }
+
+    var hasGroupingChanged = !isCombineEqual(dragging.lastCombine, combine);
+
+    if (hasGroupingChanged) {
+      dragging.lastCombine = combine;
+    }
+
+    if (!hasCriticalChanged && !hasLocationChanged && !hasGroupingChanged) {
+      return;
+    }
+
+    var data = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, getDragStart(critical, dragging.mode), {
+      combine: combine,
+      destination: location
+    });
+
+    asyncMarshal.add(function () {
+      withTimings('onDragUpdate', function () {
+        return execute(getResponders().onDragUpdate, data, announce, preset.onDragUpdate);
+      });
+    });
+  };
+
+  var flush = function flush() {
+    !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Can only flush responders while dragging') : undefined : void 0;
+    asyncMarshal.flush();
+  };
+
+  var drop = function drop(result) {
+    !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot fire onDragEnd when there is no matching onDragStart') : undefined : void 0;
+    dragging = null;
+    withTimings('onDragEnd', function () {
+      return execute(getResponders().onDragEnd, result, announce, preset.onDragEnd);
+    });
+  };
+
+  var abort = function abort() {
+    if (!dragging) {
+      return;
+    }
+
+    var result = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, getDragStart(dragging.lastCritical, dragging.mode), {
+      combine: null,
+      destination: null,
+      reason: 'CANCEL'
+    });
+
+    drop(result);
+  };
+
+  return {
+    beforeStart: beforeStart,
+    start: start$$1,
+    update: update,
+    flush: flush,
+    drop: drop,
+    abort: abort
+  };
+});
+
+var responders = (function (getResponders, announce) {
+  var publisher = getPublisher(getResponders, announce);
+  return function (store) {
+    return function (next) {
+      return function (action) {
+        if (action.type === 'INITIAL_PUBLISH') {
+          var critical = action.payload.critical;
+          publisher.beforeStart(critical, action.payload.movementMode);
+          next(action);
+          publisher.start(critical, action.payload.movementMode);
+          return;
+        }
+
+        if (action.type === 'DROP_COMPLETE') {
+          var result = action.payload;
+          publisher.flush();
+          next(action);
+          publisher.drop(result);
+          return;
+        }
+
+        next(action);
+
+        if (action.type === 'CLEAN') {
+          publisher.abort();
+          return;
+        }
+
+        var state = store.getState();
+
+        if (state.phase === 'DRAGGING') {
+          publisher.update(state.critical, state.impact);
+        }
+      };
+    };
+  };
+});
+
+var dropAnimationFinish = (function (store) {
+  return function (next) {
+    return function (action) {
+      if (action.type !== 'DROP_ANIMATION_FINISHED') {
+        next(action);
+        return;
+      }
+
+      var state = store.getState();
+      !(state.phase === 'DROP_ANIMATING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot finish a drop animating when no drop is occurring') : undefined : void 0;
+      store.dispatch(completeDrop(state.pending.result));
+    };
+  };
+});
+
+var dimensionMarshalStopper = (function (getMarshal) {
+  return function () {
+    return function (next) {
+      return function (action) {
+        if (action.type === 'DROP_COMPLETE' || action.type === 'CLEAN' || action.type === 'DROP_ANIMATE') {
+          var marshal = getMarshal();
+          marshal.stopPublishing();
+        }
+
+        next(action);
+      };
+    };
+  };
+});
+
+var shouldEnd = function shouldEnd(action) {
+  return action.type === 'DROP_COMPLETE' || action.type === 'DROP_ANIMATE' || action.type === 'CLEAN';
+};
+
+var shouldCancelPending = function shouldCancelPending(action) {
+  return action.type === 'COLLECTION_STARTING';
+};
+
+var autoScroll = (function (getScroller) {
+  return function (store) {
+    return function (next) {
+      return function (action) {
+        if (shouldEnd(action)) {
+          getScroller().stop();
+          next(action);
+          return;
+        }
+
+        if (shouldCancelPending(action)) {
+          getScroller().cancelPending();
+          next(action);
+          return;
+        }
+
+        if (action.type === 'INITIAL_PUBLISH') {
+          next(action);
+          var state = store.getState();
+          !(state.phase === 'DRAGGING') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Expected phase to be DRAGGING after INITIAL_PUBLISH') : undefined : void 0;
+          getScroller().start(state);
+          return;
+        }
+
+        next(action);
+        getScroller().scroll(store.getState());
+      };
+    };
+  };
+});
+
+var pendingDrop = (function (store) {
+  return function (next) {
+    return function (action) {
+      next(action);
+
+      if (action.type !== 'PUBLISH_WHILE_DRAGGING') {
+        return;
+      }
+
+      var postActionState = store.getState();
+
+      if (postActionState.phase !== 'DROP_PENDING') {
+        return;
+      }
+
+      if (postActionState.isWaiting) {
+        return;
+      }
+
+      store.dispatch(drop({
+        reason: postActionState.reason
+      }));
+    };
+  };
+});
+
+var getDocumentElement = (function () {
+  var doc = document.documentElement;
+  !doc ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find document.documentElement') : undefined : void 0;
+  return doc;
+});
+
+var getMaxWindowScroll = (function () {
+  var doc = getDocumentElement();
+  var maxScroll = getMaxScroll({
+    scrollHeight: doc.scrollHeight,
+    scrollWidth: doc.scrollWidth,
+    width: doc.clientWidth,
+    height: doc.clientHeight
+  });
+  return maxScroll;
+});
+
+var shouldCheckOnAction = function shouldCheckOnAction(action) {
+  return action.type === 'MOVE' || action.type === 'MOVE_UP' || action.type === 'MOVE_RIGHT' || action.type === 'MOVE_DOWN' || action.type === 'MOVE_LEFT' || action.type === 'MOVE_BY_WINDOW_SCROLL';
+};
+
+var wasDestinationChange = function wasDestinationChange(previous, current, action) {
+  if (!shouldCheckOnAction(action)) {
+    return false;
+  }
+
+  if (!isMovementAllowed(previous) || !isMovementAllowed(current)) {
+    return false;
+  }
+
+  if (whatIsDraggedOver(previous.impact) === whatIsDraggedOver(current.impact)) {
+    return false;
+  }
+
+  return true;
+};
+
+var getUpdatedViewportMax = function getUpdatedViewportMax(viewport) {
+  var maxScroll = getMaxWindowScroll();
+
+  if (isEqual(viewport.scroll.max, maxScroll)) {
+    return null;
+  }
+
+  return maxScroll;
+};
+
+var updateViewportMaxScrollOnDestinationChange = (function (store) {
+  return function (next) {
+    return function (action) {
+      var previous = store.getState();
+      next(action);
+      var current = store.getState();
+
+      if (!current.isDragging) {
+        return;
+      }
+
+      if (!wasDestinationChange(previous, current, action)) {
+        return;
+      }
+
+      var maxScroll = getUpdatedViewportMax(current.viewport);
+
+      if (maxScroll) {
+        next(updateViewportMaxScroll({
+          maxScroll: maxScroll
+        }));
+      }
+    };
+  };
+});
+
+var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : redux__WEBPACK_IMPORTED_MODULE_3__["compose"];
+var createStore$1 = (function (_ref) {
+  var getDimensionMarshal = _ref.getDimensionMarshal,
+      styleMarshal = _ref.styleMarshal,
+      getResponders = _ref.getResponders,
+      announce = _ref.announce,
+      getScroller = _ref.getScroller;
+  return Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(reducer, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(style(styleMarshal), dimensionMarshalStopper(getDimensionMarshal), lift$1(getDimensionMarshal), drop$1, dropAnimationFinish, pendingDrop, updateViewportMaxScrollOnDestinationChange, autoScroll(getScroller), responders(getResponders, announce))));
+});
+
+var clean$2 = function clean() {
+  return {
+    additions: {},
+    removals: {},
+    modified: {}
+  };
+};
+
+var timingKey = 'Publish collection from DOM';
+var createPublisher = (function (_ref) {
+  var getEntries = _ref.getEntries,
+      callbacks = _ref.callbacks;
+
+  var advancedUsageWarning = function () {
+    if (false) {}
+
+    var hasAnnounced = false;
+    return function () {
+      if (hasAnnounced) {
+        return;
+      }
+
+      hasAnnounced = true;
+       true ? warning("\n        Advanced usage warning: you are adding or removing a dimension during a drag\n        This an advanced feature.\n\n        More information: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/changes-while-dragging.md\n      ") : undefined;
+    };
+  }();
+
+  var staging = clean$2();
+  var frameId = null;
+
+  var collect = function collect() {
+    advancedUsageWarning();
+
+    if (frameId) {
+      return;
+    }
+
+    frameId = requestAnimationFrame(function () {
+      frameId = null;
+      callbacks.collectionStarting();
+      start(timingKey);
+      var entries = getEntries();
+      var _staging = staging,
+          additions = _staging.additions,
+          removals = _staging.removals,
+          modified = _staging.modified;
+
+      var added = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9___default()(additions).map(function (id) {
+        return entries.draggables[id].getDimension(origin);
+      }).sort(function (a, b) {
+        return a.descriptor.index - b.descriptor.index;
+      });
+
+      var updated = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9___default()(modified).map(function (id) {
+        var entry = entries.droppables[id];
+        !entry ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find dynamically added droppable in cache') : undefined : void 0;
+        return entry.callbacks.recollect();
+      });
+
+      var result = {
+        additions: added,
+        removals: _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_9___default()(removals),
+        modified: updated
+      };
+      staging = clean$2();
+      finish(timingKey);
+      callbacks.publish(result);
+    });
+  };
+
+  var add$$1 = function add$$1(descriptor) {
+    staging.additions[descriptor.id] = descriptor;
+    staging.modified[descriptor.droppableId] = true;
+
+    if (staging.removals[descriptor.id]) {
+      delete staging.removals[descriptor.id];
+    }
+
+    collect();
+  };
+
+  var remove = function remove(descriptor) {
+    staging.removals[descriptor.id] = descriptor;
+    staging.modified[descriptor.droppableId] = true;
+
+    if (staging.additions[descriptor.id]) {
+      delete staging.additions[descriptor.id];
+    }
+
+    collect();
+  };
+
+  var stop = function stop() {
+    if (!frameId) {
+      return;
+    }
+
+    cancelAnimationFrame(frameId);
+    frameId = null;
+    staging = clean$2();
+  };
+
+  return {
+    add: add$$1,
+    remove: remove,
+    stop: stop
+  };
+});
+
+var getWindowScroll = (function () {
+  return {
+    x: window.pageXOffset,
+    y: window.pageYOffset
+  };
+});
+
+var getViewport = (function () {
+  var scroll = getWindowScroll();
+  var maxScroll = getMaxWindowScroll();
+  var top = scroll.y;
+  var left = scroll.x;
+  var doc = getDocumentElement();
+  var width = doc.clientWidth;
+  var height = doc.clientHeight;
+  var right = left + width;
+  var bottom = top + height;
+  var frame = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getRect"])({
+    top: top,
+    left: left,
+    right: right,
+    bottom: bottom
+  });
+  var viewport = {
+    frame: frame,
+    scroll: {
+      initial: scroll,
+      current: scroll,
+      max: maxScroll,
+      diff: {
+        value: origin,
+        displacement: origin
+      }
+    }
+  };
+  return viewport;
+});
+
+var getInitialPublish = (function (_ref) {
+  var critical = _ref.critical,
+      scrollOptions = _ref.scrollOptions,
+      entries = _ref.entries;
+  var timingKey = 'Initial collection from DOM';
+  start(timingKey);
+  var viewport = getViewport();
+  var windowScroll = viewport.scroll.current;
+  var home = critical.droppable;
+  var droppables = values(entries.droppables).filter(function (entry) {
+    return entry.descriptor.type === home.type;
+  }).map(function (entry) {
+    return entry.callbacks.getDimensionAndWatchScroll(windowScroll, scrollOptions);
+  });
+  var draggables = values(entries.draggables).filter(function (entry) {
+    return entry.descriptor.type === critical.draggable.type;
+  }).map(function (entry) {
+    return entry.getDimension(windowScroll);
+  });
+  var dimensions = {
+    draggables: toDraggableMap(draggables),
+    droppables: toDroppableMap(droppables)
+  };
+  finish(timingKey);
+  var result = {
+    dimensions: dimensions,
+    critical: critical,
+    viewport: viewport
+  };
+  return result;
+});
+
+var throwIfAddOrRemoveOfWrongType = function throwIfAddOrRemoveOfWrongType(collection, descriptor) {
+  !(collection.critical.draggable.type === descriptor.type) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "We have detected that you have added a Draggable during a drag.\n      This is not of the same type as the dragging item\n\n      Dragging type: " + collection.critical.draggable.type + ".\n      Added type: " + descriptor.type + "\n\n      We are not allowing this as you can run into problems if your change\n      has shifted the positioning of other Droppables, or has changed the size of the page") : undefined : void 0;
+};
+
+var createDimensionMarshal = (function (callbacks) {
+  var entries = {
+    droppables: {},
+    draggables: {}
+  };
+  var collection = null;
+  var publisher = createPublisher({
+    callbacks: {
+      publish: callbacks.publishWhileDragging,
+      collectionStarting: callbacks.collectionStarting
+    },
+    getEntries: function getEntries() {
+      return entries;
+    }
+  });
+
+  var registerDraggable = function registerDraggable(descriptor, getDimension) {
+    var entry = {
+      descriptor: descriptor,
+      getDimension: getDimension
+    };
+    entries.draggables[descriptor.id] = entry;
+
+    if (!collection) {
+      return;
+    }
+
+    throwIfAddOrRemoveOfWrongType(collection, descriptor);
+    publisher.add(descriptor);
+  };
+
+  var updateDraggable = function updateDraggable(previous, descriptor, getDimension) {
+    !entries.draggables[previous.id] ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot update draggable registration as no previous registration was found') : undefined : void 0;
+    delete entries.draggables[previous.id];
+    var entry = {
+      descriptor: descriptor,
+      getDimension: getDimension
+    };
+    entries.draggables[descriptor.id] = entry;
+  };
+
+  var unregisterDraggable = function unregisterDraggable(descriptor) {
+    var entry = entries.draggables[descriptor.id];
+    !entry ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot unregister Draggable with id:\n      " + descriptor.id + " as it is not registered") : undefined : void 0;
+
+    if (entry.descriptor !== descriptor) {
+      return;
+    }
+
+    delete entries.draggables[descriptor.id];
+
+    if (!collection) {
+      return;
+    }
+
+    !(collection.critical.draggable.id !== descriptor.id) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot remove the dragging item during a drag') : undefined : void 0;
+    throwIfAddOrRemoveOfWrongType(collection, descriptor);
+    publisher.remove(descriptor);
+  };
+
+  var registerDroppable = function registerDroppable(descriptor, droppableCallbacks) {
+    var id = descriptor.id;
+    entries.droppables[id] = {
+      descriptor: descriptor,
+      callbacks: droppableCallbacks
+    };
+    !!collection ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot add a Droppable during a drag') : undefined : void 0;
+  };
+
+  var updateDroppable = function updateDroppable(previous, descriptor, droppableCallbacks) {
+    !entries.droppables[previous.id] ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot update droppable registration as no previous registration was found') : undefined : void 0;
+    delete entries.droppables[previous.id];
+    var entry = {
+      descriptor: descriptor,
+      callbacks: droppableCallbacks
+    };
+    entries.droppables[descriptor.id] = entry;
+    !!collection ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'You are not able to update the id or type of a droppable during a drag') : undefined : void 0;
+  };
+
+  var unregisterDroppable = function unregisterDroppable(descriptor) {
+    var entry = entries.droppables[descriptor.id];
+    !entry ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot unregister Droppable with id " + descriptor.id + " as as it is not registered") : undefined : void 0;
+
+    if (entry.descriptor !== descriptor) {
+      return;
+    }
+
+    delete entries.droppables[descriptor.id];
+    !!collection ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot add a Droppable during a drag') : undefined : void 0;
+  };
+
+  var updateDroppableIsEnabled = function updateDroppableIsEnabled(id, isEnabled) {
+    !entries.droppables[id] ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot update is enabled flag of Droppable " + id + " as it is not registered") : undefined : void 0;
+
+    if (!collection) {
+      return;
+    }
+
+    callbacks.updateDroppableIsEnabled({
+      id: id,
+      isEnabled: isEnabled
+    });
+  };
+
+  var updateDroppableIsCombineEnabled = function updateDroppableIsCombineEnabled(id, isCombineEnabled) {
+    !entries.droppables[id] ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot update isCombineEnabled flag of Droppable " + id + " as it is not registered") : undefined : void 0;
+
+    if (!collection) {
+      return;
+    }
+
+    callbacks.updateDroppableIsCombineEnabled({
+      id: id,
+      isCombineEnabled: isCombineEnabled
+    });
+  };
+
+  var updateDroppableScroll = function updateDroppableScroll(id, newScroll) {
+    !entries.droppables[id] ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot update the scroll on Droppable " + id + " as it is not registered") : undefined : void 0;
+
+    if (!collection) {
+      return;
+    }
+
+    callbacks.updateDroppableScroll({
+      id: id,
+      offset: newScroll
+    });
+  };
+
+  var scrollDroppable = function scrollDroppable(id, change) {
+    var entry = entries.droppables[id];
+    !entry ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Cannot scroll Droppable " + id + " as it is not registered") : undefined : void 0;
+
+    if (!collection) {
+      return;
+    }
+
+    entry.callbacks.scroll(change);
+  };
+
+  var stopPublishing = function stopPublishing() {
+    if (!collection) {
+      return;
+    }
+
+    publisher.stop();
+    var home = collection.critical.droppable;
+    values(entries.droppables).filter(function (entry) {
+      return entry.descriptor.type === home.type;
+    }).forEach(function (entry) {
+      return entry.callbacks.dragStopped();
+    });
+    collection = null;
+  };
+
+  var startPublishing = function startPublishing(request) {
+    !!collection ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot start capturing critical dimensions as there is already a collection') : undefined : void 0;
+    var entry = entries.draggables[request.draggableId];
+    !entry ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find critical draggable entry') : undefined : void 0;
+    var home = entries.droppables[entry.descriptor.droppableId];
+    !home ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find critical droppable entry') : undefined : void 0;
+    var critical = {
+      draggable: entry.descriptor,
+      droppable: home.descriptor
+    };
+    collection = {
+      critical: critical
+    };
+    return getInitialPublish({
+      critical: critical,
+      entries: entries,
+      scrollOptions: request.scrollOptions
+    });
+  };
+
+  var marshal = {
+    registerDraggable: registerDraggable,
+    updateDraggable: updateDraggable,
+    unregisterDraggable: unregisterDraggable,
+    registerDroppable: registerDroppable,
+    updateDroppable: updateDroppable,
+    unregisterDroppable: unregisterDroppable,
+    updateDroppableIsEnabled: updateDroppableIsEnabled,
+    updateDroppableIsCombineEnabled: updateDroppableIsCombineEnabled,
+    scrollDroppable: scrollDroppable,
+    updateDroppableScroll: updateDroppableScroll,
+    startPublishing: startPublishing,
+    stopPublishing: stopPublishing
+  };
+  return marshal;
+});
+
+var curves = {
+  outOfTheWay: 'cubic-bezier(0.2, 0, 0, 1)',
+  drop: 'cubic-bezier(.2,1,.1,1)'
+};
+var combine = {
+  opacity: {
+    drop: 0,
+    combining: 0.7
+  },
+  scale: {
+    drop: 0.75
+  }
+};
+var outOfTheWayTime = 0.2;
+var outOfTheWayTiming = outOfTheWayTime + "s " + curves.outOfTheWay;
+var transitions = {
+  fluid: "opacity " + outOfTheWayTiming,
+  snap: "transform " + outOfTheWayTiming + ", opacity " + outOfTheWayTiming,
+  drop: function drop(duration) {
+    var timing = duration + "s " + curves.drop;
+    return "transform " + timing + ", opacity " + timing;
+  },
+  outOfTheWay: "transform " + outOfTheWayTiming
+};
+
+var moveTo = function moveTo(offset$$1) {
+  return isEqual(offset$$1, origin) ? null : "translate(" + offset$$1.x + "px, " + offset$$1.y + "px)";
+};
+
+var transforms = {
+  moveTo: moveTo,
+  drop: function drop(offset$$1, isCombining) {
+    var translate = moveTo(offset$$1);
+
+    if (!translate) {
+      return null;
+    }
+
+    if (!isCombining) {
+      return translate;
+    }
+
+    return translate + " scale(" + combine.scale.drop + ")";
+  }
+};
+
+var prefix = 'data-react-beautiful-dnd';
+var dragHandle = prefix + "-drag-handle";
+var draggable = prefix + "-draggable";
+var droppable = prefix + "-droppable";
+
+var makeGetSelector = function makeGetSelector(context) {
+  return function (attribute) {
+    return "[" + attribute + "=\"" + context + "\"]";
+  };
+};
+
+var getStyles = function getStyles(rules, property) {
+  return rules.map(function (rule) {
+    var value = rule.styles[property];
+
+    if (!value) {
+      return '';
+    }
+
+    return rule.selector + " { " + value + " }";
+  }).join(' ');
+};
+
+var noPointerEvents = 'pointer-events: none;';
+var getStyles$1 = (function (styleContext) {
+  var getSelector = makeGetSelector(styleContext);
+
+  var dragHandle$$1 = function () {
+    var grabCursor = "\n      cursor: -webkit-grab;\n      cursor: grab;\n    ";
+    return {
+      selector: getSelector(dragHandle),
+      styles: {
+        always: "\n          -webkit-touch-callout: none;\n          -webkit-tap-highlight-color: rgba(0,0,0,0);\n          touch-action: manipulation;\n        ",
+        resting: grabCursor,
+        dragging: noPointerEvents,
+        dropAnimating: grabCursor
+      }
+    };
+  }();
+
+  var draggable$$1 = function () {
+    var transition = "\n      transition: " + transitions.outOfTheWay + ";\n    ";
+    return {
+      selector: getSelector(draggable),
+      styles: {
+        dragging: transition,
+        dropAnimating: transition,
+        userCancel: transition
+      }
+    };
+  }();
+
+  var droppable$$1 = {
+    selector: getSelector(droppable),
+    styles: {
+      always: "overflow-anchor: none;"
+    }
+  };
+  var body = {
+    selector: 'body',
+    styles: {
+      dragging: "\n        cursor: grabbing;\n        cursor: -webkit-grabbing;\n        user-select: none;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        overflow-anchor: none;\n      "
+    }
+  };
+  var rules = [draggable$$1, dragHandle$$1, droppable$$1, body];
+  return {
+    always: getStyles(rules, 'always'),
+    resting: getStyles(rules, 'resting'),
+    dragging: getStyles(rules, 'dragging'),
+    dropAnimating: getStyles(rules, 'dropAnimating'),
+    userCancel: getStyles(rules, 'userCancel')
+  };
+});
+
+var count = 0;
+var resetStyleContext = function resetStyleContext() {
+  count = 0;
+};
+
+var getHead = function getHead() {
+  var head = document.querySelector('head');
+  !head ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find the head to append a style to') : undefined : void 0;
+  return head;
+};
+
+var createStyleEl = function createStyleEl() {
+  var el = document.createElement('style');
+  el.type = 'text/css';
+  return el;
+};
+
+var createStyleMarshal = (function () {
+  var context = "" + count++;
+  var styles = getStyles$1(context);
+  var always = null;
+  var dynamic = null;
+  var setStyle = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (el, proposed) {
+    !el ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot set style of style tag if not mounted') : undefined : void 0;
+    el.innerHTML = proposed;
+  });
+
+  var mount = function mount() {
+    !(!always && !dynamic) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Style marshal already mounted') : undefined : void 0;
+    always = createStyleEl();
+    dynamic = createStyleEl();
+    always.setAttribute(prefix + "-always", context);
+    dynamic.setAttribute(prefix + "-dynamic", context);
+    getHead().appendChild(always);
+    getHead().appendChild(dynamic);
+    setStyle(always, styles.always);
+    setStyle(dynamic, styles.resting);
+  };
+
+  var dragging = function dragging() {
+    return setStyle(dynamic, styles.dragging);
+  };
+
+  var dropping = function dropping(reason) {
+    if (reason === 'DROP') {
+      setStyle(dynamic, styles.dropAnimating);
+      return;
+    }
+
+    setStyle(dynamic, styles.userCancel);
+  };
+
+  var resting = function resting() {
+    return setStyle(dynamic, styles.resting);
+  };
+
+  var unmount = function unmount() {
+    !(always && dynamic) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot unmount style marshal as it is already unmounted') : undefined : void 0;
+    getHead().removeChild(always);
+    getHead().removeChild(dynamic);
+    always = null;
+    dynamic = null;
+  };
+
+  var marshal = {
+    dragging: dragging,
+    dropping: dropping,
+    resting: resting,
+    styleContext: context,
+    mount: mount,
+    unmount: unmount
+  };
+  return marshal;
+});
+
+var canStartDrag = (function (state, id) {
+  if (state.phase === 'IDLE') {
+    return true;
+  }
+
+  if (state.phase !== 'DROP_ANIMATING') {
+    return false;
+  }
+
+  if (state.pending.result.draggableId === id) {
+    return false;
+  }
+
+  return state.pending.result.reason === 'DROP';
+});
+
+var scrollWindow = (function (change) {
+  window.scrollBy(change.x, change.y);
+});
+
+var getBodyElement = (function () {
+  var body = document.body;
+  !body ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot find document.body') : undefined : void 0;
+  return body;
+});
+
+var count$1 = 0;
+var visuallyHidden = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  margin: '-1px',
+  border: '0',
+  padding: '0',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  'clip-path': 'inset(100%)'
+};
+var createAnnouncer = (function () {
+  var id = "react-beautiful-dnd-announcement-" + count$1++;
+  var el = null;
+
+  var announce = function announce(message) {
+    if (el) {
+      el.textContent = message;
+      return;
+    }
+
+     true ? warning("\n      A screen reader message was trying to be announced but it was unable to do so.\n      This can occur if you unmount your <DragDropContext /> in your onDragEnd.\n      Consider calling provided.announce() before the unmount so that the instruction will\n      not be lost for users relying on a screen reader.\n\n      Message not passed to screen reader:\n\n      \"" + message + "\"\n    ") : undefined;
+  };
+
+  var mount = function mount() {
+    !!el ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Announcer already mounted') : undefined : void 0;
+    el = document.createElement('div');
+    el.id = id;
+    el.setAttribute('aria-live', 'assertive');
+    el.setAttribute('role', 'log');
+    el.setAttribute('aria-atomic', 'true');
+
+    _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_10___default()(el.style, visuallyHidden);
+
+    getBodyElement().appendChild(el);
+  };
+
+  var unmount = function unmount() {
+    !el ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Will not unmount announcer as it is already unmounted') : undefined : void 0;
+    getBodyElement().removeChild(el);
+    el = null;
+  };
+
+  var announcer = {
+    announce: announce,
+    id: id,
+    mount: mount,
+    unmount: unmount
+  };
+  return announcer;
+});
+
+var getScrollableDroppables = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (droppables) {
+  return toDroppableList(droppables).filter(function (droppable) {
+    if (!droppable.isEnabled) {
+      return false;
+    }
+
+    if (!droppable.frame) {
+      return false;
+    }
+
+    return true;
+  });
+});
+
+var getScrollableDroppableOver = function getScrollableDroppableOver(target, droppables) {
+  var maybe = find(getScrollableDroppables(droppables), function (droppable) {
+    !droppable.frame ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Invalid result') : undefined : void 0;
+    return isPositionInFrame(droppable.frame.pageMarginBox)(target);
+  });
+  return maybe;
+};
+
+var getBestScrollableDroppable = (function (_ref) {
+  var center = _ref.center,
+      destination = _ref.destination,
+      droppables = _ref.droppables;
+
+  if (destination) {
+    var _dimension = droppables[destination];
+
+    if (!_dimension.frame) {
+      return null;
+    }
+
+    return _dimension;
+  }
+
+  var dimension = getScrollableDroppableOver(center, droppables);
+  return dimension;
+});
+
+var config = {
+  startFromPercentage: 0.25,
+  maxScrollAtPercentage: 0.05,
+  maxPixelScroll: 28,
+  ease: function ease(percentage) {
+    return Math.pow(percentage, 2);
+  },
+  durationDampening: {
+    stopDampeningAt: 1200,
+    accelerateAt: 360
+  }
+};
+
+var getDistanceThresholds = (function (container, axis) {
+  var startScrollingFrom = container[axis.size] * config.startFromPercentage;
+  var maxScrollValueAt = container[axis.size] * config.maxScrollAtPercentage;
+  var thresholds = {
+    startScrollingFrom: startScrollingFrom,
+    maxScrollValueAt: maxScrollValueAt
+  };
+  return thresholds;
+});
+
+var getPercentage = (function (_ref) {
+  var startOfRange = _ref.startOfRange,
+      endOfRange = _ref.endOfRange,
+      current = _ref.current;
+  var range = endOfRange - startOfRange;
+
+  if (range === 0) {
+     true ? warning("\n      Detected distance range of 0 in the fluid auto scroller\n      This is unexpected and would cause a divide by 0 issue.\n      Not allowing an auto scroll\n    ") : undefined;
+    return 0;
+  }
+
+  var currentInRange = current - startOfRange;
+  var percentage = currentInRange / range;
+  return percentage;
+});
+
+var minScroll = 1;
+
+var getValueFromDistance = (function (distanceToEdge, thresholds) {
+  if (distanceToEdge > thresholds.startScrollingFrom) {
+    return 0;
+  }
+
+  if (distanceToEdge <= thresholds.maxScrollValueAt) {
+    return config.maxPixelScroll;
+  }
+
+  if (distanceToEdge === thresholds.startScrollingFrom) {
+    return minScroll;
+  }
+
+  var percentageFromMaxScrollValueAt = getPercentage({
+    startOfRange: thresholds.maxScrollValueAt,
+    endOfRange: thresholds.startScrollingFrom,
+    current: distanceToEdge
+  });
+  var percentageFromStartScrollingFrom = 1 - percentageFromMaxScrollValueAt;
+  var scroll = config.maxPixelScroll * config.ease(percentageFromStartScrollingFrom);
+  return Math.ceil(scroll);
+});
+
+var accelerateAt = config.durationDampening.accelerateAt;
+var stopAt = config.durationDampening.stopDampeningAt;
+var dampenValueByTime = (function (proposedScroll, dragStartTime) {
+  var startOfRange = dragStartTime;
+  var endOfRange = stopAt;
+
+  var now = _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_11___default()();
+
+  var runTime = now - startOfRange;
+
+  if (runTime >= stopAt) {
+    return proposedScroll;
+  }
+
+  if (runTime < accelerateAt) {
+    return minScroll;
+  }
+
+  var betweenAccelerateAtAndStopAtPercentage = getPercentage({
+    startOfRange: accelerateAt,
+    endOfRange: endOfRange,
+    current: runTime
+  });
+  var scroll = proposedScroll * config.ease(betweenAccelerateAtAndStopAtPercentage);
+  return Math.ceil(scroll);
+});
+
+var getValue = (function (_ref) {
+  var distanceToEdge = _ref.distanceToEdge,
+      thresholds = _ref.thresholds,
+      dragStartTime = _ref.dragStartTime,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening;
+  var scroll = getValueFromDistance(distanceToEdge, thresholds);
+
+  if (scroll === 0) {
+    return 0;
+  }
+
+  if (!shouldUseTimeDampening) {
+    return scroll;
+  }
+
+  return Math.max(dampenValueByTime(scroll, dragStartTime), minScroll);
+});
+
+var getScrollOnAxis = (function (_ref) {
+  var container = _ref.container,
+      distanceToEdges = _ref.distanceToEdges,
+      dragStartTime = _ref.dragStartTime,
+      axis = _ref.axis,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening;
+  var thresholds = getDistanceThresholds(container, axis);
+  var isCloserToEnd = distanceToEdges[axis.end] < distanceToEdges[axis.start];
+
+  if (isCloserToEnd) {
+    return getValue({
+      distanceToEdge: distanceToEdges[axis.end],
+      thresholds: thresholds,
+      dragStartTime: dragStartTime,
+      shouldUseTimeDampening: shouldUseTimeDampening
+    });
+  }
+
+  return -1 * getValue({
+    distanceToEdge: distanceToEdges[axis.start],
+    thresholds: thresholds,
+    dragStartTime: dragStartTime,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+});
+
+var adjustForSizeLimits = (function (_ref) {
+  var container = _ref.container,
+      subject = _ref.subject,
+      proposedScroll = _ref.proposedScroll;
+  var isTooBigVertically = subject.height > container.height;
+  var isTooBigHorizontally = subject.width > container.width;
+
+  if (!isTooBigHorizontally && !isTooBigVertically) {
+    return proposedScroll;
+  }
+
+  if (isTooBigHorizontally && isTooBigVertically) {
+    return null;
+  }
+
+  return {
+    x: isTooBigHorizontally ? 0 : proposedScroll.x,
+    y: isTooBigVertically ? 0 : proposedScroll.y
+  };
+});
+
+var clean$3 = apply(function (value) {
+  return value === 0 ? 0 : value;
+});
+var getScroll = (function (_ref) {
+  var dragStartTime = _ref.dragStartTime,
+      container = _ref.container,
+      subject = _ref.subject,
+      center = _ref.center,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening;
+  var distanceToEdges = {
+    top: center.y - container.top,
+    right: container.right - center.x,
+    bottom: container.bottom - center.y,
+    left: center.x - container.left
+  };
+  var y = getScrollOnAxis({
+    container: container,
+    distanceToEdges: distanceToEdges,
+    dragStartTime: dragStartTime,
+    axis: vertical,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+  var x = getScrollOnAxis({
+    container: container,
+    distanceToEdges: distanceToEdges,
+    dragStartTime: dragStartTime,
+    axis: horizontal,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+  var required = clean$3({
+    x: x,
+    y: y
+  });
+
+  if (isEqual(required, origin)) {
+    return null;
+  }
+
+  var limited = adjustForSizeLimits({
+    container: container,
+    subject: subject,
+    proposedScroll: required
+  });
+
+  if (!limited) {
+    return null;
+  }
+
+  return isEqual(limited, origin) ? null : limited;
+});
+
+var smallestSigned = apply(function (value) {
+  if (value === 0) {
+    return 0;
+  }
+
+  return value > 0 ? 1 : -1;
+});
+var getOverlap = function () {
+  var getRemainder = function getRemainder(target, max) {
+    if (target < 0) {
+      return target;
+    }
+
+    if (target > max) {
+      return target - max;
+    }
+
+    return 0;
+  };
+
+  return function (_ref) {
+    var current = _ref.current,
+        max = _ref.max,
+        change = _ref.change;
+    var targetScroll = add(current, change);
+    var overlap = {
+      x: getRemainder(targetScroll.x, max.x),
+      y: getRemainder(targetScroll.y, max.y)
+    };
+
+    if (isEqual(overlap, origin)) {
+      return null;
+    }
+
+    return overlap;
+  };
+}();
+var canPartiallyScroll = function canPartiallyScroll(_ref2) {
+  var rawMax = _ref2.max,
+      current = _ref2.current,
+      change = _ref2.change;
+  var max = {
+    x: Math.max(current.x, rawMax.x),
+    y: Math.max(current.y, rawMax.y)
+  };
+  var smallestChange = smallestSigned(change);
+  var overlap = getOverlap({
+    max: max,
+    current: current,
+    change: smallestChange
+  });
+
+  if (!overlap) {
+    return true;
+  }
+
+  if (smallestChange.x !== 0 && overlap.x === 0) {
+    return true;
+  }
+
+  if (smallestChange.y !== 0 && overlap.y === 0) {
+    return true;
+  }
+
+  return false;
+};
+var canScrollWindow = function canScrollWindow(viewport, change) {
+  return canPartiallyScroll({
+    current: viewport.scroll.current,
+    max: viewport.scroll.max,
+    change: change
+  });
+};
+var getWindowOverlap = function getWindowOverlap(viewport, change) {
+  if (!canScrollWindow(viewport, change)) {
+    return null;
+  }
+
+  var max = viewport.scroll.max;
+  var current = viewport.scroll.current;
+  return getOverlap({
+    current: current,
+    max: max,
+    change: change
+  });
+};
+var canScrollDroppable = function canScrollDroppable(droppable, change) {
+  var frame = droppable.frame;
+
+  if (!frame) {
+    return false;
+  }
+
+  return canPartiallyScroll({
+    current: frame.scroll.current,
+    max: frame.scroll.max,
+    change: change
+  });
+};
+var getDroppableOverlap = function getDroppableOverlap(droppable, change) {
+  var frame = droppable.frame;
+
+  if (!frame) {
+    return null;
+  }
+
+  if (!canScrollDroppable(droppable, change)) {
+    return null;
+  }
+
+  return getOverlap({
+    current: frame.scroll.current,
+    max: frame.scroll.max,
+    change: change
+  });
+};
+
+var getWindowScrollChange = (function (_ref) {
+  var viewport = _ref.viewport,
+      subject = _ref.subject,
+      center = _ref.center,
+      dragStartTime = _ref.dragStartTime,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening;
+  var scroll = getScroll({
+    dragStartTime: dragStartTime,
+    container: viewport.frame,
+    subject: subject,
+    center: center,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+  return scroll && canScrollWindow(viewport, scroll) ? scroll : null;
+});
+
+var getDroppableScrollChange = (function (_ref) {
+  var droppable = _ref.droppable,
+      subject = _ref.subject,
+      center = _ref.center,
+      dragStartTime = _ref.dragStartTime,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening;
+  var frame = droppable.frame;
+
+  if (!frame) {
+    return null;
+  }
+
+  var scroll = getScroll({
+    dragStartTime: dragStartTime,
+    container: frame.pageMarginBox,
+    subject: subject,
+    center: center,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+  return scroll && canScrollDroppable(droppable, scroll) ? scroll : null;
+});
+
+var scroll$1 = (function (_ref) {
+  var state = _ref.state,
+      dragStartTime = _ref.dragStartTime,
+      shouldUseTimeDampening = _ref.shouldUseTimeDampening,
+      scrollWindow = _ref.scrollWindow,
+      scrollDroppable = _ref.scrollDroppable;
+  var center = state.current.page.borderBoxCenter;
+  var draggable = state.dimensions.draggables[state.critical.draggable.id];
+  var subject = draggable.page.marginBox;
+
+  if (state.isWindowScrollAllowed) {
+    var viewport = state.viewport;
+
+    var _change = getWindowScrollChange({
+      dragStartTime: dragStartTime,
+      viewport: viewport,
+      subject: subject,
+      center: center,
+      shouldUseTimeDampening: shouldUseTimeDampening
+    });
+
+    if (_change) {
+      scrollWindow(_change);
+      return;
+    }
+  }
+
+  var droppable = getBestScrollableDroppable({
+    center: center,
+    destination: whatIsDraggedOver(state.impact),
+    droppables: state.dimensions.droppables
+  });
+
+  if (!droppable) {
+    return;
+  }
+
+  var change = getDroppableScrollChange({
+    dragStartTime: dragStartTime,
+    droppable: droppable,
+    subject: subject,
+    center: center,
+    shouldUseTimeDampening: shouldUseTimeDampening
+  });
+
+  if (change) {
+    scrollDroppable(droppable.descriptor.id, change);
+  }
+});
+
+var createFluidScroller = (function (_ref) {
+  var scrollWindow = _ref.scrollWindow,
+      scrollDroppable = _ref.scrollDroppable;
+  var scheduleWindowScroll = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(scrollWindow);
+  var scheduleDroppableScroll = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(scrollDroppable);
+  var dragging = null;
+
+  var tryScroll = function tryScroll(state) {
+    !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot fluid scroll if not dragging') : undefined : void 0;
+    var _dragging = dragging,
+        shouldUseTimeDampening = _dragging.shouldUseTimeDampening,
+        dragStartTime = _dragging.dragStartTime;
+    scroll$1({
+      state: state,
+      scrollWindow: scheduleWindowScroll,
+      scrollDroppable: scheduleDroppableScroll,
+      dragStartTime: dragStartTime,
+      shouldUseTimeDampening: shouldUseTimeDampening
+    });
+  };
+
+  var cancelPending = function cancelPending() {
+    !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot cancel pending fluid scroll when not started') : undefined : void 0;
+    scheduleWindowScroll.cancel();
+    scheduleDroppableScroll.cancel();
+  };
+
+  var start$$1 = function start$$1(state) {
+    start('starting fluid scroller');
+    !!dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot start auto scrolling when already started') : undefined : void 0;
+
+    var dragStartTime = _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_11___default()();
+
+    var wasScrollNeeded = false;
+
+    var fakeScrollCallback = function fakeScrollCallback() {
+      wasScrollNeeded = true;
+    };
+
+    scroll$1({
+      state: state,
+      dragStartTime: 0,
+      shouldUseTimeDampening: false,
+      scrollWindow: fakeScrollCallback,
+      scrollDroppable: fakeScrollCallback
+    });
+    dragging = {
+      dragStartTime: dragStartTime,
+      shouldUseTimeDampening: wasScrollNeeded
+    };
+    finish('starting fluid scroller');
+
+    if (wasScrollNeeded) {
+      tryScroll(state);
+    }
+  };
+
+  var stop = function stop() {
+    if (!dragging) {
+      return;
+    }
+
+    cancelPending();
+    dragging = null;
+  };
+
+  return {
+    start: start$$1,
+    stop: stop,
+    cancelPending: cancelPending,
+    scroll: tryScroll
+  };
+});
+
+var createJumpScroller = (function (_ref) {
+  var move = _ref.move,
+      scrollDroppable = _ref.scrollDroppable,
+      scrollWindow = _ref.scrollWindow;
+
+  var moveByOffset = function moveByOffset(state, offset$$1) {
+    var client = add(state.current.client.selection, offset$$1);
+    move({
+      client: client
+    });
+  };
+
+  var scrollDroppableAsMuchAsItCan = function scrollDroppableAsMuchAsItCan(droppable, change) {
+    if (!canScrollDroppable(droppable, change)) {
+      return change;
+    }
+
+    var overlap = getDroppableOverlap(droppable, change);
+
+    if (!overlap) {
+      scrollDroppable(droppable.descriptor.id, change);
+      return null;
+    }
+
+    var whatTheDroppableCanScroll = subtract(change, overlap);
+    scrollDroppable(droppable.descriptor.id, whatTheDroppableCanScroll);
+    var remainder = subtract(change, whatTheDroppableCanScroll);
+    return remainder;
+  };
+
+  var scrollWindowAsMuchAsItCan = function scrollWindowAsMuchAsItCan(isWindowScrollAllowed, viewport, change) {
+    if (!isWindowScrollAllowed) {
+      return change;
+    }
+
+    if (!canScrollWindow(viewport, change)) {
+      return change;
+    }
+
+    var overlap = getWindowOverlap(viewport, change);
+
+    if (!overlap) {
+      scrollWindow(change);
+      return null;
+    }
+
+    var whatTheWindowCanScroll = subtract(change, overlap);
+    scrollWindow(whatTheWindowCanScroll);
+    var remainder = subtract(change, whatTheWindowCanScroll);
+    return remainder;
+  };
+
+  var jumpScroller = function jumpScroller(state) {
+    var request = state.scrollJumpRequest;
+
+    if (!request) {
+      return;
+    }
+
+    var destination = whatIsDraggedOver(state.impact);
+    !destination ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot perform a jump scroll when there is no destination') : undefined : void 0;
+    var droppableRemainder = scrollDroppableAsMuchAsItCan(state.dimensions.droppables[destination], request);
+
+    if (!droppableRemainder) {
+      return;
+    }
+
+    var viewport = state.viewport;
+    var windowRemainder = scrollWindowAsMuchAsItCan(state.isWindowScrollAllowed, viewport, droppableRemainder);
+
+    if (!windowRemainder) {
+      return;
+    }
+
+    moveByOffset(state, windowRemainder);
+  };
+
+  return jumpScroller;
+});
+
+var createAutoScroller = (function (_ref) {
+  var scrollDroppable = _ref.scrollDroppable,
+      scrollWindow = _ref.scrollWindow,
+      move = _ref.move;
+  var fluidScroller = createFluidScroller({
+    scrollWindow: scrollWindow,
+    scrollDroppable: scrollDroppable
+  });
+  var jumpScroll = createJumpScroller({
+    move: move,
+    scrollWindow: scrollWindow,
+    scrollDroppable: scrollDroppable
+  });
+
+  var scroll = function scroll(state) {
+    if (state.phase !== 'DRAGGING') {
+      return;
+    }
+
+    if (state.movementMode === 'FLUID') {
+      fluidScroller.scroll(state);
+      return;
+    }
+
+    if (!state.scrollJumpRequest) {
+      return;
+    }
+
+    jumpScroll(state);
+  };
+
+  var scroller = {
+    scroll: scroll,
+    cancelPending: fluidScroller.cancelPending,
+    start: fluidScroller.start,
+    stop: fluidScroller.stop
+  };
+  return scroller;
+});
+
+var prefix$1 = function prefix(key) {
+  return "private-react-beautiful-dnd-key-do-not-use-" + key;
+};
+
+var storeKey = prefix$1('store');
+var droppableIdKey = prefix$1('droppable-id');
+var droppableTypeKey = prefix$1('droppable-type');
+var dimensionMarshalKey = prefix$1('dimension-marshal');
+var styleContextKey = prefix$1('style-context');
+var canLiftContextKey = prefix$1('can-lift');
+
+var peerDependencies = {
+	react: "^16.3.1"
+};
+
+var semver = /(\d+)\.(\d+)\.(\d+)/;
+
+var getVersion = function getVersion(value) {
+  var result = semver.exec(value);
+  !(result != null) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "Unable to parse React version " + value) : undefined : void 0;
+  var major = Number(result[1]);
+  var minor = Number(result[2]);
+  var patch = Number(result[3]);
+  return {
+    major: major,
+    minor: minor,
+    patch: patch,
+    raw: value
+  };
+};
+
+var isSatisfied = function isSatisfied(expected, actual) {
+  if (actual.major > expected.major) {
+    return true;
+  }
+
+  if (actual.major < expected.major) {
+    return false;
+  }
+
+  if (actual.minor > expected.minor) {
+    return true;
+  }
+
+  if (actual.minor < expected.minor) {
+    return false;
+  }
+
+  return actual.patch >= expected.patch;
+};
+
+var checkReactVersion = (function (peerDepValue, actualValue) {
+  var peerDep = getVersion(peerDepValue);
+  var actual = getVersion(actualValue);
+
+  if (isSatisfied(peerDep, actual)) {
+    return;
+  }
+
+   true ? warning("\n    React version: [" + actual.raw + "]\n    does not satisfy expected peer dependency version: [" + peerDep.raw + "]\n\n    This can result in run time bugs, and even fatal crashes\n  ") : undefined;
+});
+
+var suffix = "\n  We expect a html5 doctype: <!doctype html>\n  This is to ensure consistent browser layout and measurement\n\n  More information: https://github.com/atlassian/react-beautiful-dnd#use-the-html5-doctype\n";
+var checkDoctype = (function (doc) {
+  var doctype = doc.doctype;
+
+  if (!doctype) {
+     true ? warning("\n      No <!doctype html> found.\n\n      " + suffix + "\n    ") : undefined;
+    return;
+  }
+
+  if (doctype.name.toLowerCase() !== 'html') {
+     true ? warning("\n      Unexpected <!doctype> found: (" + doctype.name + ")\n\n      " + suffix + "\n    ") : undefined;
+  }
+
+  if (doctype.publicId !== '') {
+     true ? warning("\n      Unexpected <!doctype> publicId found: (" + doctype.publicId + ")\n      A html5 doctype does not have a publicId\n\n      " + suffix + "\n    ") : undefined;
+  }
+});
+
+var _DragDropContext$chil;
+var resetServerContext = function resetServerContext() {
+  resetStyleContext();
+};
+
+var printFatalDevError = function printFatalDevError(error) {
+  var _console;
+
+  if (false) {}
+
+  (_console = console).error.apply(_console, getFormattedMessage("\n      An error has occurred while a drag is occurring.\n      Any existing drag will be cancelled.\n\n      > " + error.message + "\n      "));
+
+  console.error('raw', error);
+};
+
+var DragDropContext = function (_React$Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(DragDropContext, _React$Component);
+
+  function DragDropContext(props, context) {
+    var _this;
+
+    _this = _React$Component.call(this, props, context) || this;
+    _this.store = void 0;
+    _this.dimensionMarshal = void 0;
+    _this.styleMarshal = void 0;
+    _this.autoScroller = void 0;
+    _this.announcer = void 0;
+    _this.unsubscribe = void 0;
+
+    _this.canLift = function (id) {
+      return canStartDrag(_this.store.getState(), id);
+    };
+
+    _this.onFatalError = function (error) {
+      printFatalDevError(error);
+
+      var state = _this.store.getState();
+
+      if (state.phase !== 'IDLE') {
+        _this.store.dispatch(clean());
+      }
+    };
+
+    _this.onWindowError = function (error) {
+      return _this.onFatalError(error);
+    };
+
+    if (true) {
+      !(typeof props.onDragEnd === 'function') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'A DragDropContext requires an onDragEnd function to perform reordering logic') : undefined : void 0;
+    }
+
+    _this.announcer = createAnnouncer();
+    _this.styleMarshal = createStyleMarshal();
+    _this.store = createStore$1({
+      getDimensionMarshal: function getDimensionMarshal() {
+        return _this.dimensionMarshal;
+      },
+      styleMarshal: _this.styleMarshal,
+      getResponders: function getResponders() {
+        return {
+          onBeforeDragStart: _this.props.onBeforeDragStart,
+          onDragStart: _this.props.onDragStart,
+          onDragEnd: _this.props.onDragEnd,
+          onDragUpdate: _this.props.onDragUpdate
+        };
+      },
+      announce: _this.announcer.announce,
+      getScroller: function getScroller() {
+        return _this.autoScroller;
+      }
+    });
+    var callbacks = Object(redux__WEBPACK_IMPORTED_MODULE_3__["bindActionCreators"])({
+      publishWhileDragging: publishWhileDragging$1,
+      updateDroppableScroll: updateDroppableScroll,
+      updateDroppableIsEnabled: updateDroppableIsEnabled,
+      updateDroppableIsCombineEnabled: updateDroppableIsCombineEnabled,
+      collectionStarting: collectionStarting
+    }, _this.store.dispatch);
+    _this.dimensionMarshal = createDimensionMarshal(callbacks);
+    _this.autoScroller = createAutoScroller(Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      scrollWindow: scrollWindow,
+      scrollDroppable: _this.dimensionMarshal.scrollDroppable
+    }, Object(redux__WEBPACK_IMPORTED_MODULE_3__["bindActionCreators"])({
+      move: move
+    }, _this.store.dispatch)));
+    return _this;
+  }
+
+  var _proto = DragDropContext.prototype;
+
+  _proto.getChildContext = function getChildContext() {
+    var _ref;
+
+    return _ref = {}, _ref[storeKey] = this.store, _ref[dimensionMarshalKey] = this.dimensionMarshal, _ref[styleContextKey] = this.styleMarshal.styleContext, _ref[canLiftContextKey] = this.canLift, _ref;
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    window.addEventListener('error', this.onWindowError);
+    this.styleMarshal.mount();
+    this.announcer.mount();
+
+    if (true) {
+      checkReactVersion(peerDependencies.react, react__WEBPACK_IMPORTED_MODULE_2___default.a.version);
+      checkDoctype(document);
+    }
+  };
+
+  _proto.componentDidCatch = function componentDidCatch(error) {
+    this.onFatalError(error);
+
+    if (error.message.indexOf('Invariant failed') !== -1) {
+      this.setState({});
+      return;
+    }
+
+    throw error;
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    window.removeEventListener('error', this.onWindowError);
+    var state = this.store.getState();
+
+    if (state.phase !== 'IDLE') {
+      this.store.dispatch(clean());
+    }
+
+    this.styleMarshal.unmount();
+    this.announcer.unmount();
+  };
+
+  _proto.render = function render() {
+    return this.props.children;
+  };
+
+  return DragDropContext;
+}(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
+
+DragDropContext.childContextTypes = (_DragDropContext$chil = {}, _DragDropContext$chil[storeKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.shape({
+  dispatch: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func.isRequired,
+  subscribe: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func.isRequired,
+  getState: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func.isRequired
+}).isRequired, _DragDropContext$chil[dimensionMarshalKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired, _DragDropContext$chil[styleContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _DragDropContext$chil[canLiftContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func.isRequired, _DragDropContext$chil);
+
+var isEqual$2 = function isEqual(base) {
+  return function (value) {
+    return base === value;
+  };
+};
+
+var isScroll = isEqual$2('scroll');
+var isAuto = isEqual$2('auto');
+var isVisible$1 = isEqual$2('visible');
+
+var isEither = function isEither(overflow, fn) {
+  return fn(overflow.overflowX) || fn(overflow.overflowY);
+};
+
+var isBoth = function isBoth(overflow, fn) {
+  return fn(overflow.overflowX) && fn(overflow.overflowY);
+};
+
+var isElementScrollable = function isElementScrollable(el) {
+  var style = window.getComputedStyle(el);
+  var overflow = {
+    overflowX: style.overflowX,
+    overflowY: style.overflowY
+  };
+  return isEither(overflow, isScroll) || isEither(overflow, isAuto);
+};
+
+var isBodyScrollable = function isBodyScrollable() {
+  if (false) {}
+
+  var body = getBodyElement();
+  var html = document.documentElement;
+  !html ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false) : undefined : void 0;
+
+  if (!isElementScrollable(body)) {
+    return false;
+  }
+
+  var htmlStyle = window.getComputedStyle(html);
+  var htmlOverflow = {
+    overflowX: htmlStyle.overflowX,
+    overflowY: htmlStyle.overflowY
+  };
+
+  if (isBoth(htmlOverflow, isVisible$1)) {
+    return false;
+  }
+
+   true ? warning("\n    We have detected that your <body> element might be a scroll container.\n    We have found no reliable way of detecting whether the <body> element is a scroll container.\n    Under most circumstances a <body> scroll bar will be on the <html> element (document.documentElement)\n\n    Because we cannot determine if the <body> is a scroll container, and generally it is not one,\n    we will be treating the <body> as *not* a scroll container\n\n    More information: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/how-we-detect-scroll-containers.md\n  ") : undefined;
+  return false;
+};
+
+var getClosestScrollable = function getClosestScrollable(el) {
+  if (el == null) {
+    return null;
+  }
+
+  if (el === document.body) {
+    return isBodyScrollable() ? el : null;
+  }
+
+  if (el === document.documentElement) {
+    return null;
+  }
+
+  if (!isElementScrollable(el)) {
+    return getClosestScrollable(el.parentElement);
+  }
+
+  return el;
+};
+
+var checkForNestedScrollContainers = (function (scrollable) {
+  if (!scrollable) {
+    return;
+  }
+
+  var anotherScrollParent = getClosestScrollable(scrollable.parentElement);
+
+  if (!anotherScrollParent) {
+    return;
+  }
+
+   true ? warning("\n    Droppable: unsupported nested scroll container detected.\n    A Droppable can only have one scroll parent (which can be itself)\n    Nested scroll containers are currently not supported.\n\n    We hope to support nested scroll containers soon: https://github.com/atlassian/react-beautiful-dnd/issues/131\n  ") : undefined;
+});
+
+var getScroll$1 = (function (el) {
+  return {
+    x: el.scrollLeft,
+    y: el.scrollTop
+  };
+});
+
+var getIsFixed = function getIsFixed(el) {
+  if (!el) {
+    return false;
+  }
+
+  var style = window.getComputedStyle(el);
+
+  if (style.position === 'fixed') {
+    return true;
+  }
+
+  return getIsFixed(el.parentElement);
+};
+
+var getEnv = (function (start) {
+  var closestScrollable = getClosestScrollable(start);
+  var isFixedOnPage = getIsFixed(start);
+  return {
+    closestScrollable: closestScrollable,
+    isFixedOnPage: isFixedOnPage
+  };
+});
+
+var getClient = function getClient(targetRef, closestScrollable) {
+  var base = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getBox"])(targetRef);
+
+  if (!closestScrollable) {
+    return base;
+  }
+
+  if (targetRef !== closestScrollable) {
+    return base;
+  }
+
+  var top = base.paddingBox.top - closestScrollable.scrollTop;
+  var left = base.paddingBox.left - closestScrollable.scrollLeft;
+  var bottom = top + closestScrollable.scrollHeight;
+  var right = left + closestScrollable.scrollWidth;
+  var paddingBox = {
+    top: top,
+    right: right,
+    bottom: bottom,
+    left: left
+  };
+  var borderBox = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["expand"])(paddingBox, base.border);
+  var client = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["createBox"])({
+    borderBox: borderBox,
+    margin: base.margin,
+    border: base.border,
+    padding: base.padding
+  });
+  return client;
+};
+
+var getDimension = (function (_ref) {
+  var ref = _ref.ref,
+      descriptor = _ref.descriptor,
+      env = _ref.env,
+      windowScroll = _ref.windowScroll,
+      direction = _ref.direction,
+      isDropDisabled = _ref.isDropDisabled,
+      isCombineEnabled = _ref.isCombineEnabled,
+      shouldClipSubject = _ref.shouldClipSubject;
+  var closestScrollable = env.closestScrollable;
+  var client = getClient(ref, closestScrollable);
+  var page = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(client, windowScroll);
+
+  var closest = function () {
+    if (!closestScrollable) {
+      return null;
+    }
+
+    var frameClient = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getBox"])(closestScrollable);
+    var scrollSize = {
+      scrollHeight: closestScrollable.scrollHeight,
+      scrollWidth: closestScrollable.scrollWidth
+    };
+    return {
+      client: frameClient,
+      page: Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(frameClient, windowScroll),
+      scroll: getScroll$1(closestScrollable),
+      scrollSize: scrollSize,
+      shouldClipSubject: shouldClipSubject
+    };
+  }();
+
+  var dimension = getDroppableDimension({
+    descriptor: descriptor,
+    isEnabled: !isDropDisabled,
+    isCombineEnabled: isCombineEnabled,
+    isFixedOnPage: env.isFixedOnPage,
+    direction: direction,
+    client: client,
+    page: page,
+    closest: closest
+  });
+  return dimension;
+});
+
+var _DroppableDimensionPu;
+
+var getClosestScrollable$1 = function getClosestScrollable(dragging) {
+  return dragging && dragging.env.closestScrollable || null;
+};
+
+var immediate = {
+  passive: false
+};
+var delayed = {
+  passive: true
+};
+
+var getListenerOptions = function getListenerOptions(options) {
+  return options.shouldPublishImmediately ? immediate : delayed;
+};
+
+var withoutPlaceholder = function withoutPlaceholder(placeholder, fn) {
+  if (!placeholder) {
+    return fn();
+  }
+
+  var last = placeholder.style.display;
+  placeholder.style.display = 'none';
+  var result = fn();
+  placeholder.style.display = last;
+  return result;
+};
+
+var DroppableDimensionPublisher = function (_React$Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(DroppableDimensionPublisher, _React$Component);
+
+  function DroppableDimensionPublisher(props, context) {
+    var _this;
+
+    _this = _React$Component.call(this, props, context) || this;
+    _this.dragging = void 0;
+    _this.callbacks = void 0;
+    _this.publishedDescriptor = null;
+
+    _this.getClosestScroll = function () {
+      var dragging = _this.dragging;
+
+      if (!dragging || !dragging.env.closestScrollable) {
+        return origin;
+      }
+
+      return getScroll$1(dragging.env.closestScrollable);
+    };
+
+    _this.memoizedUpdateScroll = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (x, y) {
+      !_this.publishedDescriptor ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot update scroll on unpublished droppable') : undefined : void 0;
+      var newScroll = {
+        x: x,
+        y: y
+      };
+      var marshal = _this.context[dimensionMarshalKey];
+      marshal.updateDroppableScroll(_this.publishedDescriptor.id, newScroll);
+    });
+
+    _this.updateScroll = function () {
+      var scroll = _this.getClosestScroll();
+
+      _this.memoizedUpdateScroll(scroll.x, scroll.y);
+    };
+
+    _this.scheduleScrollUpdate = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(_this.updateScroll);
+
+    _this.onClosestScroll = function () {
+      var dragging = _this.dragging;
+      var closest$$1 = getClosestScrollable$1(_this.dragging);
+      !(dragging && closest$$1) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Could not find scroll options while scrolling') : undefined : void 0;
+      var options = dragging.scrollOptions;
+
+      if (options.shouldPublishImmediately) {
+        _this.updateScroll();
+
+        return;
+      }
+
+      _this.scheduleScrollUpdate();
+    };
+
+    _this.scroll = function (change) {
+      var closest$$1 = getClosestScrollable$1(_this.dragging);
+      !closest$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot scroll a droppable with no closest scrollable') : undefined : void 0;
+      closest$$1.scrollTop += change.y;
+      closest$$1.scrollLeft += change.x;
+    };
+
+    _this.dragStopped = function () {
+      var dragging = _this.dragging;
+      !dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot stop drag when no active drag') : undefined : void 0;
+      var closest$$1 = getClosestScrollable$1(dragging);
+      _this.dragging = null;
+
+      if (!closest$$1) {
+        return;
+      }
+
+      _this.scheduleScrollUpdate.cancel();
+
+      closest$$1.removeEventListener('scroll', _this.onClosestScroll, getListenerOptions(dragging.scrollOptions));
+    };
+
+    _this.getMemoizedDescriptor = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (id, type) {
+      return {
+        id: id,
+        type: type
+      };
+    });
+
+    _this.publish = function () {
+      var marshal = _this.context[dimensionMarshalKey];
+
+      var descriptor = _this.getMemoizedDescriptor(_this.props.droppableId, _this.props.type);
+
+      if (!_this.publishedDescriptor) {
+        marshal.registerDroppable(descriptor, _this.callbacks);
+        _this.publishedDescriptor = descriptor;
+        return;
+      }
+
+      if (_this.publishedDescriptor === descriptor) {
+        return;
+      }
+
+      marshal.updateDroppable(_this.publishedDescriptor, descriptor, _this.callbacks);
+      _this.publishedDescriptor = descriptor;
+    };
+
+    _this.unpublish = function () {
+      !_this.publishedDescriptor ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot unpublish descriptor when none is published') : undefined : void 0;
+      var marshal = _this.context[dimensionMarshalKey];
+      marshal.unregisterDroppable(_this.publishedDescriptor);
+      _this.publishedDescriptor = null;
+    };
+
+    _this.recollect = function () {
+      var dragging = _this.dragging;
+      var closest$$1 = getClosestScrollable$1(dragging);
+      !(dragging && closest$$1) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Can only recollect Droppable client for Droppables that have a scroll container') : undefined : void 0;
+      return withoutPlaceholder(_this.props.getPlaceholderRef(), function () {
+        return getDimension({
+          ref: dragging.ref,
+          descriptor: dragging.descriptor,
+          env: dragging.env,
+          windowScroll: origin,
+          direction: _this.props.direction,
+          isDropDisabled: _this.props.isDropDisabled,
+          isCombineEnabled: _this.props.isCombineEnabled,
+          shouldClipSubject: !_this.props.ignoreContainerClipping
+        });
+      });
+    };
+
+    _this.getDimensionAndWatchScroll = function (windowScroll, options) {
+      !!_this.dragging ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot collect a droppable while a drag is occurring') : undefined : void 0;
+      var descriptor = _this.publishedDescriptor;
+      !descriptor ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot get dimension for unpublished droppable') : undefined : void 0;
+
+      var ref = _this.props.getDroppableRef();
+
+      !ref ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot collect without a droppable ref') : undefined : void 0;
+      var env = getEnv(ref);
+      var dragging = {
+        ref: ref,
+        descriptor: descriptor,
+        env: env,
+        scrollOptions: options
+      };
+      _this.dragging = dragging;
+      var dimension = getDimension({
+        ref: ref,
+        descriptor: descriptor,
+        env: env,
+        windowScroll: windowScroll,
+        direction: _this.props.direction,
+        isDropDisabled: _this.props.isDropDisabled,
+        isCombineEnabled: _this.props.isCombineEnabled,
+        shouldClipSubject: !_this.props.ignoreContainerClipping
+      });
+
+      if (env.closestScrollable) {
+        env.closestScrollable.addEventListener('scroll', _this.onClosestScroll, getListenerOptions(dragging.scrollOptions));
+
+        if (true) {
+          checkForNestedScrollContainers(env.closestScrollable);
+        }
+      }
+
+      return dimension;
+    };
+
+    var callbacks = {
+      getDimensionAndWatchScroll: _this.getDimensionAndWatchScroll,
+      recollect: _this.recollect,
+      dragStopped: _this.dragStopped,
+      scroll: _this.scroll
+    };
+    _this.callbacks = callbacks;
+    return _this;
+  }
+
+  var _proto = DroppableDimensionPublisher.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.publish();
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    this.publish();
+
+    if (!this.dragging) {
+      return;
+    }
+
+    var isDisabledChanged = this.props.isDropDisabled !== prevProps.isDropDisabled;
+    var isCombineChanged = this.props.isCombineEnabled !== prevProps.isCombineEnabled;
+
+    if (!isDisabledChanged && !isCombineChanged) {
+      return;
+    }
+
+    var marshal = this.context[dimensionMarshalKey];
+
+    if (isDisabledChanged) {
+      marshal.updateDroppableIsEnabled(this.props.droppableId, !this.props.isDropDisabled);
+    }
+
+    if (isCombineChanged) {
+      marshal.updateDroppableIsCombineEnabled(this.props.droppableId, this.props.isCombineEnabled);
+    }
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    if (this.dragging) {
+       true ? warning('unmounting droppable while a drag is occurring') : undefined;
+      this.dragStopped();
+    }
+
+    this.unpublish();
+  };
+
+  _proto.render = function render() {
+    return this.props.children;
+  };
+
+  return DroppableDimensionPublisher;
+}(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
+
+DroppableDimensionPublisher.contextTypes = (_DroppableDimensionPu = {}, _DroppableDimensionPu[dimensionMarshalKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired, _DroppableDimensionPu);
+
+var Placeholder = function (_PureComponent) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Placeholder, _PureComponent);
+
+  function Placeholder() {
+    return _PureComponent.apply(this, arguments) || this;
+  }
+
+  var _proto = Placeholder.prototype;
+
+  _proto.render = function render() {
+    var placeholder = this.props.placeholder;
+    var client = placeholder.client,
+        display = placeholder.display,
+        tagName = placeholder.tagName;
+    var style = {
+      display: display,
+      boxSizing: 'border-box',
+      width: client.borderBox.width,
+      height: client.borderBox.height,
+      marginTop: client.margin.top,
+      marginRight: client.margin.right,
+      marginBottom: client.margin.bottom,
+      marginLeft: client.margin.left,
+      flexShrink: '0',
+      flexGrow: '0',
+      pointerEvents: 'none'
+    };
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(tagName, {
+      style: style,
+      ref: this.props.innerRef
+    });
+  };
+
+  return Placeholder;
+}(react__WEBPACK_IMPORTED_MODULE_2__["PureComponent"]);
+
+var getWindowFromEl = (function (el) {
+  return el && el.ownerDocument ? el.ownerDocument.defaultView : window;
+});
+
+function isHtmlElement(el) {
+  return el instanceof getWindowFromEl(el).HTMLElement;
+}
+
+var throwIfRefIsInvalid = (function (ref) {
+  !(ref && isHtmlElement(ref)) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "\n    provided.innerRef has not been provided with a HTMLElement.\n\n    You can find a guide on using the innerRef callback functions at:\n    https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/using-inner-ref.md\n  ") : undefined : void 0;
+});
+
+var checkOwnProps = (function (props) {
+  !props.droppableId ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'A Droppable requires a droppableId prop') : undefined : void 0;
+  !(typeof props.isDropDisabled === 'boolean') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'isDropDisabled must be a boolean') : undefined : void 0;
+  !(typeof props.isCombineEnabled === 'boolean') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'isCombineEnabled must be a boolean') : undefined : void 0;
+  !(typeof props.ignoreContainerClipping === 'boolean') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'ignoreContainerClipping must be a boolean') : undefined : void 0;
+});
+
+var _Droppable$contextTyp, _Droppable$childConte;
+
+var Droppable = function (_Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Droppable, _Component);
+
+  function Droppable(props, context) {
+    var _this;
+
+    _this = _Component.call(this, props, context) || this;
+    _this.styleContext = void 0;
+    _this.ref = null;
+    _this.placeholderRef = null;
+
+    _this.setPlaceholderRef = function (ref) {
+      _this.placeholderRef = ref;
+    };
+
+    _this.getPlaceholderRef = function () {
+      return _this.placeholderRef;
+    };
+
+    _this.setRef = function (ref) {
+      if (ref === null) {
+        return;
+      }
+
+      if (ref === _this.ref) {
+        return;
+      }
+
+      _this.ref = ref;
+      throwIfRefIsInvalid(ref);
+    };
+
+    _this.getDroppableRef = function () {
+      return _this.ref;
+    };
+
+    _this.styleContext = context[styleContextKey];
+
+    if (true) {
+      checkOwnProps(props);
+    }
+
+    return _this;
+  }
+
+  var _proto = Droppable.prototype;
+
+  _proto.getChildContext = function getChildContext() {
+    var _value;
+
+    var value = (_value = {}, _value[droppableIdKey] = this.props.droppableId, _value[droppableTypeKey] = this.props.type, _value);
+    return value;
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    throwIfRefIsInvalid(this.ref);
+    this.warnIfPlaceholderNotMounted();
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate() {
+    this.warnIfPlaceholderNotMounted();
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.ref = null;
+    this.placeholderRef = null;
+  };
+
+  _proto.warnIfPlaceholderNotMounted = function warnIfPlaceholderNotMounted() {
+    if (false) {}
+
+    if (!this.props.placeholder) {
+      return;
+    }
+
+    if (this.placeholderRef) {
+      return;
+    }
+
+     true ? warning("\n      Droppable setup issue: DroppableProvided > placeholder could not be found.\n      Please be sure to add the {provided.placeholder} Node as a child of your Droppable\n\n      More information: https://github.com/atlassian/react-beautiful-dnd#1-provided-droppableprovided\n    ") : undefined;
+  };
+
+  _proto.getPlaceholder = function getPlaceholder() {
+    if (!this.props.placeholder) {
+      return null;
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Placeholder, {
+      placeholder: this.props.placeholder,
+      innerRef: this.setPlaceholderRef
+    });
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        children = _this$props.children,
+        direction = _this$props.direction,
+        type = _this$props.type,
+        droppableId = _this$props.droppableId,
+        isDropDisabled = _this$props.isDropDisabled,
+        isCombineEnabled = _this$props.isCombineEnabled,
+        ignoreContainerClipping = _this$props.ignoreContainerClipping,
+        isDraggingOver = _this$props.isDraggingOver,
+        draggingOverWith = _this$props.draggingOverWith;
+    var provided = {
+      innerRef: this.setRef,
+      placeholder: this.getPlaceholder(),
+      droppableProps: {
+        'data-react-beautiful-dnd-droppable': this.styleContext
+      }
+    };
+    var snapshot = {
+      isDraggingOver: isDraggingOver,
+      draggingOverWith: draggingOverWith
+    };
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(DroppableDimensionPublisher, {
+      droppableId: droppableId,
+      type: type,
+      direction: direction,
+      ignoreContainerClipping: ignoreContainerClipping,
+      isDropDisabled: isDropDisabled,
+      isCombineEnabled: isCombineEnabled,
+      getDroppableRef: this.getDroppableRef,
+      getPlaceholderRef: this.getPlaceholderRef
+    }, children(provided, snapshot));
+  };
+
+  return Droppable;
+}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
+
+Droppable.contextTypes = (_Droppable$contextTyp = {}, _Droppable$contextTyp[styleContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Droppable$contextTyp);
+Droppable.childContextTypes = (_Droppable$childConte = {}, _Droppable$childConte[droppableIdKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Droppable$childConte[droppableTypeKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Droppable$childConte);
+
+var isStrictEqual = (function (a, b) {
+  return a === b;
+});
+
+var defaultMapProps = {
+  isDraggingOver: false,
+  draggingOverWith: null,
+  placeholder: null
+};
+var makeMapStateToProps = function makeMapStateToProps() {
+  var getMapProps = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (isDraggingOver, draggingOverWith, placeholder) {
+    return {
+      isDraggingOver: isDraggingOver,
+      draggingOverWith: draggingOverWith,
+      placeholder: placeholder
+    };
+  });
+
+  var getDraggingOverProps = function getDraggingOverProps(id, draggable, impact) {
+    var isOver = whatIsDraggedOver(impact) === id;
+
+    if (!isOver) {
+      return defaultMapProps;
+    }
+
+    var usePlaceholder = shouldUsePlaceholder(draggable.descriptor, impact);
+    var placeholder = usePlaceholder ? draggable.placeholder : null;
+    return getMapProps(true, draggable.descriptor.id, placeholder);
+  };
+
+  var selector = function selector(state, ownProps) {
+    if (ownProps.isDropDisabled) {
+      return defaultMapProps;
+    }
+
+    var id = ownProps.droppableId;
+
+    if (state.isDragging) {
+      var draggable = state.dimensions.draggables[state.critical.draggable.id];
+      return getDraggingOverProps(id, draggable, state.impact);
+    }
+
+    if (state.phase === 'DROP_ANIMATING') {
+      var _draggable = state.dimensions.draggables[state.pending.result.draggableId];
+      return getDraggingOverProps(id, _draggable, state.pending.impact);
+    }
+
+    return defaultMapProps;
+  };
+
+  return selector;
+};
+var defaultProps = {
+  type: 'DEFAULT',
+  direction: 'vertical',
+  isDropDisabled: false,
+  isCombineEnabled: false,
+  ignoreContainerClipping: false
+};
+var ConnectedDroppable = Object(react_redux__WEBPACK_IMPORTED_MODULE_13__["connect"])(makeMapStateToProps, null, null, {
+  storeKey: storeKey,
+  pure: true,
+  areStatePropsEqual: isStrictEqual
+})(Droppable);
+ConnectedDroppable.defaultProps = defaultProps;
+
+var _DraggableDimensionPu;
+
+var DraggableDimensionPublisher = function (_Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(DraggableDimensionPublisher, _Component);
+
+  function DraggableDimensionPublisher() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    _this.publishedDescriptor = null;
+    _this.getMemoizedDescriptor = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (id, index, droppableId, type) {
+      return {
+        id: id,
+        index: index,
+        droppableId: droppableId,
+        type: type
+      };
+    });
+
+    _this.publish = function () {
+      var marshal = _this.context[dimensionMarshalKey];
+
+      var descriptor = _this.getMemoizedDescriptor(_this.props.draggableId, _this.props.index, _this.props.droppableId, _this.props.type);
+
+      if (!_this.publishedDescriptor) {
+        marshal.registerDraggable(descriptor, _this.getDimension);
+        _this.publishedDescriptor = descriptor;
+        return;
+      }
+
+      if (descriptor === _this.publishedDescriptor) {
+        return;
+      }
+
+      marshal.updateDraggable(_this.publishedDescriptor, descriptor, _this.getDimension);
+      _this.publishedDescriptor = descriptor;
+    };
+
+    _this.unpublish = function () {
+      !_this.publishedDescriptor ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot unpublish descriptor when none is published') : undefined : void 0;
+      var marshal = _this.context[dimensionMarshalKey];
+      marshal.unregisterDraggable(_this.publishedDescriptor);
+      _this.publishedDescriptor = null;
+    };
+
+    _this.getDimension = function (windowScroll) {
+      if (windowScroll === void 0) {
+        windowScroll = origin;
+      }
+
+      var targetRef = _this.props.getDraggableRef();
+
+      var descriptor = _this.publishedDescriptor;
+      !targetRef ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'DraggableDimensionPublisher cannot calculate a dimension when not attached to the DOM') : undefined : void 0;
+      !descriptor ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot get dimension for unpublished draggable') : undefined : void 0;
+      var computedStyles = window.getComputedStyle(targetRef);
+      var borderBox = targetRef.getBoundingClientRect();
+      var client = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["calculateBox"])(borderBox, computedStyles);
+      var page = Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["withScroll"])(client, windowScroll);
+      var placeholder = {
+        client: client,
+        tagName: targetRef.tagName.toLowerCase(),
+        display: computedStyles.display
+      };
+      var displaceBy = {
+        x: client.marginBox.width,
+        y: client.marginBox.height
+      };
+      var dimension = {
+        descriptor: descriptor,
+        placeholder: placeholder,
+        displaceBy: displaceBy,
+        client: client,
+        page: page
+      };
+      return dimension;
+    };
+
+    return _this;
+  }
+
+  var _proto = DraggableDimensionPublisher.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.publish();
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate() {
+    this.publish();
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.unpublish();
+  };
+
+  _proto.render = function render() {
+    return this.props.children;
+  };
+
+  return DraggableDimensionPublisher;
+}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
+
+DraggableDimensionPublisher.contextTypes = (_DraggableDimensionPu = {}, _DraggableDimensionPu[dimensionMarshalKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired, _DraggableDimensionPu);
+
+function isSvgElement(el) {
+  return el instanceof getWindowFromEl(el).SVGElement;
+}
+
+var selector = "[" + dragHandle + "]";
+
+var throwIfSVG = function throwIfSVG(el) {
+  !!isSvgElement(el) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "A drag handle cannot be an SVGElement: it has inconsistent focus support.\n\n    More information: https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/dragging-svgs.md") : undefined : void 0;
+};
+
+var getDragHandleRef = function getDragHandleRef(draggableRef) {
+  if (draggableRef.hasAttribute(dragHandle)) {
+    throwIfSVG(draggableRef);
+    return draggableRef;
+  }
+
+  var el = draggableRef.querySelector(selector);
+  throwIfSVG(draggableRef);
+  !el ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "\n      Cannot find drag handle element inside of Draggable.\n      Please be sure to apply the {...provided.dragHandleProps} to your Draggable\n\n      More information: https://github.com/atlassian/react-beautiful-dnd#draggable\n    ") : undefined : void 0;
+  !isHtmlElement(el) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'A drag handle must be a HTMLElement') : undefined : void 0;
+  return el;
+};
+
+var retainingFocusFor = null;
+var listenerOptions = {
+  capture: true
+};
+
+var clearRetentionOnFocusChange = function () {
+  var isBound = false;
+
+  var bind = function bind() {
+    if (isBound) {
+      return;
+    }
+
+    isBound = true;
+    window.addEventListener('focus', onWindowFocusChange, listenerOptions);
+  };
+
+  var unbind = function unbind() {
+    if (!isBound) {
+      return;
+    }
+
+    isBound = false;
+    window.removeEventListener('focus', onWindowFocusChange, listenerOptions);
+  };
+
+  var onWindowFocusChange = function onWindowFocusChange() {
+    unbind();
+    retainingFocusFor = null;
+  };
+
+  var result = function result() {
+    return bind();
+  };
+
+  result.cancel = function () {
+    return unbind();
+  };
+
+  return result;
+}();
+
+var retain = function retain(id) {
+  retainingFocusFor = id;
+  clearRetentionOnFocusChange();
+};
+
+var tryRestoreFocus = function tryRestoreFocus(id, draggableRef) {
+  if (!retainingFocusFor) {
+    return;
+  }
+
+  if (id !== retainingFocusFor) {
+    return;
+  }
+
+  retainingFocusFor = null;
+  clearRetentionOnFocusChange.cancel();
+  var dragHandleRef = getDragHandleRef(draggableRef);
+
+  if (!dragHandleRef) {
+     true ? warning('Could not find drag handle in the DOM to focus on it') : undefined;
+    return;
+  }
+
+  dragHandleRef.focus();
+};
+
+var retainer = {
+  retain: retain,
+  tryRestoreFocus: tryRestoreFocus
+};
+
+function isElement(el) {
+  return el instanceof getWindowFromEl(el).Element;
+}
+
+var interactiveTagNames = {
+  input: true,
+  button: true,
+  textarea: true,
+  select: true,
+  option: true,
+  optgroup: true,
+  video: true,
+  audio: true
+};
+
+var isAnInteractiveElement = function isAnInteractiveElement(parent, current) {
+  if (current == null) {
+    return false;
+  }
+
+  var hasAnInteractiveTag = Boolean(interactiveTagNames[current.tagName.toLowerCase()]);
+
+  if (hasAnInteractiveTag) {
+    return true;
+  }
+
+  var attribute = current.getAttribute('contenteditable');
+
+  if (attribute === 'true' || attribute === '') {
+    return true;
+  }
+
+  if (current === parent) {
+    return false;
+  }
+
+  return isAnInteractiveElement(parent, current.parentElement);
+};
+
+var shouldAllowDraggingFromTarget = (function (event, props) {
+  if (props.canDragInteractiveElements) {
+    return true;
+  }
+
+  var target = event.target,
+      currentTarget = event.currentTarget;
+
+  if (!isElement(target) || !isElement(currentTarget)) {
+    return true;
+  }
+
+  return !isAnInteractiveElement(currentTarget, target);
+});
+
+var createScheduler = (function (callbacks) {
+  var memoizedMove = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (x, y) {
+    var point = {
+      x: x,
+      y: y
+    };
+    callbacks.onMove(point);
+  });
+  var move = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(function (point) {
+    return memoizedMove(point.x, point.y);
+  });
+  var moveUp = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(callbacks.onMoveUp);
+  var moveDown = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(callbacks.onMoveDown);
+  var moveRight = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(callbacks.onMoveRight);
+  var moveLeft = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(callbacks.onMoveLeft);
+  var windowScrollMove = Object(raf_schd__WEBPACK_IMPORTED_MODULE_12__["default"])(callbacks.onWindowScroll);
+
+  var cancel = function cancel() {
+    move.cancel();
+    moveUp.cancel();
+    moveDown.cancel();
+    moveRight.cancel();
+    moveLeft.cancel();
+    windowScrollMove.cancel();
+  };
+
+  return {
+    move: move,
+    moveUp: moveUp,
+    moveDown: moveDown,
+    moveRight: moveRight,
+    moveLeft: moveLeft,
+    windowScrollMove: windowScrollMove,
+    cancel: cancel
+  };
+});
+
+var sloppyClickThreshold = 5;
+var isSloppyClickThresholdExceeded = (function (original, current) {
+  return Math.abs(current.x - original.x) >= sloppyClickThreshold || Math.abs(current.y - original.y) >= sloppyClickThreshold;
+});
+
+var tab = 9;
+var enter = 13;
+var escape = 27;
+var space = 32;
+var pageUp = 33;
+var pageDown = 34;
+var end = 35;
+var home = 36;
+var arrowLeft = 37;
+var arrowUp = 38;
+var arrowRight = 39;
+var arrowDown = 40;
+
+var _preventedKeys;
+var preventedKeys = (_preventedKeys = {}, _preventedKeys[enter] = true, _preventedKeys[tab] = true, _preventedKeys);
+var preventStandardKeyEvents = (function (event) {
+  if (preventedKeys[event.keyCode]) {
+    event.preventDefault();
+  }
+});
+
+var getOptions = function getOptions(shared, fromBinding) {
+  return Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, shared, {}, fromBinding);
+};
+
+var bindEvents = function bindEvents(el, bindings, sharedOptions) {
+  bindings.forEach(function (binding) {
+    var options = getOptions(sharedOptions, binding.options);
+    el.addEventListener(binding.eventName, binding.fn, options);
+  });
+};
+var unbindEvents = function unbindEvents(el, bindings, sharedOptions) {
+  bindings.forEach(function (binding) {
+    var options = getOptions(sharedOptions, binding.options);
+    el.removeEventListener(binding.eventName, binding.fn, options);
+  });
+};
+
+var sharedOptions = {
+  capture: true
+};
+var createPostDragEventPreventer = (function (getWindow) {
+  var isBound = false;
+
+  var bind = function bind() {
+    if (isBound) {
+      return;
+    }
+
+    isBound = true;
+    bindEvents(getWindow(), pointerEvents, sharedOptions);
+  };
+
+  var unbind = function unbind() {
+    if (!isBound) {
+      return;
+    }
+
+    isBound = false;
+    unbindEvents(getWindow(), pointerEvents, sharedOptions);
+  };
+
+  var pointerEvents = [{
+    eventName: 'click',
+    fn: function fn(event) {
+      event.preventDefault();
+      unbind();
+    }
+  }, {
+    eventName: 'mousedown',
+    fn: unbind
+  }, {
+    eventName: 'touchstart',
+    fn: unbind
+  }];
+
+  var preventNext = function preventNext() {
+    if (isBound) {
+      unbind();
+    }
+
+    bind();
+  };
+
+  var preventer = {
+    preventNext: preventNext,
+    abort: unbind
+  };
+  return preventer;
+});
+
+var createEventMarshal = (function () {
+  var isMouseDownHandled = false;
+
+  var handle = function handle() {
+    !!isMouseDownHandled ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot handle mouse down as it is already handled') : undefined : void 0;
+    isMouseDownHandled = true;
+  };
+
+  var isHandled = function isHandled() {
+    return isMouseDownHandled;
+  };
+
+  var reset = function reset() {
+    isMouseDownHandled = false;
+  };
+
+  return {
+    handle: handle,
+    isHandled: isHandled,
+    reset: reset
+  };
+});
+
+var supportedEventName = function () {
+  var base = 'visibilitychange';
+
+  if (typeof document === 'undefined') {
+    return base;
+  }
+
+  var candidates = [base, "ms" + base, "webkit" + base, "moz" + base, "o" + base];
+  var supported = find(candidates, function (eventName) {
+    return "on" + eventName in document;
+  });
+  return supported || base;
+}();
+
+var primaryButton = 0;
+
+var noop = function noop() {};
+
+var mouseDownMarshal = createEventMarshal();
+var createMouseSensor = (function (_ref) {
+  var callbacks = _ref.callbacks,
+      getWindow = _ref.getWindow,
+      canStartCapturing = _ref.canStartCapturing;
+  var state = {
+    isDragging: false,
+    pending: null
+  };
+
+  var setState = function setState(newState) {
+    state = newState;
+  };
+
+  var isDragging = function isDragging() {
+    return state.isDragging;
+  };
+
+  var isCapturing = function isCapturing() {
+    return Boolean(state.pending || state.isDragging);
+  };
+
+  var schedule = createScheduler(callbacks);
+  var postDragEventPreventer = createPostDragEventPreventer(getWindow);
+
+  var startDragging = function startDragging(fn) {
+    if (fn === void 0) {
+      fn = noop;
+    }
+
+    setState({
+      pending: null,
+      isDragging: true
+    });
+    fn();
+  };
+
+  var stopDragging = function stopDragging(fn, shouldBlockClick) {
+    if (fn === void 0) {
+      fn = noop;
+    }
+
+    if (shouldBlockClick === void 0) {
+      shouldBlockClick = true;
+    }
+
+    schedule.cancel();
+    unbindWindowEvents();
+    mouseDownMarshal.reset();
+
+    if (shouldBlockClick) {
+      postDragEventPreventer.preventNext();
+    }
+
+    setState({
+      isDragging: false,
+      pending: null
+    });
+    fn();
+  };
+
+  var startPendingDrag = function startPendingDrag(point) {
+    setState({
+      pending: point,
+      isDragging: false
+    });
+    bindWindowEvents();
+  };
+
+  var stopPendingDrag = function stopPendingDrag() {
+    stopDragging(noop, false);
+  };
+
+  var kill = function kill(fn) {
+    if (fn === void 0) {
+      fn = noop;
+    }
+
+    if (state.pending) {
+      stopPendingDrag();
+      return;
+    }
+
+    if (state.isDragging) {
+      stopDragging(fn);
+    }
+  };
+
+  var unmount = function unmount() {
+    kill();
+    postDragEventPreventer.abort();
+  };
+
+  var cancel = function cancel() {
+    kill(callbacks.onCancel);
+  };
+
+  var windowBindings = [{
+    eventName: 'mousemove',
+    fn: function fn(event) {
+      var button = event.button,
+          clientX = event.clientX,
+          clientY = event.clientY;
+
+      if (button !== primaryButton) {
+        return;
+      }
+
+      var point = {
+        x: clientX,
+        y: clientY
+      };
+
+      if (state.isDragging) {
+        event.preventDefault();
+        schedule.move(point);
+        return;
+      }
+
+      if (!state.pending) {
+        stopPendingDrag();
+         true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Expected there to be an active or pending drag when window mousemove event is received') : undefined;
+      }
+
+      if (!isSloppyClickThresholdExceeded(state.pending, point)) {
+        return;
+      }
+
+      event.preventDefault();
+      startDragging(function () {
+        return callbacks.onLift({
+          clientSelection: point,
+          movementMode: 'FLUID'
+        });
+      });
+    }
+  }, {
+    eventName: 'mouseup',
+    fn: function fn(event) {
+      if (state.pending) {
+        stopPendingDrag();
+        return;
+      }
+
+      event.preventDefault();
+      stopDragging(callbacks.onDrop);
+    }
+  }, {
+    eventName: 'mousedown',
+    fn: function fn(event) {
+      if (state.isDragging) {
+        event.preventDefault();
+      }
+
+      stopDragging(callbacks.onCancel);
+    }
+  }, {
+    eventName: 'keydown',
+    fn: function fn(event) {
+      if (!state.isDragging) {
+        cancel();
+        return;
+      }
+
+      if (event.keyCode === escape) {
+        event.preventDefault();
+        cancel();
+        return;
+      }
+
+      preventStandardKeyEvents(event);
+    }
+  }, {
+    eventName: 'resize',
+    fn: cancel
+  }, {
+    eventName: 'scroll',
+    options: {
+      passive: true,
+      capture: false
+    },
+    fn: function fn() {
+      if (state.pending) {
+        stopPendingDrag();
+        return;
+      }
+
+      schedule.windowScrollMove();
+    }
+  }, {
+    eventName: 'webkitmouseforcechanged',
+    fn: function fn(event) {
+      if (event.webkitForce == null || MouseEvent.WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN == null) {
+         true ? warning('handling a mouse force changed event when it is not supported') : undefined;
+        return;
+      }
+
+      var forcePressThreshold = MouseEvent.WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN;
+      var isForcePressing = event.webkitForce >= forcePressThreshold;
+
+      if (isForcePressing) {
+        cancel();
+      }
+    }
+  }, {
+    eventName: supportedEventName,
+    fn: cancel
+  }];
+
+  var bindWindowEvents = function bindWindowEvents() {
+    var win = getWindow();
+    bindEvents(win, windowBindings, {
+      capture: true
+    });
+  };
+
+  var unbindWindowEvents = function unbindWindowEvents() {
+    var win = getWindow();
+    unbindEvents(win, windowBindings, {
+      capture: true
+    });
+  };
+
+  var onMouseDown = function onMouseDown(event) {
+    if (mouseDownMarshal.isHandled()) {
+      return;
+    }
+
+    !!isCapturing() ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Should not be able to perform a mouse down while a drag or pending drag is occurring') : undefined : void 0;
+
+    if (!canStartCapturing(event)) {
+      return;
+    }
+
+    if (event.button !== primaryButton) {
+      return;
+    }
+
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    mouseDownMarshal.handle();
+    event.preventDefault();
+    var point = {
+      x: event.clientX,
+      y: event.clientY
+    };
+    startPendingDrag(point);
+  };
+
+  var sensor = {
+    onMouseDown: onMouseDown,
+    kill: kill,
+    isCapturing: isCapturing,
+    isDragging: isDragging,
+    unmount: unmount
+  };
+  return sensor;
+});
+
+var getBorderBoxCenterPosition = (function (el) {
+  return Object(css_box_model__WEBPACK_IMPORTED_MODULE_6__["getRect"])(el.getBoundingClientRect()).center;
+});
+
+var _scrollJumpKeys;
+var scrollJumpKeys = (_scrollJumpKeys = {}, _scrollJumpKeys[pageDown] = true, _scrollJumpKeys[pageUp] = true, _scrollJumpKeys[home] = true, _scrollJumpKeys[end] = true, _scrollJumpKeys);
+
+var noop$1 = function noop() {};
+
+var createKeyboardSensor = (function (_ref) {
+  var callbacks = _ref.callbacks,
+      getWindow = _ref.getWindow,
+      getDraggableRef = _ref.getDraggableRef,
+      canStartCapturing = _ref.canStartCapturing;
+  var state = {
+    isDragging: false
+  };
+
+  var setState = function setState(newState) {
+    state = newState;
+  };
+
+  var startDragging = function startDragging(fn) {
+    if (fn === void 0) {
+      fn = noop$1;
+    }
+
+    setState({
+      isDragging: true
+    });
+    bindWindowEvents();
+    fn();
+  };
+
+  var stopDragging = function stopDragging(postDragFn) {
+    if (postDragFn === void 0) {
+      postDragFn = noop$1;
+    }
+
+    schedule.cancel();
+    unbindWindowEvents();
+    setState({
+      isDragging: false
+    });
+    postDragFn();
+  };
+
+  var kill = function kill() {
+    if (state.isDragging) {
+      stopDragging();
+    }
+  };
+
+  var cancel = function cancel() {
+    stopDragging(callbacks.onCancel);
+  };
+
+  var isDragging = function isDragging() {
+    return state.isDragging;
+  };
+
+  var schedule = createScheduler(callbacks);
+
+  var onKeyDown = function onKeyDown(event) {
+    if (!isDragging()) {
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      if (!canStartCapturing(event)) {
+        return;
+      }
+
+      if (event.keyCode !== space) {
+        return;
+      }
+
+      var ref = getDraggableRef();
+      !ref ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot start a keyboard drag without a draggable ref') : undefined : void 0;
+      var center = getBorderBoxCenterPosition(ref);
+      event.preventDefault();
+      startDragging(function () {
+        return callbacks.onLift({
+          clientSelection: center,
+          movementMode: 'SNAP'
+        });
+      });
+      return;
+    }
+
+    if (event.keyCode === escape) {
+      event.preventDefault();
+      cancel();
+      return;
+    }
+
+    if (event.keyCode === space) {
+      event.preventDefault();
+      stopDragging(callbacks.onDrop);
+      return;
+    }
+
+    if (event.keyCode === arrowDown) {
+      event.preventDefault();
+      schedule.moveDown();
+      return;
+    }
+
+    if (event.keyCode === arrowUp) {
+      event.preventDefault();
+      schedule.moveUp();
+      return;
+    }
+
+    if (event.keyCode === arrowRight) {
+      event.preventDefault();
+      schedule.moveRight();
+      return;
+    }
+
+    if (event.keyCode === arrowLeft) {
+      event.preventDefault();
+      schedule.moveLeft();
+      return;
+    }
+
+    if (scrollJumpKeys[event.keyCode]) {
+      event.preventDefault();
+      return;
+    }
+
+    preventStandardKeyEvents(event);
+  };
+
+  var windowBindings = [{
+    eventName: 'mousedown',
+    fn: cancel
+  }, {
+    eventName: 'mouseup',
+    fn: cancel
+  }, {
+    eventName: 'click',
+    fn: cancel
+  }, {
+    eventName: 'touchstart',
+    fn: cancel
+  }, {
+    eventName: 'resize',
+    fn: cancel
+  }, {
+    eventName: 'wheel',
+    fn: cancel,
+    options: {
+      passive: true
+    }
+  }, {
+    eventName: 'scroll',
+    options: {
+      capture: false
+    },
+    fn: callbacks.onWindowScroll
+  }, {
+    eventName: supportedEventName,
+    fn: cancel
+  }];
+
+  var bindWindowEvents = function bindWindowEvents() {
+    bindEvents(getWindow(), windowBindings, {
+      capture: true
+    });
+  };
+
+  var unbindWindowEvents = function unbindWindowEvents() {
+    unbindEvents(getWindow(), windowBindings, {
+      capture: true
+    });
+  };
+
+  var sensor = {
+    onKeyDown: onKeyDown,
+    kill: kill,
+    isDragging: isDragging,
+    isCapturing: isDragging,
+    unmount: kill
+  };
+  return sensor;
+});
+
+var timeForLongPress = 150;
+var forcePressThreshold = 0.15;
+var touchStartMarshal = createEventMarshal();
+
+var noop$2 = function noop() {};
+
+var webkitHack = function () {
+  var stub = {
+    preventTouchMove: noop$2,
+    releaseTouchMove: noop$2
+  };
+
+  if (typeof window === 'undefined') {
+    return stub;
+  }
+
+  if (!('ontouchstart' in window)) {
+    return stub;
+  }
+
+  var isBlocking = false;
+  window.addEventListener('touchmove', function (event) {
+    if (!isBlocking) {
+      return;
+    }
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+  }, {
+    passive: false,
+    capture: false
+  });
+
+  var preventTouchMove = function preventTouchMove() {
+    isBlocking = true;
+  };
+
+  var releaseTouchMove = function releaseTouchMove() {
+    isBlocking = false;
+  };
+
+  return {
+    preventTouchMove: preventTouchMove,
+    releaseTouchMove: releaseTouchMove
+  };
+}();
+
+var initial = {
+  isDragging: false,
+  pending: null,
+  hasMoved: false,
+  longPressTimerId: null
+};
+var createTouchSensor = (function (_ref) {
+  var callbacks = _ref.callbacks,
+      getWindow = _ref.getWindow,
+      canStartCapturing = _ref.canStartCapturing;
+  var state = initial;
+
+  var setState = function setState(partial) {
+    state = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {}, partial);
+  };
+
+  var isDragging = function isDragging() {
+    return state.isDragging;
+  };
+
+  var isCapturing = function isCapturing() {
+    return Boolean(state.pending || state.isDragging || state.longPressTimerId);
+  };
+
+  var schedule = createScheduler(callbacks);
+  var postDragEventPreventer = createPostDragEventPreventer(getWindow);
+
+  var startDragging = function startDragging() {
+    var pending = state.pending;
+
+    if (!pending) {
+      stopPendingDrag();
+       true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'cannot start a touch drag without a pending position') : undefined;
+    }
+
+    setState({
+      isDragging: true,
+      hasMoved: false,
+      pending: null,
+      longPressTimerId: null
+    });
+    callbacks.onLift({
+      clientSelection: pending,
+      movementMode: 'FLUID'
+    });
+  };
+
+  var stopDragging = function stopDragging(fn) {
+    if (fn === void 0) {
+      fn = noop$2;
+    }
+
+    schedule.cancel();
+    touchStartMarshal.reset();
+    webkitHack.releaseTouchMove();
+    unbindWindowEvents();
+    postDragEventPreventer.preventNext();
+    setState(initial);
+    fn();
+  };
+
+  var startPendingDrag = function startPendingDrag(event) {
+    var touch = event.touches[0];
+    var clientX = touch.clientX,
+        clientY = touch.clientY;
+    var point = {
+      x: clientX,
+      y: clientY
+    };
+    var longPressTimerId = setTimeout(startDragging, timeForLongPress);
+    setState({
+      longPressTimerId: longPressTimerId,
+      pending: point,
+      isDragging: false,
+      hasMoved: false
+    });
+    bindWindowEvents();
+  };
+
+  var stopPendingDrag = function stopPendingDrag() {
+    if (state.longPressTimerId) {
+      clearTimeout(state.longPressTimerId);
+    }
+
+    schedule.cancel();
+    touchStartMarshal.reset();
+    webkitHack.releaseTouchMove();
+    unbindWindowEvents();
+    setState(initial);
+  };
+
+  var kill = function kill(fn) {
+    if (fn === void 0) {
+      fn = noop$2;
+    }
+
+    if (state.pending) {
+      stopPendingDrag();
+      return;
+    }
+
+    if (state.isDragging) {
+      stopDragging(fn);
+    }
+  };
+
+  var unmount = function unmount() {
+    kill();
+    postDragEventPreventer.abort();
+  };
+
+  var cancel = function cancel() {
+    kill(callbacks.onCancel);
+  };
+
+  var windowBindings = [{
+    eventName: 'touchmove',
+    options: {
+      passive: false
+    },
+    fn: function fn(event) {
+      if (!state.isDragging) {
+        stopPendingDrag();
+        return;
+      }
+
+      if (!state.hasMoved) {
+        setState({
+          hasMoved: true
+        });
+      }
+
+      var _event$touches$ = event.touches[0],
+          clientX = _event$touches$.clientX,
+          clientY = _event$touches$.clientY;
+      var point = {
+        x: clientX,
+        y: clientY
+      };
+      event.preventDefault();
+      schedule.move(point);
+    }
+  }, {
+    eventName: 'touchend',
+    fn: function fn(event) {
+      if (!state.isDragging) {
+        stopPendingDrag();
+        return;
+      }
+
+      event.preventDefault();
+      stopDragging(callbacks.onDrop);
+    }
+  }, {
+    eventName: 'touchcancel',
+    fn: function fn(event) {
+      if (!state.isDragging) {
+        stopPendingDrag();
+        return;
+      }
+
+      event.preventDefault();
+      stopDragging(callbacks.onCancel);
+    }
+  }, {
+    eventName: 'touchstart',
+    fn: cancel
+  }, {
+    eventName: 'orientationchange',
+    fn: cancel
+  }, {
+    eventName: 'resize',
+    fn: cancel
+  }, {
+    eventName: 'scroll',
+    options: {
+      passive: true,
+      capture: false
+    },
+    fn: function fn() {
+      if (state.pending) {
+        stopPendingDrag();
+        return;
+      }
+
+      schedule.windowScrollMove();
+    }
+  }, {
+    eventName: 'contextmenu',
+    fn: function fn(event) {
+      event.preventDefault();
+    }
+  }, {
+    eventName: 'keydown',
+    fn: function fn(event) {
+      if (!state.isDragging) {
+        cancel();
+        return;
+      }
+
+      if (event.keyCode === escape) {
+        event.preventDefault();
+      }
+
+      cancel();
+    }
+  }, {
+    eventName: 'touchforcechange',
+    fn: function fn(event) {
+      if (state.hasMoved) {
+        event.preventDefault();
+        return;
+      }
+
+      var touch = event.touches[0];
+
+      if (touch.force >= forcePressThreshold) {
+        cancel();
+      }
+    }
+  }, {
+    eventName: supportedEventName,
+    fn: cancel
+  }];
+
+  var bindWindowEvents = function bindWindowEvents() {
+    bindEvents(getWindow(), windowBindings, {
+      capture: true
+    });
+  };
+
+  var unbindWindowEvents = function unbindWindowEvents() {
+    unbindEvents(getWindow(), windowBindings, {
+      capture: true
+    });
+  };
+
+  var onTouchStart = function onTouchStart(event) {
+    if (touchStartMarshal.isHandled()) {
+      return;
+    }
+
+    !!isCapturing() ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Should not be able to perform a touch start while a drag or pending drag is occurring') : undefined : void 0;
+
+    if (!canStartCapturing(event)) {
+      return;
+    }
+
+    touchStartMarshal.handle();
+    webkitHack.preventTouchMove();
+    startPendingDrag(event);
+  };
+
+  var sensor = {
+    onTouchStart: onTouchStart,
+    kill: kill,
+    isCapturing: isCapturing,
+    isDragging: isDragging,
+    unmount: unmount
+  };
+  return sensor;
+});
+
+var _DragHandle$contextTy;
+
+var preventHtml5Dnd = function preventHtml5Dnd(event) {
+  event.preventDefault();
+};
+
+var DragHandle = function (_Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(DragHandle, _Component);
+
+  function DragHandle(props, context) {
+    var _this;
+
+    _this = _Component.call(this, props, context) || this;
+    _this.mouseSensor = void 0;
+    _this.keyboardSensor = void 0;
+    _this.touchSensor = void 0;
+    _this.sensors = void 0;
+    _this.styleContext = void 0;
+    _this.canLift = void 0;
+    _this.isFocused = false;
+    _this.lastDraggableRef = void 0;
+
+    _this.onFocus = function () {
+      _this.isFocused = true;
+    };
+
+    _this.onBlur = function () {
+      _this.isFocused = false;
+    };
+
+    _this.onKeyDown = function (event) {
+      if (_this.mouseSensor.isCapturing() || _this.touchSensor.isCapturing()) {
+        return;
+      }
+
+      _this.keyboardSensor.onKeyDown(event);
+    };
+
+    _this.onMouseDown = function (event) {
+      if (_this.keyboardSensor.isCapturing() || _this.mouseSensor.isCapturing()) {
+        return;
+      }
+
+      _this.mouseSensor.onMouseDown(event);
+    };
+
+    _this.onTouchStart = function (event) {
+      if (_this.mouseSensor.isCapturing() || _this.keyboardSensor.isCapturing()) {
+        return;
+      }
+
+      _this.touchSensor.onTouchStart(event);
+    };
+
+    _this.canStartCapturing = function (event) {
+      if (_this.isAnySensorCapturing()) {
+        return false;
+      }
+
+      if (!_this.canLift(_this.props.draggableId)) {
+        return false;
+      }
+
+      return shouldAllowDraggingFromTarget(event, _this.props);
+    };
+
+    _this.isAnySensorCapturing = function () {
+      return _this.sensors.some(function (sensor) {
+        return sensor.isCapturing();
+      });
+    };
+
+    _this.getProvided = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (isEnabled) {
+      if (!isEnabled) {
+        return null;
+      }
+
+      var provided = {
+        onMouseDown: _this.onMouseDown,
+        onKeyDown: _this.onKeyDown,
+        onTouchStart: _this.onTouchStart,
+        onFocus: _this.onFocus,
+        onBlur: _this.onBlur,
+        tabIndex: 0,
+        'data-react-beautiful-dnd-drag-handle': _this.styleContext,
+        'aria-roledescription': 'Draggable item. Press space bar to lift',
+        draggable: false,
+        onDragStart: preventHtml5Dnd
+      };
+      return provided;
+    });
+
+    var getWindow = function getWindow() {
+      return getWindowFromEl(_this.props.getDraggableRef());
+    };
+
+    var args = {
+      callbacks: _this.props.callbacks,
+      getDraggableRef: _this.props.getDraggableRef,
+      getWindow: getWindow,
+      canStartCapturing: _this.canStartCapturing
+    };
+    _this.mouseSensor = createMouseSensor(args);
+    _this.keyboardSensor = createKeyboardSensor(args);
+    _this.touchSensor = createTouchSensor(args);
+    _this.sensors = [_this.mouseSensor, _this.keyboardSensor, _this.touchSensor];
+    _this.styleContext = context[styleContextKey];
+    _this.canLift = context[canLiftContextKey];
+    return _this;
+  }
+
+  var _proto = DragHandle.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    var draggableRef = this.props.getDraggableRef();
+    this.lastDraggableRef = draggableRef;
+    !draggableRef ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot get draggable ref from drag handle') : undefined : void 0;
+
+    if (!this.props.isEnabled) {
+      return;
+    }
+
+    var dragHandleRef = getDragHandleRef(draggableRef);
+    retainer.tryRestoreFocus(this.props.draggableId, dragHandleRef);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var _this2 = this;
+
+    var ref = this.props.getDraggableRef();
+
+    if (ref !== this.lastDraggableRef) {
+      this.lastDraggableRef = ref;
+
+      if (ref && this.isFocused && this.props.isEnabled) {
+        getDragHandleRef(ref).focus();
+      }
+    }
+
+    var isCapturing = this.isAnySensorCapturing();
+
+    if (!isCapturing) {
+      return;
+    }
+
+    var isBeingDisabled = prevProps.isEnabled && !this.props.isEnabled;
+
+    if (isBeingDisabled) {
+      this.sensors.forEach(function (sensor) {
+        if (!sensor.isCapturing()) {
+          return;
+        }
+
+        var wasDragging = sensor.isDragging();
+        sensor.kill();
+
+        if (wasDragging) {
+           true ? warning('You have disabled dragging on a Draggable while it was dragging. The drag has been cancelled') : undefined;
+
+          _this2.props.callbacks.onCancel();
+        }
+      });
+    }
+
+    var isDragAborted = prevProps.isDragging && !this.props.isDragging;
+
+    if (isDragAborted) {
+      this.sensors.forEach(function (sensor) {
+        if (sensor.isCapturing()) {
+          sensor.kill();
+        }
+      });
+    }
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var _this3 = this;
+
+    this.sensors.forEach(function (sensor) {
+      var wasDragging = sensor.isDragging();
+      sensor.unmount();
+
+      if (wasDragging) {
+        _this3.props.callbacks.onCancel();
+      }
+    });
+
+    var shouldRetainFocus = function () {
+      if (!_this3.props.isEnabled) {
+        return false;
+      }
+
+      if (!_this3.isFocused) {
+        return false;
+      }
+
+      return _this3.props.isDragging || _this3.props.isDropAnimating;
+    }();
+
+    if (shouldRetainFocus) {
+      retainer.retain(this.props.draggableId);
+    }
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        children = _this$props.children,
+        isEnabled = _this$props.isEnabled;
+    return children(this.getProvided(isEnabled));
+  };
+
+  return DragHandle;
+}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
+
+DragHandle.contextTypes = (_DragHandle$contextTy = {}, _DragHandle$contextTy[styleContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _DragHandle$contextTy[canLiftContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.func.isRequired, _DragHandle$contextTy);
+
+var checkOwnProps$1 = (function (props) {
+  !_babel_runtime_corejs2_core_js_number_is_integer__WEBPACK_IMPORTED_MODULE_14___default()(props.index) ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Draggable requires an integer index prop') : undefined : void 0;
+  !props.draggableId ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Draggable requires a draggableId') : undefined : void 0;
+  !(typeof props.isDragDisabled === 'boolean') ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'isDragDisabled must be a boolean') : undefined : void 0;
+});
+
+var _Draggable$contextTyp;
+var zIndexOptions = {
+  dragging: 5000,
+  dropAnimating: 4500
+};
+
+var getDraggingTransition = function getDraggingTransition(shouldAnimateDragMovement, dropping) {
+  if (dropping) {
+    return transitions.drop(dropping.duration);
+  }
+
+  if (shouldAnimateDragMovement) {
+    return transitions.snap;
+  }
+
+  return transitions.fluid;
+};
+
+var getDraggingOpacity = function getDraggingOpacity(isCombining, isDropAnimating) {
+  if (!isCombining) {
+    return null;
+  }
+
+  return isDropAnimating ? combine.opacity.drop : combine.opacity.combining;
+};
+
+var getShouldDraggingAnimate = function getShouldDraggingAnimate(dragging) {
+  if (dragging.forceShouldAnimate != null) {
+    return dragging.forceShouldAnimate;
+  }
+
+  return dragging.mode === 'SNAP';
+};
+
+var Draggable = function (_Component) {
+  Object(_babel_runtime_corejs2_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Draggable, _Component);
+
+  function Draggable(props, context) {
+    var _this;
+
+    _this = _Component.call(this, props, context) || this;
+    _this.callbacks = void 0;
+    _this.styleContext = void 0;
+    _this.ref = null;
+
+    _this.onMoveEnd = function () {
+      if (_this.props.dragging && _this.props.dragging.dropping) {
+        _this.props.dropAnimationFinished();
+      }
+    };
+
+    _this.onLift = function (options) {
+      start('LIFT');
+      var ref = _this.ref;
+      !ref ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false) : undefined : void 0;
+      !!_this.props.isDragDisabled ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Cannot lift a Draggable when it is disabled') : undefined : void 0;
+      var clientSelection = options.clientSelection,
+          movementMode = options.movementMode;
+      var _this$props = _this.props,
+          lift = _this$props.lift,
+          draggableId = _this$props.draggableId;
+      lift({
+        id: draggableId,
+        clientSelection: clientSelection,
+        movementMode: movementMode
+      });
+      finish('LIFT');
+    };
+
+    _this.setRef = function (ref) {
+      if (ref === null) {
+        return;
+      }
+
+      if (ref === _this.ref) {
+        return;
+      }
+
+      _this.ref = ref;
+      throwIfRefIsInvalid(ref);
+    };
+
+    _this.getDraggableRef = function () {
+      return _this.ref;
+    };
+
+    _this.getDraggingStyle = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (dragging) {
+      var dimension = dragging.dimension;
+      var box = dimension.client;
+      var offset$$1 = dragging.offset,
+          combineWith = dragging.combineWith,
+          dropping = dragging.dropping;
+      var isCombining = Boolean(combineWith);
+      var shouldAnimate = getShouldDraggingAnimate(dragging);
+      var isDropAnimating = Boolean(dropping);
+      var transform = isDropAnimating ? transforms.drop(offset$$1, isCombining) : transforms.moveTo(offset$$1);
+      var style = {
+        position: 'fixed',
+        top: box.marginBox.top,
+        left: box.marginBox.left,
+        boxSizing: 'border-box',
+        width: box.borderBox.width,
+        height: box.borderBox.height,
+        transition: getDraggingTransition(shouldAnimate, dropping),
+        transform: transform,
+        opacity: getDraggingOpacity(isCombining, isDropAnimating),
+        zIndex: isDropAnimating ? zIndexOptions.dropAnimating : zIndexOptions.dragging,
+        pointerEvents: 'none'
+      };
+      return style;
+    });
+    _this.getSecondaryStyle = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (secondary) {
+      return {
+        transform: transforms.moveTo(secondary.offset),
+        transition: secondary.shouldAnimateDisplacement ? null : 'none'
+      };
+    });
+    _this.getDraggingProvided = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (dragging, dragHandleProps) {
+      var style = _this.getDraggingStyle(dragging);
+
+      var isDropping = Boolean(dragging.dropping);
+      var provided = {
+        innerRef: _this.setRef,
+        draggableProps: {
+          'data-react-beautiful-dnd-draggable': _this.styleContext,
+          style: style,
+          onTransitionEnd: isDropping ? _this.onMoveEnd : null
+        },
+        dragHandleProps: dragHandleProps
+      };
+      return provided;
+    });
+    _this.getSecondaryProvided = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (secondary, dragHandleProps) {
+      var style = _this.getSecondaryStyle(secondary);
+
+      var provided = {
+        innerRef: _this.setRef,
+        draggableProps: {
+          'data-react-beautiful-dnd-draggable': _this.styleContext,
+          style: style,
+          onTransitionEnd: null
+        },
+        dragHandleProps: dragHandleProps
+      };
+      return provided;
+    });
+    _this.getDraggingSnapshot = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (dragging) {
+      return {
+        isDragging: true,
+        isDropAnimating: Boolean(dragging.dropping),
+        dropAnimation: dragging.dropping,
+        mode: dragging.mode,
+        draggingOver: dragging.draggingOver,
+        combineWith: dragging.combineWith,
+        combineTargetFor: null
+      };
+    });
+    _this.getSecondarySnapshot = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (secondary) {
+      return {
+        isDragging: false,
+        isDropAnimating: false,
+        dropAnimation: null,
+        mode: null,
+        draggingOver: null,
+        combineTargetFor: secondary.combineTargetFor,
+        combineWith: null
+      };
+    });
+
+    _this.renderChildren = function (dragHandleProps) {
+      var dragging = _this.props.dragging;
+      var secondary = _this.props.secondary;
+      var children = _this.props.children;
+
+      if (dragging) {
+        var _child = children(_this.getDraggingProvided(dragging, dragHandleProps), _this.getDraggingSnapshot(dragging));
+
+        var placeholder = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Placeholder, {
+          placeholder: dragging.dimension.placeholder
+        });
+        return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_2__["Fragment"], null, _child, placeholder);
+      }
+
+      !secondary ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'If no DraggingMapProps are provided, then SecondaryMapProps are required') : undefined : void 0;
+      var child = children(_this.getSecondaryProvided(secondary, dragHandleProps), _this.getSecondarySnapshot(secondary));
+      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_2__["Fragment"], null, child);
+    };
+
+    var callbacks = {
+      onLift: _this.onLift,
+      onMove: function onMove(clientSelection) {
+        return props.move({
+          client: clientSelection
+        });
+      },
+      onDrop: function onDrop() {
+        return props.drop({
+          reason: 'DROP'
+        });
+      },
+      onCancel: function onCancel() {
+        return props.drop({
+          reason: 'CANCEL'
+        });
+      },
+      onMoveUp: props.moveUp,
+      onMoveDown: props.moveDown,
+      onMoveRight: props.moveRight,
+      onMoveLeft: props.moveLeft,
+      onWindowScroll: function onWindowScroll() {
+        return props.moveByWindowScroll({
+          newScroll: getWindowScroll()
+        });
+      }
+    };
+    _this.callbacks = callbacks;
+    _this.styleContext = context[styleContextKey];
+
+    if (true) {
+      checkOwnProps$1(props);
+    }
+
+    return _this;
+  }
+
+  var _proto = Draggable.prototype;
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.ref = null;
+  };
+
+  _proto.render = function render() {
+    var _this$props2 = this.props,
+        draggableId = _this$props2.draggableId,
+        index = _this$props2.index,
+        dragging = _this$props2.dragging,
+        isDragDisabled = _this$props2.isDragDisabled,
+        disableInteractiveElementBlocking = _this$props2.disableInteractiveElementBlocking;
+    var droppableId = this.context[droppableIdKey];
+    var type = this.context[droppableTypeKey];
+    var isDragging = Boolean(dragging);
+    var isDropAnimating = Boolean(dragging && dragging.dropping);
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(DraggableDimensionPublisher, {
+      key: draggableId,
+      draggableId: draggableId,
+      droppableId: droppableId,
+      type: type,
+      index: index,
+      getDraggableRef: this.getDraggableRef
+    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(DragHandle, {
+      draggableId: draggableId,
+      isDragging: isDragging,
+      isDropAnimating: isDropAnimating,
+      isEnabled: !isDragDisabled,
+      callbacks: this.callbacks,
+      getDraggableRef: this.getDraggableRef,
+      canDragInteractiveElements: disableInteractiveElementBlocking
+    }, this.renderChildren));
+  };
+
+  return Draggable;
+}(react__WEBPACK_IMPORTED_MODULE_2__["Component"]);
+
+Draggable.contextTypes = (_Draggable$contextTyp = {}, _Draggable$contextTyp[droppableIdKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Draggable$contextTyp[droppableTypeKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Draggable$contextTyp[styleContextKey] = prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string.isRequired, _Draggable$contextTyp);
+
+var getCombineWith = function getCombineWith(impact) {
+  if (!impact.merge) {
+    return null;
+  }
+
+  return impact.merge.combine.draggableId;
+};
+
+var defaultMapProps$1 = {
+  secondary: {
+    offset: origin,
+    combineTargetFor: null,
+    shouldAnimateDisplacement: true
+  },
+  dragging: null
+};
+var makeMapStateToProps$1 = function makeMapStateToProps() {
+  var memoizedOffset = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (x, y) {
+    return {
+      x: x,
+      y: y
+    };
+  });
+  var getSecondaryProps = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (offset$$1, combineTargetFor, shouldAnimateDisplacement) {
+    if (combineTargetFor === void 0) {
+      combineTargetFor = null;
+    }
+
+    return {
+      secondary: {
+        offset: offset$$1,
+        combineTargetFor: combineTargetFor,
+        shouldAnimateDisplacement: shouldAnimateDisplacement
+      },
+      dragging: null
+    };
+  });
+  var getDraggingProps = Object(memoize_one__WEBPACK_IMPORTED_MODULE_7__["default"])(function (offset$$1, mode, dimension, draggingOver, combineWith, forceShouldAnimate) {
+    return {
+      dragging: {
+        mode: mode,
+        dropping: null,
+        offset: offset$$1,
+        dimension: dimension,
+        draggingOver: draggingOver,
+        combineWith: combineWith,
+        forceShouldAnimate: forceShouldAnimate
+      },
+      secondary: null
+    };
+  });
+
+  var getSecondaryMovement = function getSecondaryMovement(ownId, draggingId, impact) {
+    var map = impact.movement.map;
+    var displacement = map[ownId];
+    var movement = impact.movement;
+    var merge = impact.merge;
+    var isCombinedWith = Boolean(merge && merge.combine.draggableId === ownId);
+    var displacedBy = movement.displacedBy.point;
+    var offset$$1 = memoizedOffset(displacedBy.x, displacedBy.y);
+
+    if (isCombinedWith) {
+      return getSecondaryProps(displacement ? offset$$1 : origin, draggingId, displacement ? displacement.shouldAnimate : true);
+    }
+
+    if (!displacement) {
+      return null;
+    }
+
+    if (!displacement.isVisible) {
+      return null;
+    }
+
+    return getSecondaryProps(offset$$1, null, displacement.shouldAnimate);
+  };
+
+  var draggingSelector = function draggingSelector(state, ownProps) {
+    if (state.isDragging) {
+      if (state.critical.draggable.id !== ownProps.draggableId) {
+        return null;
+      }
+
+      var offset$$1 = state.current.client.offset;
+      var dimension = state.dimensions.draggables[ownProps.draggableId];
+      var mode = state.movementMode;
+      var draggingOver = whatIsDraggedOver(state.impact);
+      var combineWith = getCombineWith(state.impact);
+      var forceShouldAnimate = state.forceShouldAnimate;
+      return getDraggingProps(memoizedOffset(offset$$1.x, offset$$1.y), mode, dimension, draggingOver, combineWith, forceShouldAnimate);
+    }
+
+    if (state.phase === 'DROP_ANIMATING') {
+      var pending = state.pending;
+
+      if (pending.result.draggableId !== ownProps.draggableId) {
+        return null;
+      }
+
+      var _draggingOver = whatIsDraggedOver(pending.impact);
+
+      var _combineWith = getCombineWith(pending.impact);
+
+      var duration = pending.dropDuration;
+      var _mode = pending.result.mode;
+      return {
+        dragging: {
+          offset: pending.newHomeClientOffset,
+          dimension: state.dimensions.draggables[ownProps.draggableId],
+          draggingOver: _draggingOver,
+          combineWith: _combineWith,
+          mode: _mode,
+          forceShouldAnimate: null,
+          dropping: {
+            duration: duration,
+            curve: curves.drop,
+            moveTo: pending.newHomeClientOffset,
+            opacity: _combineWith ? combine.opacity.drop : null,
+            scale: _combineWith ? combine.scale.drop : null
+          }
+        },
+        secondary: null
+      };
+    }
+
+    return null;
+  };
+
+  var secondarySelector = function secondarySelector(state, ownProps) {
+    if (state.isDragging) {
+      if (state.critical.draggable.id === ownProps.draggableId) {
+        return null;
+      }
+
+      return getSecondaryMovement(ownProps.draggableId, state.critical.draggable.id, state.impact);
+    }
+
+    if (state.phase === 'DROP_ANIMATING') {
+      if (state.pending.result.draggableId === ownProps.draggableId) {
+        return null;
+      }
+
+      return getSecondaryMovement(ownProps.draggableId, state.pending.result.draggableId, state.pending.impact);
+    }
+
+    return null;
+  };
+
+  var selector = function selector(state, ownProps) {
+    return draggingSelector(state, ownProps) || secondarySelector(state, ownProps) || defaultMapProps$1;
+  };
+
+  return selector;
+};
+var mapDispatchToProps = {
+  lift: lift,
+  move: move,
+  moveUp: moveUp,
+  moveDown: moveDown,
+  moveLeft: moveLeft,
+  moveRight: moveRight,
+  moveByWindowScroll: moveByWindowScroll,
+  drop: drop,
+  dropAnimationFinished: dropAnimationFinished
+};
+var defaultProps$1 = {
+  isDragDisabled: false,
+  disableInteractiveElementBlocking: false
+};
+var ConnectedDraggable = Object(react_redux__WEBPACK_IMPORTED_MODULE_13__["connect"])(makeMapStateToProps$1, mapDispatchToProps, null, {
+  storeKey: storeKey,
+  pure: true,
+  areStatePropsEqual: isStrictEqual
+})(Draggable);
+ConnectedDraggable.defaultProps = defaultProps$1;
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/Provider.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/Provider.js ***!
+  \*********************************************************************************************/
+/*! exports provided: createProvider, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return createProvider; });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/PropTypes.js");
+/* harmony import */ var _utils_warning__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/warning */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/warning.js");
+
+
+
+
+
+var didWarnAboutReceivingStore = false;
+
+function warnAboutReceivingStore() {
+  if (didWarnAboutReceivingStore) {
+    return;
+  }
+
+  didWarnAboutReceivingStore = true;
+  Object(_utils_warning__WEBPACK_IMPORTED_MODULE_4__["default"])('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reduxjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+}
+
+function createProvider(storeKey) {
+  var _Provider$childContex;
+
+  if (storeKey === void 0) {
+    storeKey = 'store';
+  }
+
+  var subscriptionKey = storeKey + "Subscription";
+
+  var Provider =
+  /*#__PURE__*/
+  function (_Component) {
+    Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Provider, _Component);
+
+    var _proto = Provider.prototype;
+
+    _proto.getChildContext = function getChildContext() {
+      var _ref;
+
+      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
+    };
+
+    function Provider(props, context) {
+      var _this;
+
+      _this = _Component.call(this, props, context) || this;
+      _this[storeKey] = props.store;
+      return _this;
+    }
+
+    _proto.render = function render() {
+      return react__WEBPACK_IMPORTED_MODULE_1__["Children"].only(this.props.children);
+    };
+
+    return Provider;
+  }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+  if (true) {
+    Provider.prototype.componentWillReceiveProps = function (nextProps) {
+      if (this[storeKey] !== nextProps.store) {
+        warnAboutReceivingStore();
+      }
+    };
+  }
+
+  Provider.propTypes = {
+    store: _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["storeShape"].isRequired,
+    children: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.element.isRequired
+  };
+  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["storeShape"].isRequired, _Provider$childContex[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["subscriptionShape"], _Provider$childContex);
+  return Provider;
+}
+/* harmony default export */ __webpack_exports__["default"] = (createProvider());
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/connectAdvanced.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/connectAdvanced.js ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return connectAdvanced; });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
+/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! invariant */ "./node_modules/invariant/browser.js");
+/* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(invariant__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_is__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _utils_Subscription__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/Subscription */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/Subscription.js");
+/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/PropTypes.js");
+
+
+
+
+
+
+
+
+
+
+var hotReloadingVersion = 0;
+var dummyState = {};
+
+function noop() {}
+
+function makeSelectorStateful(sourceSelector, store) {
+  // wrap the selector in an object that tracks its results between runs.
+  var selector = {
+    run: function runComponentSelector(props) {
+      try {
+        var nextProps = sourceSelector(store.getState(), props);
+
+        if (nextProps !== selector.props || selector.error) {
+          selector.shouldComponentUpdate = true;
+          selector.props = nextProps;
+          selector.error = null;
+        }
+      } catch (error) {
+        selector.shouldComponentUpdate = true;
+        selector.error = error;
+      }
+    }
+  };
+  return selector;
+}
+
+function connectAdvanced(
+/*
+  selectorFactory is a func that is responsible for returning the selector function used to
+  compute new props from state, props, and dispatch. For example:
+     export default connectAdvanced((dispatch, options) => (state, props) => ({
+      thing: state.things[props.thingId],
+      saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
+    }))(YourComponent)
+   Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
+  outside of their selector as an optimization. Options passed to connectAdvanced are passed to
+  the selectorFactory, along with displayName and WrappedComponent, as the second argument.
+   Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
+  props. Do not use connectAdvanced directly without memoizing results between calls to your
+  selector, otherwise the Connect component will re-render on every state or props change.
+*/
+selectorFactory, // options object:
+_ref) {
+  var _contextTypes, _childContextTypes;
+
+  if (_ref === void 0) {
+    _ref = {};
+  }
+
+  var _ref2 = _ref,
+      _ref2$getDisplayName = _ref2.getDisplayName,
+      getDisplayName = _ref2$getDisplayName === void 0 ? function (name) {
+    return "ConnectAdvanced(" + name + ")";
+  } : _ref2$getDisplayName,
+      _ref2$methodName = _ref2.methodName,
+      methodName = _ref2$methodName === void 0 ? 'connectAdvanced' : _ref2$methodName,
+      _ref2$renderCountProp = _ref2.renderCountProp,
+      renderCountProp = _ref2$renderCountProp === void 0 ? undefined : _ref2$renderCountProp,
+      _ref2$shouldHandleSta = _ref2.shouldHandleStateChanges,
+      shouldHandleStateChanges = _ref2$shouldHandleSta === void 0 ? true : _ref2$shouldHandleSta,
+      _ref2$storeKey = _ref2.storeKey,
+      storeKey = _ref2$storeKey === void 0 ? 'store' : _ref2$storeKey,
+      _ref2$withRef = _ref2.withRef,
+      withRef = _ref2$withRef === void 0 ? false : _ref2$withRef,
+      connectOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__["default"])(_ref2, ["getDisplayName", "methodName", "renderCountProp", "shouldHandleStateChanges", "storeKey", "withRef"]);
+
+  var subscriptionKey = storeKey + 'Subscription';
+  var version = hotReloadingVersion++;
+  var contextTypes = (_contextTypes = {}, _contextTypes[storeKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["storeShape"], _contextTypes[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["subscriptionShape"], _contextTypes);
+  var childContextTypes = (_childContextTypes = {}, _childContextTypes[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["subscriptionShape"], _childContextTypes);
+  return function wrapWithConnect(WrappedComponent) {
+    invariant__WEBPACK_IMPORTED_MODULE_5___default()(Object(react_is__WEBPACK_IMPORTED_MODULE_7__["isValidElementType"])(WrappedComponent), "You must pass a component to the function returned by " + (methodName + ". Instead received " + JSON.stringify(WrappedComponent)));
+    var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+    var displayName = getDisplayName(wrappedComponentName);
+
+    var selectorFactoryOptions = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, connectOptions, {
+      getDisplayName: getDisplayName,
+      methodName: methodName,
+      renderCountProp: renderCountProp,
+      shouldHandleStateChanges: shouldHandleStateChanges,
+      storeKey: storeKey,
+      withRef: withRef,
+      displayName: displayName,
+      wrappedComponentName: wrappedComponentName,
+      WrappedComponent: WrappedComponent // TODO Actually fix our use of componentWillReceiveProps
+
+      /* eslint-disable react/no-deprecated */
+
+    });
+
+    var Connect =
+    /*#__PURE__*/
+    function (_Component) {
+      Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Connect, _Component);
+
+      function Connect(props, context) {
+        var _this;
+
+        _this = _Component.call(this, props, context) || this;
+        _this.version = version;
+        _this.state = {};
+        _this.renderCount = 0;
+        _this.store = props[storeKey] || context[storeKey];
+        _this.propsMode = Boolean(props[storeKey]);
+        _this.setWrappedInstance = _this.setWrappedInstance.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(_this)));
+        invariant__WEBPACK_IMPORTED_MODULE_5___default()(_this.store, "Could not find \"" + storeKey + "\" in either the context or props of " + ("\"" + displayName + "\". Either wrap the root component in a <Provider>, ") + ("or explicitly pass \"" + storeKey + "\" as a prop to \"" + displayName + "\"."));
+
+        _this.initSelector();
+
+        _this.initSubscription();
+
+        return _this;
+      }
+
+      var _proto = Connect.prototype;
+
+      _proto.getChildContext = function getChildContext() {
+        var _ref3;
+
+        // If this component received store from props, its subscription should be transparent
+        // to any descendants receiving store+subscription from context; it passes along
+        // subscription passed to it. Otherwise, it shadows the parent subscription, which allows
+        // Connect to control ordering of notifications to flow top-down.
+        var subscription = this.propsMode ? null : this.subscription;
+        return _ref3 = {}, _ref3[subscriptionKey] = subscription || this.context[subscriptionKey], _ref3;
+      };
+
+      _proto.componentDidMount = function componentDidMount() {
+        if (!shouldHandleStateChanges) return; // componentWillMount fires during server side rendering, but componentDidMount and
+        // componentWillUnmount do not. Because of this, trySubscribe happens during ...didMount.
+        // Otherwise, unsubscription would never take place during SSR, causing a memory leak.
+        // To handle the case where a child component may have triggered a state change by
+        // dispatching an action in its componentWillMount, we have to re-run the select and maybe
+        // re-render.
+
+        this.subscription.trySubscribe();
+        this.selector.run(this.props);
+        if (this.selector.shouldComponentUpdate) this.forceUpdate();
+      };
+
+      _proto.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+        this.selector.run(nextProps);
+      };
+
+      _proto.shouldComponentUpdate = function shouldComponentUpdate() {
+        return this.selector.shouldComponentUpdate;
+      };
+
+      _proto.componentWillUnmount = function componentWillUnmount() {
+        if (this.subscription) this.subscription.tryUnsubscribe();
+        this.subscription = null;
+        this.notifyNestedSubs = noop;
+        this.store = null;
+        this.selector.run = noop;
+        this.selector.shouldComponentUpdate = false;
+      };
+
+      _proto.getWrappedInstance = function getWrappedInstance() {
+        invariant__WEBPACK_IMPORTED_MODULE_5___default()(withRef, "To access the wrapped instance, you need to specify " + ("{ withRef: true } in the options argument of the " + methodName + "() call."));
+        return this.wrappedInstance;
+      };
+
+      _proto.setWrappedInstance = function setWrappedInstance(ref) {
+        this.wrappedInstance = ref;
+      };
+
+      _proto.initSelector = function initSelector() {
+        var sourceSelector = selectorFactory(this.store.dispatch, selectorFactoryOptions);
+        this.selector = makeSelectorStateful(sourceSelector, this.store);
+        this.selector.run(this.props);
+      };
+
+      _proto.initSubscription = function initSubscription() {
+        if (!shouldHandleStateChanges) return; // parentSub's source should match where store came from: props vs. context. A component
+        // connected to the store via props shouldn't use subscription from context, or vice versa.
+
+        var parentSub = (this.propsMode ? this.props : this.context)[subscriptionKey];
+        this.subscription = new _utils_Subscription__WEBPACK_IMPORTED_MODULE_8__["default"](this.store, parentSub, this.onStateChange.bind(this)); // `notifyNestedSubs` is duplicated to handle the case where the component is unmounted in
+        // the middle of the notification loop, where `this.subscription` will then be null. An
+        // extra null check every change can be avoided by copying the method onto `this` and then
+        // replacing it with a no-op on unmount. This can probably be avoided if Subscription's
+        // listeners logic is changed to not call listeners that have been unsubscribed in the
+        // middle of the notification loop.
+
+        this.notifyNestedSubs = this.subscription.notifyNestedSubs.bind(this.subscription);
+      };
+
+      _proto.onStateChange = function onStateChange() {
+        this.selector.run(this.props);
+
+        if (!this.selector.shouldComponentUpdate) {
+          this.notifyNestedSubs();
+        } else {
+          this.componentDidUpdate = this.notifyNestedSubsOnComponentDidUpdate;
+          this.setState(dummyState);
+        }
+      };
+
+      _proto.notifyNestedSubsOnComponentDidUpdate = function notifyNestedSubsOnComponentDidUpdate() {
+        // `componentDidUpdate` is conditionally implemented when `onStateChange` determines it
+        // needs to notify nested subs. Once called, it unimplements itself until further state
+        // changes occur. Doing it this way vs having a permanent `componentDidUpdate` that does
+        // a boolean check every time avoids an extra method call most of the time, resulting
+        // in some perf boost.
+        this.componentDidUpdate = undefined;
+        this.notifyNestedSubs();
+      };
+
+      _proto.isSubscribed = function isSubscribed() {
+        return Boolean(this.subscription) && this.subscription.isSubscribed();
+      };
+
+      _proto.addExtraProps = function addExtraProps(props) {
+        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props; // make a shallow copy so that fields added don't leak to the original selector.
+        // this is especially important for 'ref' since that's a reference back to the component
+        // instance. a singleton memoized selector would then be holding a reference to the
+        // instance, preventing the instance from being garbage collected, and that would be bad
+
+        var withExtras = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, props);
+
+        if (withRef) withExtras.ref = this.setWrappedInstance;
+        if (renderCountProp) withExtras[renderCountProp] = this.renderCount++;
+        if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription;
+        return withExtras;
+      };
+
+      _proto.render = function render() {
+        var selector = this.selector;
+        selector.shouldComponentUpdate = false;
+
+        if (selector.error) {
+          throw selector.error;
+        } else {
+          return Object(react__WEBPACK_IMPORTED_MODULE_6__["createElement"])(WrappedComponent, this.addExtraProps(selector.props));
+        }
+      };
+
+      return Connect;
+    }(react__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+    /* eslint-enable react/no-deprecated */
+
+
+    Connect.WrappedComponent = WrappedComponent;
+    Connect.displayName = displayName;
+    Connect.childContextTypes = childContextTypes;
+    Connect.contextTypes = contextTypes;
+    Connect.propTypes = contextTypes;
+
+    if (true) {
+      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
+        var _this2 = this;
+
+        // We are hot reloading!
+        if (this.version !== version) {
+          this.version = version;
+          this.initSelector(); // If any connected descendants don't hot reload (and resubscribe in the process), their
+          // listeners will be lost when we unsubscribe. Unfortunately, by copying over all
+          // listeners, this does mean that the old versions of connected descendants will still be
+          // notified of state changes; however, their onStateChange function is a no-op so this
+          // isn't a huge deal.
+
+          var oldListeners = [];
+
+          if (this.subscription) {
+            oldListeners = this.subscription.listeners.get();
+            this.subscription.tryUnsubscribe();
+          }
+
+          this.initSubscription();
+
+          if (shouldHandleStateChanges) {
+            this.subscription.trySubscribe();
+            oldListeners.forEach(function (listener) {
+              return _this2.subscription.listeners.subscribe(listener);
+            });
+          }
+        }
+      };
+    }
+
+    return hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default()(Connect, WrappedComponent);
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/connect.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/connect.js ***!
+  \*****************************************************************************************/
+/*! exports provided: createConnect, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createConnect", function() { return createConnect; });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/connectAdvanced */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/connectAdvanced.js");
+/* harmony import */ var _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/shallowEqual */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/shallowEqual.js");
+/* harmony import */ var _mapDispatchToProps__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mapDispatchToProps */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapDispatchToProps.js");
+/* harmony import */ var _mapStateToProps__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mapStateToProps */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapStateToProps.js");
+/* harmony import */ var _mergeProps__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./mergeProps */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mergeProps.js");
+/* harmony import */ var _selectorFactory__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selectorFactory */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/selectorFactory.js");
+
+
+
+
+
+
+
+
+/*
+  connect is a facade over connectAdvanced. It turns its args into a compatible
+  selectorFactory, which has the signature:
+
+    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
+  
+  connect passes its args to connectAdvanced as options, which will in turn pass them to
+  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
+
+  selectorFactory returns a final props selector from its mapStateToProps,
+  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
+  mergePropsFactories, and pure args.
+
+  The resulting final props selector is called by the Connect component instance whenever
+  it receives new props or store state.
+ */
+
+function match(arg, factories, name) {
+  for (var i = factories.length - 1; i >= 0; i--) {
+    var result = factories[i](arg);
+    if (result) return result;
+  }
+
+  return function (dispatch, options) {
+    throw new Error("Invalid value of type " + typeof arg + " for " + name + " argument when connecting component " + options.wrappedComponentName + ".");
+  };
+}
+
+function strictEqual(a, b) {
+  return a === b;
+} // createConnect with default args builds the 'official' connect behavior. Calling it with
+// different options opens up some testing and extensibility scenarios
+
+
+function createConnect(_temp) {
+  var _ref = _temp === void 0 ? {} : _temp,
+      _ref$connectHOC = _ref.connectHOC,
+      connectHOC = _ref$connectHOC === void 0 ? _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_2__["default"] : _ref$connectHOC,
+      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
+      mapStateToPropsFactories = _ref$mapStateToPropsF === void 0 ? _mapStateToProps__WEBPACK_IMPORTED_MODULE_5__["default"] : _ref$mapStateToPropsF,
+      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
+      mapDispatchToPropsFactories = _ref$mapDispatchToPro === void 0 ? _mapDispatchToProps__WEBPACK_IMPORTED_MODULE_4__["default"] : _ref$mapDispatchToPro,
+      _ref$mergePropsFactor = _ref.mergePropsFactories,
+      mergePropsFactories = _ref$mergePropsFactor === void 0 ? _mergeProps__WEBPACK_IMPORTED_MODULE_6__["default"] : _ref$mergePropsFactor,
+      _ref$selectorFactory = _ref.selectorFactory,
+      selectorFactory = _ref$selectorFactory === void 0 ? _selectorFactory__WEBPACK_IMPORTED_MODULE_7__["default"] : _ref$selectorFactory;
+
+  return function connect(mapStateToProps, mapDispatchToProps, mergeProps, _ref2) {
+    if (_ref2 === void 0) {
+      _ref2 = {};
+    }
+
+    var _ref3 = _ref2,
+        _ref3$pure = _ref3.pure,
+        pure = _ref3$pure === void 0 ? true : _ref3$pure,
+        _ref3$areStatesEqual = _ref3.areStatesEqual,
+        areStatesEqual = _ref3$areStatesEqual === void 0 ? strictEqual : _ref3$areStatesEqual,
+        _ref3$areOwnPropsEqua = _ref3.areOwnPropsEqual,
+        areOwnPropsEqual = _ref3$areOwnPropsEqua === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areOwnPropsEqua,
+        _ref3$areStatePropsEq = _ref3.areStatePropsEqual,
+        areStatePropsEqual = _ref3$areStatePropsEq === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areStatePropsEq,
+        _ref3$areMergedPropsE = _ref3.areMergedPropsEqual,
+        areMergedPropsEqual = _ref3$areMergedPropsE === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areMergedPropsE,
+        extraOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref3, ["pure", "areStatesEqual", "areOwnPropsEqual", "areStatePropsEqual", "areMergedPropsEqual"]);
+
+    var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
+    var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
+    var initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps');
+    return connectHOC(selectorFactory, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      // used in error messages
+      methodName: 'connect',
+      // used to compute Connect's displayName from the wrapped component's displayName.
+      getDisplayName: function getDisplayName(name) {
+        return "Connect(" + name + ")";
+      },
+      // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
+      shouldHandleStateChanges: Boolean(mapStateToProps),
+      // passed through to selectorFactory
+      initMapStateToProps: initMapStateToProps,
+      initMapDispatchToProps: initMapDispatchToProps,
+      initMergeProps: initMergeProps,
+      pure: pure,
+      areStatesEqual: areStatesEqual,
+      areOwnPropsEqual: areOwnPropsEqual,
+      areStatePropsEqual: areStatePropsEqual,
+      areMergedPropsEqual: areMergedPropsEqual
+    }, extraOptions));
+  };
+}
+/* harmony default export */ __webpack_exports__["default"] = (createConnect());
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapDispatchToProps.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapDispatchToProps.js ***!
+  \****************************************************************************************************/
+/*! exports provided: whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsFunction", function() { return whenMapDispatchToPropsIsFunction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsMissing", function() { return whenMapDispatchToPropsIsMissing; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsObject", function() { return whenMapDispatchToPropsIsObject; });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wrapMapToProps */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/wrapMapToProps.js");
+
+
+function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
+  return typeof mapDispatchToProps === 'function' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsFunc"])(mapDispatchToProps, 'mapDispatchToProps') : undefined;
+}
+function whenMapDispatchToPropsIsMissing(mapDispatchToProps) {
+  return !mapDispatchToProps ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsConstant"])(function (dispatch) {
+    return {
+      dispatch: dispatch
+    };
+  }) : undefined;
+}
+function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
+  return mapDispatchToProps && typeof mapDispatchToProps === 'object' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsConstant"])(function (dispatch) {
+    return Object(redux__WEBPACK_IMPORTED_MODULE_0__["bindActionCreators"])(mapDispatchToProps, dispatch);
+  }) : undefined;
+}
+/* harmony default export */ __webpack_exports__["default"] = ([whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject]);
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapStateToProps.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mapStateToProps.js ***!
+  \*************************************************************************************************/
+/*! exports provided: whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapStateToPropsIsFunction", function() { return whenMapStateToPropsIsFunction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapStateToPropsIsMissing", function() { return whenMapStateToPropsIsMissing; });
+/* harmony import */ var _wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wrapMapToProps */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/wrapMapToProps.js");
+
+function whenMapStateToPropsIsFunction(mapStateToProps) {
+  return typeof mapStateToProps === 'function' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__["wrapMapToPropsFunc"])(mapStateToProps, 'mapStateToProps') : undefined;
+}
+function whenMapStateToPropsIsMissing(mapStateToProps) {
+  return !mapStateToProps ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__["wrapMapToPropsConstant"])(function () {
+    return {};
+  }) : undefined;
+}
+/* harmony default export */ __webpack_exports__["default"] = ([whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing]);
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mergeProps.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/mergeProps.js ***!
+  \********************************************************************************************/
+/*! exports provided: defaultMergeProps, wrapMergePropsFunc, whenMergePropsIsFunction, whenMergePropsIsOmitted, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMergeProps", function() { return defaultMergeProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMergePropsFunc", function() { return wrapMergePropsFunc; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMergePropsIsFunction", function() { return whenMergePropsIsFunction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMergePropsIsOmitted", function() { return whenMergePropsIsOmitted; });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/verifyPlainObject */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/verifyPlainObject.js");
+
+
+function defaultMergeProps(stateProps, dispatchProps, ownProps) {
+  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, ownProps, stateProps, dispatchProps);
+}
+function wrapMergePropsFunc(mergeProps) {
+  return function initMergePropsProxy(dispatch, _ref) {
+    var displayName = _ref.displayName,
+        pure = _ref.pure,
+        areMergedPropsEqual = _ref.areMergedPropsEqual;
+    var hasRunOnce = false;
+    var mergedProps;
+    return function mergePropsProxy(stateProps, dispatchProps, ownProps) {
+      var nextMergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+
+      if (hasRunOnce) {
+        if (!pure || !areMergedPropsEqual(nextMergedProps, mergedProps)) mergedProps = nextMergedProps;
+      } else {
+        hasRunOnce = true;
+        mergedProps = nextMergedProps;
+        if (true) Object(_utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_1__["default"])(mergedProps, displayName, 'mergeProps');
+      }
+
+      return mergedProps;
+    };
+  };
+}
+function whenMergePropsIsFunction(mergeProps) {
+  return typeof mergeProps === 'function' ? wrapMergePropsFunc(mergeProps) : undefined;
+}
+function whenMergePropsIsOmitted(mergeProps) {
+  return !mergeProps ? function () {
+    return defaultMergeProps;
+  } : undefined;
+}
+/* harmony default export */ __webpack_exports__["default"] = ([whenMergePropsIsFunction, whenMergePropsIsOmitted]);
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/selectorFactory.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/selectorFactory.js ***!
+  \*************************************************************************************************/
+/*! exports provided: impureFinalPropsSelectorFactory, pureFinalPropsSelectorFactory, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "impureFinalPropsSelectorFactory", function() { return impureFinalPropsSelectorFactory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pureFinalPropsSelectorFactory", function() { return pureFinalPropsSelectorFactory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return finalPropsSelectorFactory; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _verifySubselectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./verifySubselectors */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/verifySubselectors.js");
+
+
+function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch) {
+  return function impureFinalPropsSelector(state, ownProps) {
+    return mergeProps(mapStateToProps(state, ownProps), mapDispatchToProps(dispatch, ownProps), ownProps);
+  };
+}
+function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
+  var areStatesEqual = _ref.areStatesEqual,
+      areOwnPropsEqual = _ref.areOwnPropsEqual,
+      areStatePropsEqual = _ref.areStatePropsEqual;
+  var hasRunAtLeastOnce = false;
+  var state;
+  var ownProps;
+  var stateProps;
+  var dispatchProps;
+  var mergedProps;
+
+  function handleFirstCall(firstState, firstOwnProps) {
+    state = firstState;
+    ownProps = firstOwnProps;
+    stateProps = mapStateToProps(state, ownProps);
+    dispatchProps = mapDispatchToProps(dispatch, ownProps);
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    hasRunAtLeastOnce = true;
+    return mergedProps;
+  }
+
+  function handleNewPropsAndNewState() {
+    stateProps = mapStateToProps(state, ownProps);
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewProps() {
+    if (mapStateToProps.dependsOnOwnProps) stateProps = mapStateToProps(state, ownProps);
+    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
+    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleNewState() {
+    var nextStateProps = mapStateToProps(state, ownProps);
+    var statePropsChanged = !areStatePropsEqual(nextStateProps, stateProps);
+    stateProps = nextStateProps;
+    if (statePropsChanged) mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
+    return mergedProps;
+  }
+
+  function handleSubsequentCalls(nextState, nextOwnProps) {
+    var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
+    var stateChanged = !areStatesEqual(nextState, state);
+    state = nextState;
+    ownProps = nextOwnProps;
+    if (propsChanged && stateChanged) return handleNewPropsAndNewState();
+    if (propsChanged) return handleNewProps();
+    if (stateChanged) return handleNewState();
+    return mergedProps;
+  }
+
+  return function pureFinalPropsSelector(nextState, nextOwnProps) {
+    return hasRunAtLeastOnce ? handleSubsequentCalls(nextState, nextOwnProps) : handleFirstCall(nextState, nextOwnProps);
+  };
+} // TODO: Add more comments
+// If pure is true, the selector returned by selectorFactory will memoize its results,
+// allowing connectAdvanced's shouldComponentUpdate to return false if final
+// props have not changed. If false, the selector will always return a new
+// object and shouldComponentUpdate will always return true.
+
+function finalPropsSelectorFactory(dispatch, _ref2) {
+  var initMapStateToProps = _ref2.initMapStateToProps,
+      initMapDispatchToProps = _ref2.initMapDispatchToProps,
+      initMergeProps = _ref2.initMergeProps,
+      options = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref2, ["initMapStateToProps", "initMapDispatchToProps", "initMergeProps"]);
+
+  var mapStateToProps = initMapStateToProps(dispatch, options);
+  var mapDispatchToProps = initMapDispatchToProps(dispatch, options);
+  var mergeProps = initMergeProps(dispatch, options);
+
+  if (true) {
+    Object(_verifySubselectors__WEBPACK_IMPORTED_MODULE_1__["default"])(mapStateToProps, mapDispatchToProps, mergeProps, options.displayName);
+  }
+
+  var selectorFactory = options.pure ? pureFinalPropsSelectorFactory : impureFinalPropsSelectorFactory;
+  return selectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, options);
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/verifySubselectors.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/verifySubselectors.js ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return verifySubselectors; });
+/* harmony import */ var _utils_warning__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/warning */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/warning.js");
+
+
+function verify(selector, methodName, displayName) {
+  if (!selector) {
+    throw new Error("Unexpected value for " + methodName + " in " + displayName + ".");
+  } else if (methodName === 'mapStateToProps' || methodName === 'mapDispatchToProps') {
+    if (!selector.hasOwnProperty('dependsOnOwnProps')) {
+      Object(_utils_warning__WEBPACK_IMPORTED_MODULE_0__["default"])("The selector for " + methodName + " of " + displayName + " did not specify a value for dependsOnOwnProps.");
+    }
+  }
+}
+
+function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, displayName) {
+  verify(mapStateToProps, 'mapStateToProps', displayName);
+  verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
+  verify(mergeProps, 'mergeProps', displayName);
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/wrapMapToProps.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/wrapMapToProps.js ***!
+  \************************************************************************************************/
+/*! exports provided: wrapMapToPropsConstant, getDependsOnOwnProps, wrapMapToPropsFunc */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMapToPropsConstant", function() { return wrapMapToPropsConstant; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDependsOnOwnProps", function() { return getDependsOnOwnProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMapToPropsFunc", function() { return wrapMapToPropsFunc; });
+/* harmony import */ var _utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/verifyPlainObject */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/verifyPlainObject.js");
+
+function wrapMapToPropsConstant(getConstant) {
+  return function initConstantSelector(dispatch, options) {
+    var constant = getConstant(dispatch, options);
+
+    function constantSelector() {
+      return constant;
+    }
+
+    constantSelector.dependsOnOwnProps = false;
+    return constantSelector;
+  };
+} // dependsOnOwnProps is used by createMapToPropsProxy to determine whether to pass props as args
+// to the mapToProps function being wrapped. It is also used by makePurePropsSelector to determine
+// whether mapToProps needs to be invoked when props have changed.
+// 
+// A length of one signals that mapToProps does not depend on props from the parent component.
+// A length of zero is assumed to mean mapToProps is getting args via arguments or ...args and
+// therefore not reporting its length accurately..
+
+function getDependsOnOwnProps(mapToProps) {
+  return mapToProps.dependsOnOwnProps !== null && mapToProps.dependsOnOwnProps !== undefined ? Boolean(mapToProps.dependsOnOwnProps) : mapToProps.length !== 1;
+} // Used by whenMapStateToPropsIsFunction and whenMapDispatchToPropsIsFunction,
+// this function wraps mapToProps in a proxy function which does several things:
+// 
+//  * Detects whether the mapToProps function being called depends on props, which
+//    is used by selectorFactory to decide if it should reinvoke on props changes.
+//    
+//  * On first call, handles mapToProps if returns another function, and treats that
+//    new function as the true mapToProps for subsequent calls.
+//    
+//  * On first call, verifies the first result is a plain object, in order to warn
+//    the developer that their mapToProps function is not returning a valid result.
+//    
+
+function wrapMapToPropsFunc(mapToProps, methodName) {
+  return function initProxySelector(dispatch, _ref) {
+    var displayName = _ref.displayName;
+
+    var proxy = function mapToPropsProxy(stateOrDispatch, ownProps) {
+      return proxy.dependsOnOwnProps ? proxy.mapToProps(stateOrDispatch, ownProps) : proxy.mapToProps(stateOrDispatch);
+    }; // allow detectFactoryAndVerify to get ownProps
+
+
+    proxy.dependsOnOwnProps = true;
+
+    proxy.mapToProps = function detectFactoryAndVerify(stateOrDispatch, ownProps) {
+      proxy.mapToProps = mapToProps;
+      proxy.dependsOnOwnProps = getDependsOnOwnProps(mapToProps);
+      var props = proxy(stateOrDispatch, ownProps);
+
+      if (typeof props === 'function') {
+        proxy.mapToProps = props;
+        proxy.dependsOnOwnProps = getDependsOnOwnProps(props);
+        props = proxy(stateOrDispatch, ownProps);
+      }
+
+      if (true) Object(_utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_0__["default"])(props, displayName, methodName);
+      return props;
+    };
+
+    return proxy;
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/index.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/index.js ***!
+  \*******************************************************************************/
+/*! exports provided: Provider, createProvider, connectAdvanced, connect */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Provider */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/Provider.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return _components_Provider__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return _components_Provider__WEBPACK_IMPORTED_MODULE_0__["createProvider"]; });
+
+/* harmony import */ var _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/connectAdvanced */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/components/connectAdvanced.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _connect_connect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./connect/connect */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/connect/connect.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return _connect_connect__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/PropTypes.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/PropTypes.js ***!
+  \*****************************************************************************************/
+/*! exports provided: subscriptionShape, storeShape */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscriptionShape", function() { return subscriptionShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeShape", function() { return storeShape; });
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+
+var subscriptionShape = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+  trySubscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
+  tryUnsubscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
+  notifyNestedSubs: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
+  isSubscribed: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired
+});
+var storeShape = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+  subscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
+  dispatch: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
+  getState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/Subscription.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/Subscription.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Subscription; });
+// encapsulates the subscription logic for connecting a component to the redux store, as
+// well as nesting subscriptions of descendant components, so that we can ensure the
+// ancestor components re-render before descendants
+var CLEARED = null;
+var nullListeners = {
+  notify: function notify() {}
+};
+
+function createListenerCollection() {
+  // the current/next pattern is copied from redux's createStore code.
+  // TODO: refactor+expose that code to be reusable here?
+  var current = [];
+  var next = [];
+  return {
+    clear: function clear() {
+      next = CLEARED;
+      current = CLEARED;
+    },
+    notify: function notify() {
+      var listeners = current = next;
+
+      for (var i = 0; i < listeners.length; i++) {
+        listeners[i]();
+      }
+    },
+    get: function get() {
+      return next;
+    },
+    subscribe: function subscribe(listener) {
+      var isSubscribed = true;
+      if (next === current) next = current.slice();
+      next.push(listener);
+      return function unsubscribe() {
+        if (!isSubscribed || current === CLEARED) return;
+        isSubscribed = false;
+        if (next === current) next = current.slice();
+        next.splice(next.indexOf(listener), 1);
+      };
+    }
+  };
+}
+
+var Subscription =
+/*#__PURE__*/
+function () {
+  function Subscription(store, parentSub, onStateChange) {
+    this.store = store;
+    this.parentSub = parentSub;
+    this.onStateChange = onStateChange;
+    this.unsubscribe = null;
+    this.listeners = nullListeners;
+  }
+
+  var _proto = Subscription.prototype;
+
+  _proto.addNestedSub = function addNestedSub(listener) {
+    this.trySubscribe();
+    return this.listeners.subscribe(listener);
+  };
+
+  _proto.notifyNestedSubs = function notifyNestedSubs() {
+    this.listeners.notify();
+  };
+
+  _proto.isSubscribed = function isSubscribed() {
+    return Boolean(this.unsubscribe);
+  };
+
+  _proto.trySubscribe = function trySubscribe() {
+    if (!this.unsubscribe) {
+      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
+      this.listeners = createListenerCollection();
+    }
+  };
+
+  _proto.tryUnsubscribe = function tryUnsubscribe() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+      this.listeners.clear();
+      this.listeners = nullListeners;
+    }
+  };
+
+  return Subscription;
+}();
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/isPlainObject.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/isPlainObject.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isPlainObject; });
+/**
+ * @param {any} obj The object to inspect.
+ * @returns {boolean} True if the argument appears to be a plain object.
+ */
+function isPlainObject(obj) {
+  if (typeof obj !== 'object' || obj === null) return false;
+  var proto = Object.getPrototypeOf(obj);
+  if (proto === null) return true;
+  var baseProto = proto;
+
+  while (Object.getPrototypeOf(baseProto) !== null) {
+    baseProto = Object.getPrototypeOf(baseProto);
+  }
+
+  return proto === baseProto;
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/shallowEqual.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/shallowEqual.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return shallowEqual; });
+var hasOwn = Object.prototype.hasOwnProperty;
+
+function is(x, y) {
+  if (x === y) {
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    return x !== x && y !== y;
+  }
+}
+
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) return true;
+
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+  if (keysA.length !== keysB.length) return false;
+
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/verifyPlainObject.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/verifyPlainObject.js ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return verifyPlainObject; });
+/* harmony import */ var _isPlainObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isPlainObject */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/isPlainObject.js");
+/* harmony import */ var _warning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./warning */ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/warning.js");
+
+
+function verifyPlainObject(value, displayName, methodName) {
+  if (!Object(_isPlainObject__WEBPACK_IMPORTED_MODULE_0__["default"])(value)) {
+    Object(_warning__WEBPACK_IMPORTED_MODULE_1__["default"])(methodName + "() in " + displayName + " must return a plain object. Instead received " + value + ".");
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/warning.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/react-beautiful-dnd/node_modules/react-redux/es/utils/warning.js ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return warning; });
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+
+
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+
+}
 
 /***/ }),
 
@@ -34677,6 +45259,34 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var isProduction = "development" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+  if (condition) {
+    return;
+  }
+
+  if (isProduction) {
+    throw new Error(prefix);
+  } else {
+    throw new Error(prefix + ": " + (message || ''));
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (invariant);
 
 
 /***/ }),

@@ -51,7 +51,7 @@ class Api::StoriesController < ApplicationController
 
   def story_params
     params.require(:story).permit(
-      :description, :kind, :order, :points, :status, :title, :workflow_id
+      :description, :kind, :position, :points, :status, :title, :workflow_id
     )
   end
 

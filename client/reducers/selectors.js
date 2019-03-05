@@ -1,15 +1,3 @@
-export const selectStoriesByProjectId = (state, id) => {
-  const projectId = parseInt(id)
-  const stories = Object.values(state.entities.stories)
-  const selectedStories = []
-  stories.forEach(story => {
-    if (story.project_id === projectId) {
-      selectedStories.push(story)
-    }
-  })
-  return selectedStories
-}
-
 export const selectStoriesByWorkflowId = (state, id) => {
   const workflowId = parseInt(id)
   const selectedStories = []
@@ -19,7 +7,7 @@ export const selectStoriesByWorkflowId = (state, id) => {
       selectedStories.push(story)
     }
   })
-  return selectedStories
+  return selectedStories.sort((a, b) => a.position - b.position)
 }
 
 export const selectWorkflowsByProjectId = (state, id) => {

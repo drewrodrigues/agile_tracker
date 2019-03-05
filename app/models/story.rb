@@ -17,7 +17,7 @@
 # TODO: don't allow icebox && anything other than unstarted
 
 class Story < ApplicationRecord
-  default_scope { order(position: :asc)}
+  default_scope { order(position: :asc) }
 
   acts_as_list scope: :workflow
 
