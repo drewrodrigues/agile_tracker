@@ -1,6 +1,7 @@
 import * as APIUtil from '../utils/projectUtil'
 
 import { receiveStories } from '../actions/storyActions'
+import { receiveWorkflows } from '../actions/workflowActions'
 
 export const RECEIVE_PROJECT        = "RECEIVE_PROJECT"
 export const RECEIVE_PROJECTS       = "RECEIVE_PROJECTS"
@@ -47,6 +48,7 @@ export const getProject = id => dispatch => {
     .then(response => {
       dispatch(receiveProject(response.project))
       dispatch(receiveStories(response.stories))
+      dispatch(receiveWorkflows(response.workflows))
     })
 }
 

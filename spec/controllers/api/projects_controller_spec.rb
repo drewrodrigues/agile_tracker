@@ -75,6 +75,11 @@ RSpec.describe Api::ProjectsController, type: :controller do
         post :create, format: :json, params: { project: valid_params }
         expect(response).to render_template(:show)
       end
+      
+      it "creates the associated workflows" do
+        post :create, format: :json, params: { project: valid_params }
+        expect(Project.last.workflows.count).to eq(4)
+      end
     end
 
     context "with invalid params" do

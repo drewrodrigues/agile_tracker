@@ -1,13 +1,18 @@
 FactoryBot.define do
+  factory :workflow do
+    title { "MyString" }
+    project_id { 1 }
+    position { 1 }
+  end
+
   factory :story do
     description { "MyString" }
     kind { "Feature" }
-    order { 1 }
     points { 1 }
-    project
+    position { 1 }
     status { "Unstarted" }
     title { "Agile Tracker" }
-    workflow { "Icebox" }
+    workflow
   end
 
   factory :user do

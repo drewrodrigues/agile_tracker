@@ -1,21 +1,22 @@
 import { connect } from 'react-redux'
 import Workflow from './workflow'
 import { toggleWorkflow } from '../../actions/uiActions'
-import { selectStoriesByWorkflow } from "../../reducers/selectors"
+import { selectStoriesByWorkflowId } from "../../reducers/selectors"
+import { updateStory } from '../../actions/storyActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    canAddStory: ownProps.canAddStory,
     projectId: ownProps.projectId,
-    show: state.ui[ownProps.workflow.toLowerCase()],
-    stories: selectStoriesByWorkflow(ownProps.projectStories, ownProps.workflow),
+    show: state.ui[ownProps.workflow.title.toLowerCase()],
+    stories: selectStoriesByWorkflowId(state, ownProps.workflow.id),
     workflow: ownProps.workflow
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    toggleWorkflow: () => dispatch(toggleWorkflow(ownProps.workflow.toLowerCase()))
+    toggleWorkflow: () => dispatch(toggleWorkflow(ownProps.workflow.title.toLowerCase())),
+    updateStory: story => dispatch(updateStory(story))
   }
 }
 

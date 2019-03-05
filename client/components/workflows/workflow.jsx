@@ -7,6 +7,7 @@ class Workflow extends Component {
     super(props)
     this.state = { showForm: false }
     this.toggleForm = this.toggleForm.bind(this)
+    this.canAddStory = this.props.workflow.title !== "Done"
   }
 
   toggleForm() {
@@ -17,7 +18,7 @@ class Workflow extends Component {
     if (!this.props.show) return null
 
     let addStoryButton = null
-    if (this.props.canAddStory) {
+    if (this.canAddStory) {
       addStoryButton = <button className="add-story-button" onClick={ this.toggleForm }>
         <i className="fa fa-plus"></i>Add Story
       </button>
@@ -30,7 +31,7 @@ class Workflow extends Component {
             <i className="fa fa-times"></i>
           </button>
 
-          { this.props.workflow }
+          { this.props.workflow.title }
 
           { addStoryButton }
         </header>

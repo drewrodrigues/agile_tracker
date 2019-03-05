@@ -23,8 +23,8 @@ ActiveRecord::Base.transaction do
     { title: "Trip Mates",           user: demo_user }
   ])
 
-  project_id_offset = Project.first.id
-  project_count     = Project.count
+  workflow_id_offset = Workflow.first.id
+  workflow_count     = Workflow.count
   kinds     =  %w(Bug Chore Feature)
   statuses  =  %w(Unstarted Started Finished Delivered Rejected Accepted)
   workflows =  %w(Backlog Current Done)
@@ -42,14 +42,13 @@ ActiveRecord::Base.transaction do
   # end
 
   200.times do
-    random_project_id = project_id_offset + rand(project_count)
+    random_workflow_id = workflow_id_offset + rand(workflow_count)
     Story.create!(
       description: "",
       kind: kinds.sample,
-      project_id: random_project_id,
+      workflow_id: random_workflow_id,
       status: "Unstarted",
-      title: "Random Story Title",
-      workflow: "Icebox"
+      title: "Random Story Title"
     ) 
   end
 end

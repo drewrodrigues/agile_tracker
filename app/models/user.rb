@@ -18,8 +18,10 @@ class User < ApplicationRecord
   after_initialize :ensure_session_token
 
   has_many :projects
-  has_many :stories,
+  has_many :workflows,
     through: :projects
+  has_many :stories,
+    through: :workflows
 
   attr_reader :password
 

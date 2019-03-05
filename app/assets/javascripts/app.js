@@ -216,6 +216,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 /* harmony import */ var _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/projectUtil */ "./client/utils/projectUtil.js");
 /* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/storyActions */ "./client/actions/storyActions.js");
+/* harmony import */ var _actions_workflowActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/workflowActions */ "./client/actions/workflowActions.js");
+
 
 
 var RECEIVE_PROJECT = "RECEIVE_PROJECT";
@@ -262,6 +264,7 @@ var getProject = function getProject(id) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (response) {
       dispatch(receiveProject(response.project));
       dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_1__["receiveStories"])(response.stories));
+      dispatch(Object(_actions_workflowActions__WEBPACK_IMPORTED_MODULE_2__["receiveWorkflows"])(response.workflows));
     });
   };
 };
@@ -511,6 +514,27 @@ var createUser = function createUser(user) {
   };
 };
 window.createUser = createUser;
+
+/***/ }),
+
+/***/ "./client/actions/workflowActions.js":
+/*!*******************************************!*\
+  !*** ./client/actions/workflowActions.js ***!
+  \*******************************************/
+/*! exports provided: RECEIVE_WORKFLOWS, receiveWorkflows */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKFLOWS", function() { return RECEIVE_WORKFLOWS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveWorkflows", function() { return receiveWorkflows; });
+var RECEIVE_WORKFLOWS = "RECEIVE_WORKFLOWS";
+var receiveWorkflows = function receiveWorkflows(workflows) {
+  return {
+    type: RECEIVE_WORKFLOWS,
+    workflows: workflows
+  };
+};
 
 /***/ }),
 
@@ -1192,30 +1216,10 @@ function (_Component) {
         projectStories: this.props.stories
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "workflow-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        canAddStory: true,
-        projectStories: this.props.stories,
-        projectId: this.props.project.id,
-        show: true,
-        workflow: "Icebox"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        canAddStory: true,
-        projectStories: this.props.stories,
-        projectId: this.props.project.id,
-        show: true,
-        workflow: "Backlog"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        canAddStory: true,
-        projectStories: this.props.stories,
-        projectId: this.props.project.id,
-        show: true,
-        workflow: "Current"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        canAddStory: false,
-        projectStories: this.props.stories,
-        projectId: this.props.project.id,
-        show: true,
-        workflow: "Done"
+      }, this.props.workflows.map(function (workflow) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          workflow: workflow
+        });
       }))));
     }
   }]);
@@ -1248,7 +1252,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     project: state.entities.projects[ownProps.match.params.id],
-    stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByProjectId"])(state, ownProps.match.params.id)
+    workflows: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectWorkflowsByProjectId"])(state, ownProps.match.params.id)
   };
 };
 
@@ -2782,6 +2786,7 @@ function (_Component) {
       showForm: false
     };
     _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
+    _this.canAddStory = _this.props.workflow.title !== "Done";
     return _this;
   }
 
@@ -2798,7 +2803,7 @@ function (_Component) {
       if (!this.props.show) return null;
       var addStoryButton = null;
 
-      if (this.props.canAddStory) {
+      if (this.canAddStory) {
         addStoryButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "add-story-button",
           onClick: this.toggleForm
@@ -2816,7 +2821,7 @@ function (_Component) {
         onClick: this.props.toggleWorkflow
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times"
-      })), this.props.workflow, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.props.workflow.title, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
         canDelete: false,
@@ -2853,6 +2858,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _workflow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workflow */ "./client/components/workflows/workflow.jsx");
 /* harmony import */ var _actions_uiActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/uiActions */ "./client/actions/uiActions.js");
 /* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+
 
 
 
@@ -2860,10 +2867,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    canAddStory: ownProps.canAddStory,
     projectId: ownProps.projectId,
-    show: state.ui[ownProps.workflow.toLowerCase()],
-    stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, ownProps.workflow),
+    show: state.ui[ownProps.workflow.title.toLowerCase()],
+    stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflowId"])(state, ownProps.workflow.id),
     workflow: ownProps.workflow
   };
 };
@@ -2871,7 +2877,10 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     toggleWorkflow: function toggleWorkflow() {
-      return dispatch(Object(_actions_uiActions__WEBPACK_IMPORTED_MODULE_2__["toggleWorkflow"])(ownProps.workflow.toLowerCase()));
+      return dispatch(Object(_actions_uiActions__WEBPACK_IMPORTED_MODULE_2__["toggleWorkflow"])(ownProps.workflow.title.toLowerCase()));
+    },
+    updateStory: function updateStory(story) {
+      return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_4__["updateStory"])(story));
     }
   };
 };
@@ -2993,11 +3002,12 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     icebox: state.ui.icebox,
     backlog: state.ui.backlog,
     current: state.ui.current,
-    done: state.ui.done,
-    iceboxCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Icebox").length,
-    backlogCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Backlog").length,
-    currentCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Current").length,
-    doneCount: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflow"])(ownProps.projectStories, "Done").length
+    done: state.ui.done // TODO: implement again
+    // iceboxCount: selectStoriesByWorkflow(ownProps.projectStories, "Icebox").length,
+    // backlogCount: selectStoriesByWorkflow(ownProps.projectStories, "Backlog").length,
+    // currentCount: selectStoriesByWorkflow(ownProps.projectStories, "Current").length,
+    // doneCount: selectStoriesByWorkflow(ownProps.projectStories, "Done").length
+
   };
 };
 
@@ -3229,6 +3239,37 @@ var usersReducer = function usersReducer() {
 
 /***/ }),
 
+/***/ "./client/reducers/entities/workflowsReducer.js":
+/*!******************************************************!*\
+  !*** ./client/reducers/entities/workflowsReducer.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_workflowActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/workflowActions */ "./client/actions/workflowActions.js");
+
+
+var workflowsReducer = function workflowsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_workflowActions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKFLOWS"]:
+      return Object.assign(newState, action.workflows);
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (workflowsReducer);
+
+/***/ }),
+
 /***/ "./client/reducers/entitiesReducer.js":
 /*!********************************************!*\
   !*** ./client/reducers/entitiesReducer.js ***!
@@ -3241,14 +3282,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entities/usersReducer */ "./client/reducers/entities/usersReducer.js");
 /* harmony import */ var _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entities/projectsReducer */ "./client/reducers/entities/projectsReducer.js");
-/* harmony import */ var _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./entities/storiesReducer */ "./client/reducers/entities/storiesReducer.js");
+/* harmony import */ var _entities_workflowsReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./entities/workflowsReducer */ "./client/reducers/entities/workflowsReducer.js");
+/* harmony import */ var _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./entities/storiesReducer */ "./client/reducers/entities/storiesReducer.js");
+
 
 
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   projects: _entities_projectsReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  stories: _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  stories: _entities_storiesReducer__WEBPACK_IMPORTED_MODULE_4__["default"],
+  workflows: _entities_workflowsReducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   users: _entities_usersReducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
@@ -3428,13 +3472,14 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!**************************************!*\
   !*** ./client/reducers/selectors.js ***!
   \**************************************/
-/*! exports provided: selectStoriesByProjectId, selectStoriesByWorkflow */
+/*! exports provided: selectStoriesByProjectId, selectStoriesByWorkflowId, selectWorkflowsByProjectId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByProjectId", function() { return selectStoriesByProjectId; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflow", function() { return selectStoriesByWorkflow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflowId", function() { return selectStoriesByWorkflowId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectWorkflowsByProjectId", function() { return selectWorkflowsByProjectId; });
 var selectStoriesByProjectId = function selectStoriesByProjectId(state, id) {
   var projectId = parseInt(id);
   var stories = Object.values(state.entities.stories);
@@ -3446,14 +3491,27 @@ var selectStoriesByProjectId = function selectStoriesByProjectId(state, id) {
   });
   return selectedStories;
 };
-var selectStoriesByWorkflow = function selectStoriesByWorkflow(stories, workflow) {
+var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
+  var workflowId = parseInt(id);
   var selectedStories = [];
+  var stories = Object.values(state.entities.stories);
   stories.forEach(function (story) {
-    if (story.workflow === workflow) {
+    if (story.workflow_id === workflowId) {
       selectedStories.push(story);
     }
   });
   return selectedStories;
+};
+var selectWorkflowsByProjectId = function selectWorkflowsByProjectId(state, id) {
+  var projectId = parseInt(id);
+  var workflows = Object.values(state.entities.workflows);
+  var selectedWorkflows = [];
+  workflows.forEach(function (workflow) {
+    if (workflow.project_id === projectId) {
+      selectedWorkflows.push(workflow);
+    }
+  });
+  return selectedWorkflows;
 };
 
 /***/ }),

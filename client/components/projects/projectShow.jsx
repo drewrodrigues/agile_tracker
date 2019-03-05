@@ -25,8 +25,12 @@ class ProjectShow extends Component {
             projectStories={ this.props.stories }
           />
 
+
           <section className="workflow-container">
-            <WorkflowContainer 
+            {this.props.workflows.map(workflow => (
+              <WorkflowContainer workflow={workflow}/>
+            ))}
+            {/* <WorkflowContainer 
               canAddStory={true}
               projectStories={this.props.stories}
               projectId={ this.props.project.id }
@@ -53,7 +57,7 @@ class ProjectShow extends Component {
               projectId={ this.props.project.id }
               show={true}
               workflow="Done"
-            />
+            /> */}
           </section>
         </section>
       </div>

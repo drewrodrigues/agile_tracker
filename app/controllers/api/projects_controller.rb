@@ -2,7 +2,7 @@ class Api::ProjectsController < ApplicationController
   before_action :require_sign_in
 
   def show
-    @project = current_user.projects.includes(:stories).find(params[:id])
+    @project = current_user.projects.includes(:workflows, :stories).find(params[:id])
   end
   
   def create

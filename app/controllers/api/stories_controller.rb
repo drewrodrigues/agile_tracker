@@ -2,7 +2,7 @@ class Api::StoriesController < ApplicationController
   before_action :require_sign_in
 
   def create
-    @story = current_user.projects.find(params[:project_id]).stories.build(story_params)
+    @story = current_user.workflows.find(params[:workflow_id]).stories.build(story_params)
     if @story.save
       render :show
     else

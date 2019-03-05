@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_212034) do
+ActiveRecord::Schema.define(version: 2019_03_05_004328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,15 +27,15 @@ ActiveRecord::Schema.define(version: 2019_03_02_212034) do
   create_table "stories", force: :cascade do |t|
     t.string "description", default: "", null: false
     t.string "kind", default: "Feature", null: false
-    t.integer "order", default: 0, null: false
     t.integer "points", default: 0, null: false
-    t.integer "project_id", null: false
     t.string "status", default: "Unstarted", null: false
     t.string "title", null: false
-    t.string "workflow", default: "Icebox", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_stories_on_project_id"
+    t.integer "position", null: false
+    t.integer "workflow_id", null: false
+    t.index ["workflow_id", "position"], name: "index_stories_on_workflow_id_and_position", unique: true
+    t.index ["workflow_id"], name: "index_stories_on_workflow_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(version: 2019_03_02_212034) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
+  end
+
+  create_table "workflows", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "project_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "position"], name: "index_workflows_on_project_id_and_position", unique: true
+    t.index ["project_id"], name: "index_workflows_on_project_id"
+    t.index ["title", "project_id"], name: "index_workflows_on_title_and_project_id", unique: true
   end
 
 end

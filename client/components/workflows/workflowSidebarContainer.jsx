@@ -9,10 +9,11 @@ const mapStateToProps = (state, ownProps) => {
     backlog: state.ui.backlog,
     current: state.ui.current,
     done: state.ui.done,
-    iceboxCount: selectStoriesByWorkflow(ownProps.projectStories, "Icebox").length,
-    backlogCount: selectStoriesByWorkflow(ownProps.projectStories, "Backlog").length,
-    currentCount: selectStoriesByWorkflow(ownProps.projectStories, "Current").length,
-    doneCount: selectStoriesByWorkflow(ownProps.projectStories, "Done").length
+    // TODO: implement again
+    // iceboxCount: selectStoriesByWorkflow(ownProps.projectStories, "Icebox").length,
+    // backlogCount: selectStoriesByWorkflow(ownProps.projectStories, "Backlog").length,
+    // currentCount: selectStoriesByWorkflow(ownProps.projectStories, "Current").length,
+    // doneCount: selectStoriesByWorkflow(ownProps.projectStories, "Done").length
   }
 }
 

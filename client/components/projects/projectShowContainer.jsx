@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import ProjectShow from './projectShow'
 import { getProject } from '../../actions/projectActions'
-import { selectStoriesByProjectId } from '../../reducers/selectors'
+import { selectWorkflowsByProjectId } from '../../reducers/selectors'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     project: state.entities.projects[ownProps.match.params.id],
-    stories: selectStoriesByProjectId(state, ownProps.match.params.id)
+    workflows: selectWorkflowsByProjectId(state, ownProps.match.params.id)
   }
 }
 
