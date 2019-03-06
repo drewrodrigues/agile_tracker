@@ -55,12 +55,12 @@ class Workflow extends Component {
                 ref={ provided.innerRef }
                 className="droppable-container">
                 { this.props.stories.length === 0 ? (
-                  <Placeholder show={ !this.state.showForm }workflow={ this.props.workflow.title } toggleForm={this.toggleForm } />
+                  <Placeholder show={ !this.state.showForm } workflow={ this.props.workflow.title } toggleForm={this.toggleForm } />
                 ) : null }
 
                 { provided.placeholder }
 
-                <StoryIndex stories={ this.props.stories } />
+                <StoryIndex stories={ this.props.stories } workflow={ this.props.workflow } />
               </div>
             )}
           </Droppable>

@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd'
 
 import StoryContainer from './storyContainer'
 
-const StoryIndex = ({ stories }) => {
+const StoryIndex = ({ stories, workflow }) => {
   return (<>
       { stories.map((story, index) => (
         <Draggable draggableId={ story.id } key={ story.id } index={ story.position }>
@@ -13,7 +13,8 @@ const StoryIndex = ({ stories }) => {
               innerRef={ provided.innerRef }
               provided={ provided }
               story={ story }
-              innerRef={ provided.innerRef }/>
+              innerRef={ provided.innerRef }
+              workflow={ workflow }/>
           )}
         </Draggable>
       ))}

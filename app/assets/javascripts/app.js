@@ -1967,6 +1967,7 @@ function (_Component) {
           rejectStory = _this$props.rejectStory,
           showForm = _this$props.showForm,
           story = _this$props.story,
+          workflow = _this$props.workflow,
           updateStory = _this$props.updateStory;
 
       if (this.state.showForm) {
@@ -1978,7 +1979,7 @@ function (_Component) {
         });
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({
-          className: "story story-".concat(story.status, " story-").concat(story.workflow)
+          className: "story story-".concat(story.status, " story-").concat(workflow.title)
         }, provided.draggableProps, provided.dragHandleProps, {
           ref: innerRef
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2627,19 +2628,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var StoryIndex = function StoryIndex(_ref) {
-  var stories = _ref.stories;
+  var stories = _ref.stories,
+      workflow = _ref.workflow;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, stories.map(function (story, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["Draggable"], {
       draggableId: story.id,
       key: story.id,
       index: story.position
     }, function (provided) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyContainer__WEBPACK_IMPORTED_MODULE_2__["default"], _defineProperty({
+      var _React$createElement;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyContainer__WEBPACK_IMPORTED_MODULE_2__["default"], (_React$createElement = {
         key: story.id,
         innerRef: provided.innerRef,
         provided: provided,
         story: story
-      }, "innerRef", provided.innerRef));
+      }, _defineProperty(_React$createElement, "innerRef", provided.innerRef), _defineProperty(_React$createElement, "workflow", workflow), _React$createElement));
     });
   }));
 };
@@ -2963,7 +2967,8 @@ function (_Component) {
           workflow: _this2.props.workflow.title,
           toggleForm: _this2.toggleForm
         }) : null, provided.placeholder, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          stories: _this2.props.stories
+          stories: _this2.props.stories,
+          workflow: _this2.props.workflow
         }));
       })));
     }

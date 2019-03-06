@@ -8,6 +8,11 @@
   white-space: normal;
   @extend %clear;
 
+  &:hover {
+    cursor: move;
+    background-color: #e6e6e6;
+  }
+
   .icons {
     vertical-align: top;
     margin-right: -10px;
@@ -39,18 +44,30 @@
   background-color: #f3f3d1;
   border-bottom: 1px solid #d1d1b0;
   border-top: 1px solid #f6f6f4;
+
+  &:hover {
+    background-color: #f0efc6;
+  }
 }
 
 .story-Accepted {
   background-color: #daebcf;
   border-bottom: 1px solid #c3d5b4;
   border-top: 1px solid #e5f7d6;
+
+  &:hover {
+    background-color: #c6d9b6;
+  }
 }
 
 .story-Icebox {
   background-color: #e4eff7;
   border-bottom: 1px solid #c2cdd5;
   border-top: 1px solid #f6fff9;
+
+  &:hover {
+    background-color: #d1e0ed;
+  }
 }
 
 .story-points {
@@ -116,7 +133,7 @@
 }
 
 .icon-chore {
-  color: #ccc;
+  color: #888;
 }
 
 .icon-release {
@@ -124,7 +141,7 @@
 }
 
 .icon-dropdown {
-  color: #ccc;
+  color: #aaa;
   cursor: pointer;
   padding: 5px 10px;
 }

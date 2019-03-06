@@ -27,6 +27,7 @@ class Story extends Component {
       rejectStory,
       showForm,
       story,
+      workflow,
       updateStory
     } = this.props
 
@@ -41,7 +42,7 @@ class Story extends Component {
     } else {
       return (
         <div 
-          className={ `story story-${story.status} story-${story.workflow}` }
+          className={ `story story-${story.status} story-${workflow.title}` }
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
           ref={innerRef}>
