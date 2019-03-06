@@ -79,7 +79,9 @@ class StoryForm extends Component {
           <input 
             type="text" 
             value={ this.state.title }
-            onChange={ this.update('title') }/>
+            onChange={ this.update('title') }
+            autoFocus
+            />
 
           { deleteButton }
           <button className="story-form-button-save story-form-button">Save</button>

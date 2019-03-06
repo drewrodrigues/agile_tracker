@@ -10,7 +10,8 @@ export const updateStory = story => {
   return $.ajax({
     method: 'PUT',
     url: `/api/stories/${story.id}`,
-    data: { story }
+    data: { story },
+    async: false // TODO: pull into a new action changePosition
   })
 }
 

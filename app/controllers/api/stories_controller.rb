@@ -12,8 +12,10 @@ class Api::StoriesController < ApplicationController
   end
   
   def update
+    # TODO: pull route for changing position out
     if @story.update(story_params)
-      render :show
+      @stories = @story.workflow.stories
+      render :index
     else
       render json: @story.errors.full_messages, status: :unprocessable_entity
     end

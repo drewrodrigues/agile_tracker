@@ -12,8 +12,9 @@ export const createStory = (projectId, story) => dispatch => {
 }
 
 export const updateStory = story => dispatch => {
+  dispatch(receiveStory({ [story.id]: story }))
   return APIUtil.updateStory(story)
-    .then(storyResponse => dispatch(receiveStory(storyResponse)))
+    .then(storyResponse => dispatch(receiveStories(storyResponse)))
 }
 
 export const deleteStory = story => dispatch => {

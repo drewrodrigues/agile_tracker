@@ -387,6 +387,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "acceptStory", function() { return acceptStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveStories", function() { return receiveStories; });
 /* harmony import */ var _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storyUtil */ "./client/utils/storyUtil.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var RECEIVE_STORY = "RECEIVE_STORY";
 var RECEIVE_STORIES = "RECEIVE_STORIES";
@@ -401,8 +403,9 @@ var createStory = function createStory(projectId, story) {
 };
 var updateStory = function updateStory(story) {
   return function (dispatch) {
+    dispatch(receiveStory(_defineProperty({}, story.id, story)));
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["updateStory"](story).then(function (storyResponse) {
-      return dispatch(receiveStory(storyResponse));
+      return dispatch(receiveStories(storyResponse));
     });
   };
 };
@@ -1241,7 +1244,8 @@ function (_Component) {
         this.props.updateStory({
           id: e.draggableId,
           position: destination.index,
-          workflow_id: destination.droppableId
+          workflow_id: destination.droppableId,
+          moved: true
         });
       }
     }
@@ -2365,7 +2369,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.title,
-        onChange: this.update('title')
+        onChange: this.update('title'),
+        autoFocus: true
       }), deleteButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "story-form-button-save story-form-button"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -3665,7 +3670,7 @@ var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
   var selectedStories = [];
   var stories = Object.values(state.entities.stories);
   stories.forEach(function (story) {
-    if (story.workflow_id === workflowId) {
+    if (story.workflow_id == workflowId) {
       selectedStories.push(story);
     }
   });
@@ -3952,7 +3957,9 @@ var updateStory = function updateStory(story) {
     url: "/api/stories/".concat(story.id),
     data: {
       story: story
-    }
+    },
+    async: false // TODO: pull into a new action changePosition
+
   });
 };
 var deleteStory = function deleteStory(id) {

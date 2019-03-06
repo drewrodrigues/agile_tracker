@@ -3,7 +3,7 @@ export const selectStoriesByWorkflowId = (state, id) => {
   const selectedStories = []
   const stories = Object.values(state.entities.stories)
   stories.forEach(story => {
-    if (story.workflow_id === workflowId) {
+    if (story.workflow_id == workflowId) {
       selectedStories.push(story)
     }
   })
