@@ -11,6 +11,10 @@
     border-radius: 3px;
     border: 1px solid #cdcdcd;
     resize: none;
+
+    &:focus {
+      border: 1px solid #aaa;
+    }
   }
 
   textarea {

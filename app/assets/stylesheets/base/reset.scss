@@ -50,3 +50,8 @@ table {
 * {
 	box-sizing: border-box;
 }
+input:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+}
