@@ -22,7 +22,6 @@ class ProjectShow extends Component {
 
   onDragEnd(e) {
     const { destination, source } = e
-    console.log(e)
     if (!destination) {
       return
     } else if (

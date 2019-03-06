@@ -1247,7 +1247,6 @@ function (_Component) {
     value: function onDragEnd(e) {
       var destination = e.destination,
           source = e.source;
-      console.log(e);
 
       if (!destination) {
         return;
