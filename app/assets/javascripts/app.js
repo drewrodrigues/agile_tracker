@@ -1185,8 +1185,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
-/* harmony import */ var _workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../workflows/workflowIndex */ "./client/components/workflows/workflowIndex.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
+/* harmony import */ var _workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../workflows/workflowIndex */ "./client/components/workflows/workflowIndex.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1209,6 +1210,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ProjectShow =
 /*#__PURE__*/
 function (_Component) {
@@ -1221,7 +1223,8 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectShow).call(this, props));
     _this.state = {
-      showSidebar: true
+      showSidebar: true,
+      loading: true
     };
     _this.onDragEnd = _this.onDragEnd.bind(_assertThisInitialized(_this));
     _this.toggleSidebar = _this.toggleSidebar.bind(_assertThisInitialized(_this));
@@ -1231,7 +1234,15 @@ function (_Component) {
   _createClass(ProjectShow, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getProject(this.props.match.params.id);
+      var _this2 = this;
+
+      this.props.getProject(this.props.match.params.id).then(function () {
+        setTimeout(function () {
+          _this2.setState({
+            loading: false
+          });
+        }, 250);
+      });
     }
   }, {
     key: "onDragEnd",
@@ -1263,15 +1274,21 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.project) return null;
+      var title = this.state.loading ? "Loading..." : this.props.project.title;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: "project-show",
-        title: this.props.project.title
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        title: title
+      }), this.state.loading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-loading project-loading-".concat(this.state.loading)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-loading-content"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window.images.logoClear
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One moment please..."))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "project-container sidebar-show-".concat(this.state.showSidebar)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_3__["default"], {
         toggleSidebar: this.toggleSidebar,
         onDragEnd: this.onDragEnd,
         onDragUpdate: this.onDragUpdate,

@@ -155,3 +155,40 @@
     background-color: $orange-dark;
   }
 }
+
+.project-loading {
+  background: #212121;
+  bottom: 0;
+  color: $white;
+  font-size: 36px;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 35px;
+  width: 100%;
+  z-index: 100;
+
+  img {
+    width: 100px;
+  }
+}
+
+.project-loading-content {
+  margin-top: 250px;
+}
+
+.project-loading-true {
+  @keyframes rotate {
+    0% { 
+      transform: rotate(480deg)
+    }
+    100% {
+      tranform: rotate(0deg)
+    }
+  }
+  img {
+    animation: rotate 1.5s infinite alternate ease-out;
+  }
+}

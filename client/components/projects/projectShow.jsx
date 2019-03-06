@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import AppNavbarContainer from '../shared/appNavbarContainer'
 import WorkflowIndex from '../workflows/workflowIndex'
@@ -6,13 +7,18 @@ import WorkflowIndex from '../workflows/workflowIndex'
 class ProjectShow extends Component {
   constructor(props) {
     super(props)
-    this.state = { showSidebar: true }
+    this.state = { showSidebar: true, loading: true }
     this.onDragEnd = this.onDragEnd.bind(this)
     this.toggleSidebar = this.toggleSidebar.bind(this)
   }
 
   componentDidMount() {
     this.props.getProject(this.props.match.params.id)
+      .then(() => {
+        setTimeout(() => {
+          this.setState({ loading: false })
+        }, 250)
+      })
   }
 
   onDragEnd(e) {
@@ -40,21 +46,31 @@ class ProjectShow extends Component {
   }
 
   render() {
-    if (!this.props.project) return null
+    let title = this.state.loading ? "Loading..." : this.props.project.title
 
     return (
       <div className="project-show">
-        <AppNavbarContainer style="project-show" title={ this.props.project.title }/>
+        <AppNavbarContainer style="project-show" title={ title }/>
 
-        <section className={`project-container sidebar-show-${this.state.showSidebar}`}>
-          <WorkflowIndex
-            toggleSidebar={ this.toggleSidebar }
-            onDragEnd={ this.onDragEnd }
-            onDragUpdate={ this.onDragUpdate }
-            project={ this.props.project } 
-            stories={ this.props.stories } 
-            workflows={ this.props.workflows } />
-        </section>
+        { this.state.loading ? (
+          <div className={`project-loading project-loading-${this.state.loading}`}>
+            <div className="project-loading-content">
+              <img src={ window.images.logoClear } />
+              <p>One moment please...</p>
+            </div>
+          </div>
+        ) : (
+          <section className={`project-container sidebar-show-${this.state.showSidebar}`}>
+            <WorkflowIndex
+              toggleSidebar={ this.toggleSidebar }
+              onDragEnd={ this.onDragEnd }
+              onDragUpdate={ this.onDragUpdate }
+              project={ this.props.project } 
+              stories={ this.props.stories } 
+              workflows={ this.props.workflows } />
+          </section>
+        )}
+
       </div>
     )
   }
