@@ -18,7 +18,7 @@ const configureStore = () => {
       ui: { icebox: true, backlog: true, current: true, done: true }
     }
   }
-  return createStore(rootReducer, initialState, applyMiddleware(logger, thunk))
+  return createStore(rootReducer, initialState, applyMiddleware(thunk, logger))
 }
 
 export default configureStore
