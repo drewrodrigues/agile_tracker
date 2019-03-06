@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
 
 import AppNavbarContainer from '../shared/appNavbarContainer'
-import WorkflowSidebarContainer from '../workflows/workflowSidebarContainer'
-import WorkflowContainer from '../workflows/workflowContainer'
-
+import WorkflowIndex from '../workflows/workflowIndex'
 
 class ProjectShow extends Component {
   constructor(props) {
@@ -19,16 +16,17 @@ class ProjectShow extends Component {
   onDragEnd(e) {
     const { destination, source } = e
     console.log(e)
-    if (
+    if (!destination) {
+      return
+    } else if (
       destination.droppableId === source.droppableId &&
       destination.index       === source.index
     ) {
       return
     } else {
-      // TODO: shift all items with position below my index, down to reflect backend
       this.props.updateStory({
         id: e.draggableId, 
-        position: destination.index + 1,
+        position: destination.index,
         workflow_id: destination.droppableId
       })
     }
@@ -42,18 +40,12 @@ class ProjectShow extends Component {
         <AppNavbarContainer style="project-show" title={ this.props.project.title }/>
 
         <section className="project-container">
-          <WorkflowSidebarContainer 
-            projectId={ this.props.project.id }
-            projectStories={ this.props.stories }
-          />
-
-          <DragDropContext onDragEnd={ this.onDragEnd } onDragUpdate={ this.onDragUpdate }>
-            <section className="workflow-container">
-              { this.props.workflows.map((workflow, index) => (
-                <WorkflowContainer workflow={ workflow } key={ index }/>
-              ))}
-            </section>
-          </DragDropContext>
+          <WorkflowIndex
+            onDragEnd={ this.onDragEnd }
+            onDragUpdate={ this.onDragUpdate }
+            project={ this.props.project } 
+            stories={ this.props.stories } 
+            workflows={ this.props.workflows } />
         </section>
       </div>
     )

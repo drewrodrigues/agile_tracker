@@ -79,8 +79,7 @@ class StoryForm extends Component {
           <input 
             type="text" 
             value={ this.state.title }
-            onChange={ this.update('title') }
-          />
+            onChange={ this.update('title') }/>
 
           { deleteButton }
           <button className="story-form-button-save story-form-button">Save</button>
@@ -95,8 +94,7 @@ class StoryForm extends Component {
                   key={ kind }
                   kind={ kind }
                   selected={ this.state.kind }
-                  update={ this.update }
-                />
+                  update={ this.update }/>
               ))}
 
             </li>
@@ -111,8 +109,7 @@ class StoryForm extends Component {
                     key={ points }
                     points={ points }
                     selected={ this.state.points }
-                    update={ this.update }
-                  />
+                    update={ this.update }/>
                 ))}
               </div>
             </li>
@@ -122,8 +119,7 @@ class StoryForm extends Component {
           <label>DESCRIPTION</label>
           <textarea 
             onChange={ this.update('description') }
-            value={ this.state.description }
-          />
+            value={ this.state.description }/>
         </form>
       </div>
     )

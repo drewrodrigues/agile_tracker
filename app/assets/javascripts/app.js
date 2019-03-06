@@ -1182,10 +1182,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
-/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
-/* harmony import */ var _workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../workflows/workflowSidebarContainer */ "./client/components/workflows/workflowSidebarContainer.jsx");
-/* harmony import */ var _workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../workflows/workflowContainer */ "./client/components/workflows/workflowContainer.jsx");
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
+/* harmony import */ var _workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../workflows/workflowIndex */ "./client/components/workflows/workflowIndex.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1203,8 +1201,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
 
 
 
@@ -1237,13 +1233,14 @@ function (_Component) {
           source = e.source;
       console.log(e);
 
-      if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      if (!destination) {
+        return;
+      } else if (destination.droppableId === source.droppableId && destination.index === source.index) {
         return;
       } else {
-        // TODO: shift all items with position below my index, down to reflect backend
         this.props.updateStory({
           id: e.draggableId,
-          position: destination.index + 1,
+          position: destination.index,
           workflow_id: destination.droppableId
         });
       }
@@ -1254,25 +1251,18 @@ function (_Component) {
       if (!this.props.project) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
         style: "project-show",
         title: this.props.project.title
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "project-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        projectId: this.props.project.id,
-        projectStories: this.props.stories
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["DragDropContext"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
         onDragEnd: this.onDragEnd,
-        onDragUpdate: this.onDragUpdate
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "workflow-container"
-      }, this.props.workflows.map(function (workflow, index) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          workflow: workflow,
-          key: index
-        });
-      })))));
+        onDragUpdate: this.onDragUpdate,
+        project: this.props.project,
+        stories: this.props.stories,
+        workflows: this.props.workflows
+      })));
     }
   }]);
 
@@ -1306,6 +1296,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     project: state.entities.projects[ownProps.match.params.id],
+    state: state,
     workflows: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectWorkflowsByProjectId"])(state, ownProps.match.params.id)
   };
 };
@@ -1851,6 +1842,52 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./client/components/stories/estimateOrButton.jsx":
+/*!********************************************************!*\
+  !*** ./client/components/stories/estimateOrButton.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _storyEstimate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyEstimate */ "./client/components/stories/storyEstimate.jsx");
+/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
+
+
+
+
+var EstimateOrButton = function EstimateOrButton(_ref) {
+  var story = _ref.story,
+      nextStatusForStory = _ref.nextStatusForStory,
+      rejectStory = _ref.rejectStory,
+      acceptStory = _ref.acceptStory,
+      updateStory = _ref.updateStory;
+
+  if (story.points === 0) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyEstimate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      story: story,
+      update: updateStory
+    });
+  } else if (story.status !== "Accepted") {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      status: story.status,
+      story: story,
+      nextStatusForStory: nextStatusForStory,
+      rejectStory: rejectStory,
+      acceptStory: acceptStory
+    }));
+  } else {
+    return null;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (EstimateOrButton);
+
+/***/ }),
+
 /***/ "./client/components/stories/story.jsx":
 /*!*********************************************!*\
   !*** ./client/components/stories/story.jsx ***!
@@ -1865,9 +1902,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storyIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./storyIcon */ "./client/components/stories/storyIcon.jsx");
 /* harmony import */ var _storyCaret__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyCaret */ "./client/components/stories/storyCaret.jsx");
 /* harmony import */ var _storyPoints__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storyPoints */ "./client/components/stories/storyPoints.jsx");
-/* harmony import */ var _storyButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storyButton */ "./client/components/stories/storyButton.jsx");
-/* harmony import */ var _storyUpdateContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./storyUpdateContainer */ "./client/components/stories/storyUpdateContainer.jsx");
-/* harmony import */ var _storyEstimate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./storyEstimate */ "./client/components/stories/storyEstimate.jsx");
+/* harmony import */ var _storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./storyUpdateContainer */ "./client/components/stories/storyUpdateContainer.jsx");
+/* harmony import */ var _estimateOrButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./estimateOrButton */ "./client/components/stories/estimateOrButton.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -1887,7 +1923,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -1924,58 +1959,47 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var estimated = this.props.data.points > 0 ? true : false;
-      var estimateOrButton;
       var _this$props = this.props,
+          acceptStory = _this$props.acceptStory,
+          innerRef = _this$props.innerRef,
+          nextStatusForStory = _this$props.nextStatusForStory,
           provided = _this$props.provided,
-          innerRef = _this$props.innerRef;
-
-      switch (estimated) {
-        case true:
-          estimateOrButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            status: this.props.data.status,
-            story: this.props.data,
-            nextStatusForStory: this.props.nextStatusForStory,
-            rejectStory: this.props.rejectStory,
-            acceptStory: this.props.acceptStory
-          }));
-          break;
-
-        case false:
-          if (this.props.data.status !== "Accepted") {
-            estimateOrButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyEstimate__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              story: this.props.data,
-              update: this.props.updateStory
-            });
-          }
-
-          break;
-      }
+          rejectStory = _this$props.rejectStory,
+          showForm = _this$props.showForm,
+          story = _this$props.story,
+          updateStory = _this$props.updateStory;
 
       if (this.state.showForm) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyUpdateContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
           canDelete: true,
           show: this.state.showForm,
-          story: this.props.data,
+          story: story,
           toggleForm: this.toggleForm
         });
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({
-          className: "story story-".concat(this.props.data.status, " story-").concat(this.props.data.workflow)
+          className: "story story-".concat(story.status, " story-").concat(story.workflow)
         }, provided.draggableProps, provided.dragHandleProps, {
           ref: innerRef
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "icons"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyCaret__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          showForm: this.props.showForm,
+          showForm: showForm,
           toggleForm: this.toggleForm
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyIcon__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          kind: this.props.data.kind
-        }), this.props.data.status !== "Accepted" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyPoints__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          points: this.props.data.points
-        }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          kind: story.kind
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyPoints__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          points: story.points,
+          status: story.status
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "story-content"
-        }, estimateOrButton, this.props.data.title));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_estimateOrButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          acceptStory: acceptStory,
+          story: story,
+          nextStatusForStory: nextStatusForStory,
+          rejectStory: rejectStory,
+          updateStory: updateStory
+        }), story.title));
       }
     }
   }]);
@@ -2087,13 +2111,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+var mapStateToProps = function mapStateToProps(_, ownProps) {
   return {
-    data: ownProps.story
+    story: ownProps.story
   };
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateStory: function updateStory(story) {
       return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["updateStory"])(story));
@@ -2504,7 +2528,7 @@ var StoryFormPoint = function StoryFormPoint(_ref) {
 
     case 1:
       content = 1;
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block-invis"
@@ -2512,12 +2536,12 @@ var StoryFormPoint = function StoryFormPoint(_ref) {
         className: "block-invis"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
 
     case 2:
       content = 2;
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block-invis"
@@ -2525,12 +2549,12 @@ var StoryFormPoint = function StoryFormPoint(_ref) {
         className: "block"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
 
     case 3:
       content = 3;
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
@@ -2538,7 +2562,7 @@ var StoryFormPoint = function StoryFormPoint(_ref) {
         className: "block"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
   }
 
@@ -2568,30 +2592,59 @@ __webpack_require__.r(__webpack_exports__);
 
 var StoryIcon = function StoryIcon(_ref) {
   var kind = _ref.kind;
-  var icon;
-
-  if (kind === "Feature") {
-    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-star icon-story icon-feature"
-    });
-  } else if (kind === "Bug") {
-    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-bug icon-story icon-bug"
-    });
-  } else if (kind === "Chore") {
-    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-cog icon-story icon-chore"
-    });
-  } else if (kind === "Release") {
-    icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fa fa-flag icon-story icon-release"
-    });
-  }
-
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, icon);
+  var iconClass = {
+    "Feature": "star icon-feature",
+    "Bug": "bug icon-bug",
+    "Chore": "cog icon-chore",
+    "Release": "flag icon-release"
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-".concat(iconClass[kind], " icon-story")
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (StoryIcon);
+
+/***/ }),
+
+/***/ "./client/components/stories/storyIndex.jsx":
+/*!**************************************************!*\
+  !*** ./client/components/stories/storyIndex.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _storyContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storyContainer */ "./client/components/stories/storyContainer.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var StoryIndex = function StoryIndex(_ref) {
+  var stories = _ref.stories;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, stories.map(function (story, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["Draggable"], {
+      draggableId: story.id,
+      key: story.id,
+      index: story.position
+    }, function (provided) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyContainer__WEBPACK_IMPORTED_MODULE_2__["default"], _defineProperty({
+        key: story.id,
+        innerRef: provided.innerRef,
+        provided: provided,
+        story: story
+      }, "innerRef", provided.innerRef));
+    });
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (StoryIndex);
 
 /***/ }),
 
@@ -2609,7 +2662,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StoryPoints = function StoryPoints(_ref) {
-  var points = _ref.points;
+  var points = _ref.points,
+      status = _ref.status;
+  if (status === "Accepted") return null;
   var blocks;
 
   switch (points) {
@@ -2617,7 +2672,7 @@ var StoryPoints = function StoryPoints(_ref) {
       break;
 
     case 1:
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block-invis"
@@ -2625,11 +2680,11 @@ var StoryPoints = function StoryPoints(_ref) {
         className: "block-invis"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
 
     case 2:
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block-invis"
@@ -2637,11 +2692,11 @@ var StoryPoints = function StoryPoints(_ref) {
         className: "block"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
 
     case 3:
-      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      blocks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "blocks"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
@@ -2649,7 +2704,7 @@ var StoryPoints = function StoryPoints(_ref) {
         className: "block"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "block"
-      }));
+      })));
       break;
   }
 
@@ -2761,6 +2816,7 @@ var Placeholder = function Placeholder(_ref) {
   var show = _ref.show,
       workflow = _ref.workflow,
       toggleForm = _ref.toggleForm;
+  if (!show) return null;
   var text = {
     "Icebox": "Loose ideas for later go here",
     "Backlog": "These are next up",
@@ -2773,15 +2829,20 @@ var Placeholder = function Placeholder(_ref) {
     "Current": "fa fa-list-ul",
     "Done": "fa fa-check"
   };
-  if (!show) return null;
+  var button = null;
+
+  if (workflow !== "Done") {
+    button = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: toggleForm,
+      className: "button button-green"
+    }, "Add a story"));
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "placeholder"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: icon[workflow]
-  }), " ", text[workflow]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: toggleForm,
-    className: "button button-green"
-  }, "Add a story"));
+  }), " ", text[workflow]), button);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Placeholder);
@@ -2799,15 +2860,14 @@ var Placeholder = function Placeholder(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
-/* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
-/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./placeholder */ "./client/components/workflows/placeholder.jsx");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyIndex */ "./client/components/stories/storyIndex.jsx");
+/* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
+/* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
+/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./placeholder */ "./client/components/workflows/placeholder.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2824,6 +2884,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2885,35 +2946,24 @@ function (_Component) {
         className: "fa fa-times"
       })), this.props.workflow.title, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
         canDelete: false,
         show: this.state.showForm,
         toggleForm: this.toggleForm,
         workflow: this.props.workflow
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__["Droppable"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["Droppable"], {
         droppableId: String(this.props.workflow.id),
         placeholder: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Do the things")
       }, function (provided) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
           className: "droppable-container"
-        }), provided.placeholder, _this2.props.stories.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_placeholder__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), _this2.props.stories.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_placeholder__WEBPACK_IMPORTED_MODULE_5__["default"], {
           show: !_this2.state.showForm,
           workflow: _this2.props.workflow.title,
           toggleForm: _this2.toggleForm
-        }) : null, _this2.props.stories.map(function (story, index) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__["Draggable"], {
-            draggableId: String(story.id),
-            key: story.id,
-            index: index
-          }, function (provided) {
-            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyContainer__WEBPACK_IMPORTED_MODULE_1__["default"], _defineProperty({
-              key: story.id,
-              innerRef: provided.innerRef,
-              provided: provided,
-              story: story
-            }, "innerRef", provided.innerRef));
-          });
+        }) : null, provided.placeholder, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          stories: _this2.props.stories
         }));
       })));
     }
@@ -2967,6 +3017,51 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_workflow__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./client/components/workflows/workflowIndex.jsx":
+/*!*******************************************************!*\
+  !*** ./client/components/workflows/workflowIndex.jsx ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workflowSidebarContainer */ "./client/components/workflows/workflowSidebarContainer.jsx");
+/* harmony import */ var _workflowContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workflowContainer */ "./client/components/workflows/workflowContainer.jsx");
+
+
+
+
+
+var WorkflowIndex = function WorkflowIndex(_ref) {
+  var onDragEnd = _ref.onDragEnd,
+      onDragUpdate = _ref.onDragUpdate,
+      project = _ref.project,
+      stories = _ref.stories,
+      workflows = _ref.workflows;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    projectId: project.id,
+    projectStories: stories
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["DragDropContext"], {
+    onDragEnd: onDragEnd,
+    onDragUpdate: onDragUpdate
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "workflow-container"
+  }, workflows.map(function (workflow, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflowContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      workflow: workflow,
+      key: index
+    });
+  }))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (WorkflowIndex);
 
 /***/ }),
 
@@ -3733,7 +3828,7 @@ var configureStore = function configureStore() {
     };
   }
 
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a, redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

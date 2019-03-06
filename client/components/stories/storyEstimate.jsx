@@ -12,9 +12,27 @@ class StoryEstimate extends Component {
   render() {
     return (
       <div className="estimate-points">
-        <button className="blocks" onClick={ this.update(1) }><span className="block-invis"></span><span className="block-invis"></span><span className="block"></span></button>
-        <button className="blocks" onClick={ this.update(2) }><span className="block-invis"></span><span className="block"></span><span className="block"></span></button>
-        <button className="blocks" onClick={ this.update(3) }><span className="block"></span><span className="block"></span><span className="block"></span></button>
+        <button 
+          className="blocks" 
+          onClick={ this.update(1) }>
+          <span className="block-invis"></span>
+          <span className="block-invis"></span>
+          <span className="block"></span>
+        </button>
+        <button 
+          className="blocks" 
+          onClick={ this.update(2) }>
+          <span className="block-invis"></span>
+          <span className="block"></span>
+          <span className="block"></span>
+        </button>
+        <button 
+          className="blocks" 
+          onClick={ this.update(3) }>
+          <span className="block"></span>
+          <span className="block"></span>
+          <span className="block"></span>
+        </button>
       </div>
     )
   }

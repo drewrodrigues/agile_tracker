@@ -2,13 +2,13 @@ import { connect } from 'react-redux'
 import Story from './story'
 import { updateStory, acceptStory, rejectStory, nextStatusForStory } from "../../actions/storyActions"
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (_, ownProps) => {
   return {
-    data: ownProps.story
+    story: ownProps.story
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     updateStory: story => dispatch(updateStory(story)),
     nextStatusForStory: story => dispatch(nextStatusForStory(story)),

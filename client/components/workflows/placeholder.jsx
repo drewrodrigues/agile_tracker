@@ -1,6 +1,8 @@
 import React from 'react'
 
 const Placeholder = ({ show, workflow, toggleForm }) => {
+  if (!show) return null
+
   let text = {
     "Icebox":  "Loose ideas for later go here",
     "Backlog": "These are next up",
@@ -13,16 +15,18 @@ const Placeholder = ({ show, workflow, toggleForm }) => {
     "Current": "fa fa-list-ul",
     "Done":    "fa fa-check"
   }
+  let button = null
+  if (workflow !== "Done") {
+    button = <>
+      <button onClick={ toggleForm }className="button button-green">Add a story
+      </button>
+    </>
+  }
   
-  if (!show) return null
   return (
     <div className="placeholder">
       <h4><i className={ icon[workflow] }></i> { text[workflow] }</h4>
-      <button 
-        onClick={ toggleForm }
-        className="button button-green"
-      >Add a story
-      </button>
+      { button }
     </div>
   )
 }
