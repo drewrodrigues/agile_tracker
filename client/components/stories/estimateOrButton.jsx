@@ -6,7 +6,7 @@ import StoryButton from './storyButton'
 const EstimateOrButton = ({ story, nextStatusForStory, rejectStory, acceptStory, updateStory }) => {
   if (story.status === "Accepted") return null
 
-  if (story.points === 0) {
+  if (story.points === 0 && story.status === "Unstarted") {
     return <StoryEstimate story={ story } update={ updateStory }/>
   } else {
     return <>

@@ -1896,7 +1896,7 @@ var EstimateOrButton = function EstimateOrButton(_ref) {
       updateStory = _ref.updateStory;
   if (story.status === "Accepted") return null;
 
-  if (story.points === 0) {
+  if (story.points === 0 && story.status === "Unstarted") {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyEstimate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       story: story,
       update: updateStory
