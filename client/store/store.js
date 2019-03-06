@@ -18,7 +18,12 @@ const configureStore = () => {
       ui: { icebox: true, backlog: true, current: true, done: true }
     }
   }
-  return createStore(rootReducer, initialState, applyMiddleware(thunk, logger))
+
+  let middleWare = [thunk]
+  if (process.env.NODE_ENV !== 'production') {
+    middleWare = [...middleWare, logger];
+  }
+  return createStore(rootReducer, initialState, applyMiddleware(...middleWare))
 }
 
 export default configureStore
