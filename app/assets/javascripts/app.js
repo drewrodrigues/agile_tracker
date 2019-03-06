@@ -1897,13 +1897,14 @@ var EstimateOrButton = function EstimateOrButton(_ref) {
       rejectStory = _ref.rejectStory,
       acceptStory = _ref.acceptStory,
       updateStory = _ref.updateStory;
+  if (story.status === "Accepted") return null;
 
   if (story.points === 0) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyEstimate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       story: story,
       update: updateStory
     });
-  } else if (story.status !== "Accepted") {
+  } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
       status: story.status,
       story: story,
@@ -1911,8 +1912,6 @@ var EstimateOrButton = function EstimateOrButton(_ref) {
       rejectStory: rejectStory,
       acceptStory: acceptStory
     }));
-  } else {
-    return null;
   }
 };
 
