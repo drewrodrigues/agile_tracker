@@ -25,7 +25,11 @@
   font-weight: 600;
 
   &.active {
-    color: #85bff1;
+    color: #8fc1ee;
+  }
+
+  &:hover {
+    color: #5caef6;
   }
 
   i {
@@ -33,6 +37,24 @@
     text-shadow: none;
     margin-left: 8px;
     margin-right: 12px;
+  }
+}
+
+.sidebar-show-false {
+  .sidebar {
+    width: 50px;
+
+    .text {
+      display: none;
+    }
+
+    .sidebar-count {
+      display: none;
+    }
+  }
+
+  .workflow-container {
+    left: 50px;
   }
 }
 
@@ -45,6 +67,10 @@
   text-shadow: 0;
   border-bottom: 1px solid #222;
   margin-bottom: 8px;
+
+  &:hover {
+    color: #5caef6;
+  }
 }
 
 .workflow-header {

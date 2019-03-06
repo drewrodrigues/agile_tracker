@@ -6,7 +6,9 @@ import WorkflowIndex from '../workflows/workflowIndex'
 class ProjectShow extends Component {
   constructor(props) {
     super(props)
+    this.state = { showSidebar: true }
     this.onDragEnd = this.onDragEnd.bind(this)
+    this.toggleSidebar = this.toggleSidebar.bind(this)
   }
 
   componentDidMount() {
@@ -33,6 +35,10 @@ class ProjectShow extends Component {
     }
   }
 
+  toggleSidebar(e) {
+    this.setState({ showSidebar: !this.state.showSidebar })
+  }
+
   render() {
     if (!this.props.project) return null
 
@@ -40,8 +46,9 @@ class ProjectShow extends Component {
       <div className="project-show">
         <AppNavbarContainer style="project-show" title={ this.props.project.title }/>
 
-        <section className="project-container">
+        <section className={`project-container sidebar-show-${this.state.showSidebar}`}>
           <WorkflowIndex
+            toggleSidebar={ this.toggleSidebar }
             onDragEnd={ this.onDragEnd }
             onDragUpdate={ this.onDragUpdate }
             project={ this.props.project } 

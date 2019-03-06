@@ -1220,7 +1220,11 @@ function (_Component) {
     _classCallCheck(this, ProjectShow);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectShow).call(this, props));
+    _this.state = {
+      showSidebar: true
+    };
     _this.onDragEnd = _this.onDragEnd.bind(_assertThisInitialized(_this));
+    _this.toggleSidebar = _this.toggleSidebar.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1250,6 +1254,13 @@ function (_Component) {
       }
     }
   }, {
+    key: "toggleSidebar",
+    value: function toggleSidebar(e) {
+      this.setState({
+        showSidebar: !this.state.showSidebar
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.props.project) return null;
@@ -1259,8 +1270,9 @@ function (_Component) {
         style: "project-show",
         title: this.props.project.title
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "project-container"
+        className: "project-container sidebar-show-".concat(this.state.showSidebar)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        toggleSidebar: this.toggleSidebar,
         onDragEnd: this.onDragEnd,
         onDragUpdate: this.onDragUpdate,
         project: this.props.project,
@@ -3052,10 +3064,11 @@ var WorkflowIndex = function WorkflowIndex(_ref) {
   var onDragEnd = _ref.onDragEnd,
       onDragUpdate = _ref.onDragUpdate,
       project = _ref.project,
-      stories = _ref.stories,
+      toggleSidebar = _ref.toggleSidebar,
       workflows = _ref.workflows;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
     projectId: project.id,
+    toggleSidebar: toggleSidebar,
     workflows: workflows
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["DragDropContext"], {
     onDragEnd: onDragEnd,
@@ -3110,10 +3123,10 @@ var WorkflowSidebar =
 function (_Component) {
   _inherits(WorkflowSidebar, _Component);
 
-  function WorkflowSidebar(props) {
+  function WorkflowSidebar() {
     _classCallCheck(this, WorkflowSidebar);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(WorkflowSidebar).call(this, props));
+    return _possibleConstructorReturn(this, _getPrototypeOf(WorkflowSidebar).apply(this, arguments));
   }
 
   _createClass(WorkflowSidebar, [{
@@ -3122,7 +3135,8 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "sidebar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "sidebar-hamburger"
+        className: "sidebar-hamburger",
+        onClick: this.props.toggleSidebar
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-bars"
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -3130,28 +3144,36 @@ function (_Component) {
         onClick: this.props.toggleIcebox
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-snowflake-o"
-      }), "Icebox", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text"
+      }, "Icebox"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
       }, this.props.counts["Icebox"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.backlog ? 'active' : ''),
         onClick: this.props.toggleBacklog
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-inbox"
-      }), "Backlog", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text"
+      }, "Backlog"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
       }, this.props.counts["Backlog"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.current ? 'active' : ''),
         onClick: this.props.toggleCurrent
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-list-ul"
-      }), "Current", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text"
+      }, "Current"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
       }, this.props.counts["Current"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.done ? 'active' : ''),
         onClick: this.props.toggleDone
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-check"
-      }), "Done", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text"
+      }, "Done"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
       }, this.props.counts["Done"]))))));
     }

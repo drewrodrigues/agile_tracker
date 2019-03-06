@@ -4,10 +4,11 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import WorkflowSidebarContainer from './workflowSidebarContainer'
 import WorkflowContainer from './workflowContainer'
 
-const WorkflowIndex = ({ onDragEnd, onDragUpdate, project, stories, workflows }) => {
+const WorkflowIndex = ({ onDragEnd, onDragUpdate, project, toggleSidebar, workflows }) => {
   return (<>
     <WorkflowSidebarContainer 
       projectId={ project.id }
+      toggleSidebar={ toggleSidebar }
       workflows={ workflows }
     />
 
