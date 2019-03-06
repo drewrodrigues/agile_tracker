@@ -1185,9 +1185,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
-/* harmony import */ var _workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../workflows/workflowIndex */ "./client/components/workflows/workflowIndex.jsx");
+/* harmony import */ var _shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/appNavbarContainer */ "./client/components/shared/appNavbarContainer.jsx");
+/* harmony import */ var _workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../workflows/workflowIndex */ "./client/components/workflows/workflowIndex.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1205,7 +1204,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -1277,7 +1275,7 @@ function (_Component) {
       var title = this.state.loading ? "Loading..." : this.props.project.title;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shared_appNavbarContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {
         style: "project-show",
         title: title
       }), this.state.loading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1288,7 +1286,7 @@ function (_Component) {
         src: window.images.logoClear
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One moment please..."))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "project-container sidebar-show-".concat(this.state.showSidebar)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflows_workflowIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
         toggleSidebar: this.toggleSidebar,
         onDragEnd: this.onDragEnd,
         onDragUpdate: this.onDragUpdate,
@@ -2898,9 +2896,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var _stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stories/storyIndex */ "./client/components/stories/storyIndex.jsx");
-/* harmony import */ var _stories_storyContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stories/storyContainer */ "./client/components/stories/storyContainer.jsx");
-/* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
-/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./placeholder */ "./client/components/workflows/placeholder.jsx");
+/* harmony import */ var _stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../stories/storyFormContainer */ "./client/components/stories/storyFormContainer.jsx");
+/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./placeholder */ "./client/components/workflows/placeholder.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -2920,7 +2917,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -2982,19 +2978,18 @@ function (_Component) {
         className: "fa fa-times"
       })), this.props.workflow.title, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canDelete: false,
         show: this.state.showForm,
         toggleForm: this.toggleForm,
         workflow: this.props.workflow
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["Droppable"], {
-        droppableId: String(this.props.workflow.id),
-        placeholder: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Do the things")
+        droppableId: String(this.props.workflow.id)
       }, function (provided) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
           className: "droppable-container"
-        }), _this2.props.stories.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_placeholder__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        }), _this2.props.stories.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_placeholder__WEBPACK_IMPORTED_MODULE_4__["default"], {
           show: !_this2.state.showForm,
           workflow: _this2.props.workflow.title,
           toggleForm: _this2.toggleForm

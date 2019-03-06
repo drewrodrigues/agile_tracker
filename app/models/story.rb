@@ -37,6 +37,8 @@ class Story < ApplicationRecord
   validate :current_cant_be_accepted
   validate :done_must_be_accepted
 
+  before_validation :change_to_unstarted_if_needed
+  before_validation :change_to_completed_if_needed
   before_validation :move_to_done_if_accepted
   before_validation :move_from_icebox_if_needed
   before_validation :move_from_backlog_if_needed
@@ -85,6 +87,19 @@ class Story < ApplicationRecord
 
   def send_to_done_workflow
     self.workflow = project.workflow("Done")
+  end
+
+  def change_to_completed_if_needed
+    if workflow.title == "Done"
+      self.status = "Accepted"
+    end
+  end
+
+  def change_to_unstarted_if_needed
+    if %w(Icebox Backlog).include?(workflow.title) ||
+      %w(Icebox Backlog Current).include?(workflow.title) && status == "Accepted"
+      self.status = "Unstarted"
+    end
   end
 
   def move_to_done_if_accepted

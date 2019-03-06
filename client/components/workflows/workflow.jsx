@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable } from 'react-beautiful-dnd'
 
 import StoryIndex from '../stories/storyIndex'
-import StoryContainer from '../stories/storyContainer'
 import StoryFormContainer from '../stories/storyFormContainer'
 import Placeholder from './placeholder'
 
@@ -48,7 +47,7 @@ class Workflow extends Component {
             toggleForm={ this.toggleForm }
             workflow={ this.props.workflow }/>
 
-          <Droppable droppableId={ String(this.props.workflow.id) } placeholder={<div>Do the things</div>}>
+          <Droppable droppableId={ String(this.props.workflow.id) }>
             { provided => (
               <div 
                 { ...provided.droppableProps }

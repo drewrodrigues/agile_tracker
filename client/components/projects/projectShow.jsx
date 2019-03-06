@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 
 import AppNavbarContainer from '../shared/appNavbarContainer'
 import WorkflowIndex from '../workflows/workflowIndex'
