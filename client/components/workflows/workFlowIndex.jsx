@@ -8,7 +8,7 @@ const WorkflowIndex = ({ onDragEnd, onDragUpdate, project, stories, workflows })
   return (<>
     <WorkflowSidebarContainer 
       projectId={ project.id }
-      projectStories={ stories }
+      workflows={ workflows }
     />
 
     <DragDropContext onDragEnd={ onDragEnd } onDragUpdate={ onDragUpdate }>

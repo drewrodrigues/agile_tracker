@@ -1300,7 +1300,6 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     project: state.entities.projects[ownProps.match.params.id],
-    state: state,
     workflows: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectWorkflowsByProjectId"])(state, ownProps.match.params.id)
   };
 };
@@ -3057,7 +3056,7 @@ var WorkflowIndex = function WorkflowIndex(_ref) {
       workflows = _ref.workflows;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workflowSidebarContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {
     projectId: project.id,
-    projectStories: stories
+    workflows: workflows
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__["DragDropContext"], {
     onDragEnd: onDragEnd,
     onDragUpdate: onDragUpdate
@@ -3133,28 +3132,28 @@ function (_Component) {
         className: "fa fa-snowflake-o"
       }), "Icebox", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, this.props.iceboxCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.counts["Icebox"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.backlog ? 'active' : ''),
         onClick: this.props.toggleBacklog
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-inbox"
       }), "Backlog", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, this.props.backlogCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.counts["Backlog"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.current ? 'active' : ''),
         onClick: this.props.toggleCurrent
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-list-ul"
       }), "Current", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, this.props.currentCount))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.props.counts["Current"]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "sidebar-link ".concat(this.props.done ? 'active' : ''),
         onClick: this.props.toggleDone
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-check"
       }), "Done", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "sidebar-count"
-      }, this.props.doneCount))))));
+      }, this.props.counts["Done"]))))));
     }
   }]);
 
@@ -3188,12 +3187,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     icebox: state.ui.icebox,
     backlog: state.ui.backlog,
     current: state.ui.current,
-    done: state.ui.done // TODO: implement again
-    // iceboxCount: selectStoriesByWorkflow(ownProps.projectStories, "Icebox").length,
-    // backlogCount: selectStoriesByWorkflow(ownProps.projectStories, "Backlog").length,
-    // currentCount: selectStoriesByWorkflow(ownProps.projectStories, "Current").length,
-    // doneCount: selectStoriesByWorkflow(ownProps.projectStories, "Done").length
-
+    done: state.ui.done,
+    counts: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["storiesByProjectAndWorkflowAndCount"])(state, ownProps.projectId, ownProps.workflows)
   };
 };
 
@@ -3658,13 +3653,14 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!**************************************!*\
   !*** ./client/reducers/selectors.js ***!
   \**************************************/
-/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId */
+/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId, storiesByProjectAndWorkflowAndCount */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflowId", function() { return selectStoriesByWorkflowId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectWorkflowsByProjectId", function() { return selectWorkflowsByProjectId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storiesByProjectAndWorkflowAndCount", function() { return storiesByProjectAndWorkflowAndCount; });
 var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
   var workflowId = parseInt(id);
   var selectedStories = [];
@@ -3688,6 +3684,20 @@ var selectWorkflowsByProjectId = function selectWorkflowsByProjectId(state, id) 
     }
   });
   return selectedWorkflows;
+};
+var storiesByProjectAndWorkflowAndCount = function storiesByProjectAndWorkflowAndCount(state, projectId, workflows) {
+  var counts = {};
+  var stories = Object.values(state.entities.stories);
+  workflows.forEach(function (workflow) {
+    counts[workflow.title] = counts[workflow.title] || [];
+    stories.forEach(function (story) {
+      if (story.workflow_id == workflow.id) {
+        counts[workflow.title].push(story);
+      }
+    });
+    counts[workflow.title] = counts[workflow.title].length;
+  });
+  return counts;
 };
 
 /***/ }),

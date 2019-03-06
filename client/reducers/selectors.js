@@ -21,3 +21,18 @@ export const selectWorkflowsByProjectId = (state, id) => {
   })
   return selectedWorkflows
 }
+
+export const storiesByProjectAndWorkflowAndCount = (state, projectId, workflows) => {
+  const counts = {}
+  const stories = Object.values(state.entities.stories)
+  workflows.forEach(workflow => {
+    counts[workflow.title] = counts[workflow.title] || []
+    stories.forEach(story => {
+      if (story.workflow_id == workflow.id) {
+        counts[workflow.title].push(story)
+      }
+    })
+    counts[workflow.title] = counts[workflow.title].length
+  })
+  return counts
+}
