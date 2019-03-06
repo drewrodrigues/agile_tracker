@@ -34,8 +34,7 @@ class ProjectShow extends Component {
       this.props.updateStory({
         id: e.draggableId,
         position: destination.index,
-        workflow_id: destination.droppableId,
-        moved: true
+        workflow_id: destination.droppableId
       })
     }
   }
