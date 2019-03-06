@@ -126,18 +126,34 @@
 
 .icon-feature {
   color: #e0c85e;
+
+  &:hover {
+    color: #e0c85e;
+  }
 }
 
 .icon-bug {
   color: #d87350;
+
+  &:hover {
+    color: #d87350;
+  }
 }
 
 .icon-chore {
   color: #888;
+
+  &:hover {
+    color: #888;
+  }
 }
 
 .icon-release {
   color: #555;
+
+  &:hover {
+    color: #555;
+  }
 }
 
 .icon-dropdown {

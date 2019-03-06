@@ -85,7 +85,7 @@ class StoryForm extends Component {
 
           { deleteButton }
           <button className="story-form-button-save story-form-button">Save</button>
-          <button className="story-form-button" onClick={ this.toggleForm }>Cancel</button>
+          <button className="story-form-button story-form-button-cancel" onClick={ this.toggleForm }>Cancel</button>
 
           <ul>
             <li>
