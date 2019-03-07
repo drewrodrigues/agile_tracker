@@ -58,7 +58,8 @@ class ProjectModal extends Component {
               { errorMessages }
 
               <label for="title" className="form-label">Title</label>
-              <input 
+              <input
+                autoFocus
                 className="form-input"
                 id="title" 
                 onChange={ this.update('title') }

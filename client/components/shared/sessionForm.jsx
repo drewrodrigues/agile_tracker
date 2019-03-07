@@ -136,9 +136,9 @@ class SessionForm extends Component {
               className="form-input"
               id="email"
               onChange={this.update('email')}
-              selected
               type="text"
               value={email}
+              autoFocus
             />
 
             <label for="password" className="form-label">Password</label>

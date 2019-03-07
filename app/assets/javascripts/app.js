@@ -1140,6 +1140,7 @@ function (_Component) {
         for: "title",
         className: "form-label"
       }, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        autoFocus: true,
         className: "form-input",
         id: "title",
         onChange: this.update('title'),
@@ -1884,9 +1885,9 @@ function (_Component) {
         className: "form-input",
         id: "email",
         onChange: this.update('email'),
-        selected: true,
         type: "text",
-        value: email
+        value: email,
+        autoFocus: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         for: "password",
         className: "form-label"
