@@ -26,6 +26,10 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   },
+  "engines": {
+    "node": "8.11.4",
+    "npm": "5.6.0"
+  },
   "author": "",
   "license": "ISC",
   "homepage": "https://github.com/thesimpledev/pivot_track#readme"
