@@ -152,6 +152,25 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
+/***/ "./client/actions/errors/errorActions.js":
+/*!***********************************************!*\
+  !*** ./client/actions/errors/errorActions.js ***!
+  \***********************************************/
+/*! exports provided: checkAuth */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkAuth", function() { return checkAuth; });
+var checkAuth = function checkAuth(payload) {
+  return {
+    type: "CHECK_AUTH",
+    payload: payload
+  };
+};
+
+/***/ }),
+
 /***/ "./client/actions/errors/sessionErrorActions.js":
 /*!******************************************************!*\
   !*** ./client/actions/errors/sessionErrorActions.js ***!
@@ -215,8 +234,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProject", function() { return updateProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 /* harmony import */ var _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/projectUtil */ "./client/utils/projectUtil.js");
-/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/storyActions */ "./client/actions/storyActions.js");
-/* harmony import */ var _actions_workflowActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/workflowActions */ "./client/actions/workflowActions.js");
+/* harmony import */ var _actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/errors/errorActions */ "./client/actions/errors/errorActions.js");
+/* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/storyActions */ "./client/actions/storyActions.js");
+/* harmony import */ var _actions_workflowActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/workflowActions */ "./client/actions/workflowActions.js");
+
 
 
 
@@ -263,8 +284,10 @@ var getProject = function getProject(id) {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProject"](id).then(function (response) {
       dispatch(receiveProject(response.project));
-      dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_1__["receiveStories"])(response.stories));
-      dispatch(Object(_actions_workflowActions__WEBPACK_IMPORTED_MODULE_2__["receiveWorkflows"])(response.workflows));
+      dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_2__["receiveStories"])(response.stories));
+      dispatch(Object(_actions_workflowActions__WEBPACK_IMPORTED_MODULE_3__["receiveWorkflows"])(response.workflows));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -272,6 +295,8 @@ var getProjects = function getProjects() {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["getProjects"]().then(function (projects) {
       return dispatch(receiveProjects(projects));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -280,7 +305,8 @@ var createProject = function createProject(project) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (response) {
       return dispatch(receiveProject(response.project));
     }).fail(function (errors) {
-      return dispatch(receiveProjectErrors(errors.responseJSON));
+      dispatch(receiveProjectErrors(errors.responseJSON));
+      dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errors));
     });
   };
 };
@@ -289,7 +315,8 @@ var updateProject = function updateProject(project) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["updateProject"](project).then(function (response) {
       return dispatch(receiveProject(response.project));
     }).fail(function (errors) {
-      return dispatch(receiveProjectErrors(errors.responseJSON));
+      dispatch(receiveProjectErrors(errors.responseJSON));
+      dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errors));
     });
   };
 };
@@ -297,6 +324,8 @@ var deleteProject = function deleteProject(id) {
   return function (dispatch) {
     return _utils_projectUtil__WEBPACK_IMPORTED_MODULE_0__["deleteProject"](id).then(function () {
       return dispatch(removeProject(id));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -387,7 +416,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "acceptStory", function() { return acceptStory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveStories", function() { return receiveStories; });
 /* harmony import */ var _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storyUtil */ "./client/utils/storyUtil.js");
+/* harmony import */ var _actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/errors/errorActions */ "./client/actions/errors/errorActions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var RECEIVE_STORY = "RECEIVE_STORY";
@@ -398,6 +429,8 @@ var createStory = function createStory(projectId, story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["createStory"](projectId, story).then(function (storyResponse) {
       return dispatch(receiveStory(storyResponse));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -406,6 +439,8 @@ var updateStory = function updateStory(story) {
     dispatch(receiveStory(_defineProperty({}, story.id, story)));
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["updateStory"](story).then(function (storyResponse) {
       return dispatch(receiveStories(storyResponse));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -413,6 +448,8 @@ var deleteStory = function deleteStory(story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["deleteStory"](story).then(function () {
       return dispatch(removeStory(story));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -420,6 +457,8 @@ var nextStatusForStory = function nextStatusForStory(story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["nextStatusForStory"](story).then(function (storyResponse) {
       return dispatch(receiveStory(storyResponse));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -427,6 +466,8 @@ var rejectStory = function rejectStory(story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["rejectStory"](story).then(function (storyResponse) {
       return dispatch(receiveStory(storyResponse));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -434,6 +475,8 @@ var acceptStory = function acceptStory(story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["acceptStory"](story).then(function (storyResponse) {
       return dispatch(receiveStory(storyResponse));
+    }).fail(function (errorResponse) {
+      return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
   };
 };
@@ -3306,6 +3349,47 @@ var ProtectedRoute = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])
 
 /***/ }),
 
+/***/ "./client/middleware/checkAuth.js":
+/*!****************************************!*\
+  !*** ./client/middleware/checkAuth.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_router_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-router-redux */ "./node_modules/react-router-redux/lib/index.js");
+/* harmony import */ var react_router_redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_router_redux__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var checkAuth = function checkAuth(_ref) {
+  var dispatch = _ref.dispatch;
+  return function (next) {
+    return function (action) {
+      switch (action.type) {
+        case "CHECK_AUTH":
+          switch (action.payload.status) {
+            case 401:
+              dispatch({
+                type: "SIGN_OUT_USER"
+              });
+              Object(react_router_redux__WEBPACK_IMPORTED_MODULE_0__["push"])('/sign-in');
+              break;
+          }
+
+          break;
+
+        default:
+          next(action);
+      }
+    };
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (checkAuth);
+
+/***/ }),
+
 /***/ "./client/pivotTrack.jsx":
 /*!*******************************!*\
   !*** ./client/pivotTrack.jsx ***!
@@ -3841,7 +3925,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/rootReducer */ "./client/reducers/rootReducer.js");
+/* harmony import */ var _middleware_checkAuth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../middleware/checkAuth */ "./client/middleware/checkAuth.js");
+/* harmony import */ var _reducers_rootReducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/rootReducer */ "./client/reducers/rootReducer.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -3849,6 +3934,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 
 
 
@@ -3887,13 +3973,13 @@ var configureStore = function configureStore() {
     };
   }
 
-  var middleWare = [redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]];
+  var middleWare = [redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], _middleware_checkAuth__WEBPACK_IMPORTED_MODULE_3__["default"]];
 
   if (true) {
     middleWare = [].concat(_toConsumableArray(middleWare), [redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a]);
   }
 
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"].apply(void 0, _toConsumableArray(middleWare)));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_4__["default"], initialState, redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"].apply(void 0, _toConsumableArray(middleWare)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
@@ -40386,6 +40472,403 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (react_router_es_withRouter__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/***/ }),
+
+/***/ "./node_modules/react-router-redux/lib/actions.js":
+/*!********************************************************!*\
+  !*** ./node_modules/react-router-redux/lib/actions.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * This action type will be dispatched by the history actions below.
+ * If you're writing a middleware to watch for navigation events, be sure to
+ * look for actions of this type.
+ */
+var CALL_HISTORY_METHOD = exports.CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
+
+function updateLocation(method) {
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return {
+      type: CALL_HISTORY_METHOD,
+      payload: { method: method, args: args }
+    };
+  };
+}
+
+/**
+ * These actions correspond to the history API.
+ * The associated routerMiddleware will capture these events before they get to
+ * your reducer and reissue them as the matching function on your history.
+ */
+var push = exports.push = updateLocation('push');
+var replace = exports.replace = updateLocation('replace');
+var go = exports.go = updateLocation('go');
+var goBack = exports.goBack = updateLocation('goBack');
+var goForward = exports.goForward = updateLocation('goForward');
+
+var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
+
+/***/ }),
+
+/***/ "./node_modules/react-router-redux/lib/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/react-router-redux/lib/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
+
+var _reducer = __webpack_require__(/*! ./reducer */ "./node_modules/react-router-redux/lib/reducer.js");
+
+Object.defineProperty(exports, 'LOCATION_CHANGE', {
+  enumerable: true,
+  get: function get() {
+    return _reducer.LOCATION_CHANGE;
+  }
+});
+Object.defineProperty(exports, 'routerReducer', {
+  enumerable: true,
+  get: function get() {
+    return _reducer.routerReducer;
+  }
+});
+
+var _actions = __webpack_require__(/*! ./actions */ "./node_modules/react-router-redux/lib/actions.js");
+
+Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
+  enumerable: true,
+  get: function get() {
+    return _actions.CALL_HISTORY_METHOD;
+  }
+});
+Object.defineProperty(exports, 'push', {
+  enumerable: true,
+  get: function get() {
+    return _actions.push;
+  }
+});
+Object.defineProperty(exports, 'replace', {
+  enumerable: true,
+  get: function get() {
+    return _actions.replace;
+  }
+});
+Object.defineProperty(exports, 'go', {
+  enumerable: true,
+  get: function get() {
+    return _actions.go;
+  }
+});
+Object.defineProperty(exports, 'goBack', {
+  enumerable: true,
+  get: function get() {
+    return _actions.goBack;
+  }
+});
+Object.defineProperty(exports, 'goForward', {
+  enumerable: true,
+  get: function get() {
+    return _actions.goForward;
+  }
+});
+Object.defineProperty(exports, 'routerActions', {
+  enumerable: true,
+  get: function get() {
+    return _actions.routerActions;
+  }
+});
+
+var _sync = __webpack_require__(/*! ./sync */ "./node_modules/react-router-redux/lib/sync.js");
+
+var _sync2 = _interopRequireDefault(_sync);
+
+var _middleware = __webpack_require__(/*! ./middleware */ "./node_modules/react-router-redux/lib/middleware.js");
+
+var _middleware2 = _interopRequireDefault(_middleware);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+exports.syncHistoryWithStore = _sync2['default'];
+exports.routerMiddleware = _middleware2['default'];
+
+/***/ }),
+
+/***/ "./node_modules/react-router-redux/lib/middleware.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-router-redux/lib/middleware.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports['default'] = routerMiddleware;
+
+var _actions = __webpack_require__(/*! ./actions */ "./node_modules/react-router-redux/lib/actions.js");
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * This middleware captures CALL_HISTORY_METHOD actions to redirect to the
+ * provided history object. This will prevent these actions from reaching your
+ * reducer or any middleware that comes after this one.
+ */
+function routerMiddleware(history) {
+  return function () {
+    return function (next) {
+      return function (action) {
+        if (action.type !== _actions.CALL_HISTORY_METHOD) {
+          return next(action);
+        }
+
+        var _action$payload = action.payload,
+            method = _action$payload.method,
+            args = _action$payload.args;
+
+        history[method].apply(history, _toConsumableArray(args));
+      };
+    };
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-router-redux/lib/reducer.js":
+/*!********************************************************!*\
+  !*** ./node_modules/react-router-redux/lib/reducer.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.routerReducer = routerReducer;
+/**
+ * This action type will be dispatched when your history
+ * receives a location change.
+ */
+var LOCATION_CHANGE = exports.LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
+
+var initialState = {
+  locationBeforeTransitions: null
+};
+
+/**
+ * This reducer will update the state with the most recent location history
+ * has transitioned to. This may not be in sync with the router, particularly
+ * if you have asynchronously-loaded routes, so reading from and relying on
+ * this state is discouraged.
+ */
+function routerReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      type = _ref.type,
+      payload = _ref.payload;
+
+  if (type === LOCATION_CHANGE) {
+    return _extends({}, state, { locationBeforeTransitions: payload });
+  }
+
+  return state;
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-router-redux/lib/sync.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/react-router-redux/lib/sync.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports['default'] = syncHistoryWithStore;
+
+var _reducer = __webpack_require__(/*! ./reducer */ "./node_modules/react-router-redux/lib/reducer.js");
+
+var defaultSelectLocationState = function defaultSelectLocationState(state) {
+  return state.routing;
+};
+
+/**
+ * This function synchronizes your history state with the Redux store.
+ * Location changes flow from history to the store. An enhanced history is
+ * returned with a listen method that responds to store updates for location.
+ *
+ * When this history is provided to the router, this means the location data
+ * will flow like this:
+ * history.push -> store.dispatch -> enhancedHistory.listen -> router
+ * This ensures that when the store state changes due to a replay or other
+ * event, the router will be updated appropriately and can transition to the
+ * correct router state.
+ */
+function syncHistoryWithStore(history, store) {
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      _ref$selectLocationSt = _ref.selectLocationState,
+      selectLocationState = _ref$selectLocationSt === undefined ? defaultSelectLocationState : _ref$selectLocationSt,
+      _ref$adjustUrlOnRepla = _ref.adjustUrlOnReplay,
+      adjustUrlOnReplay = _ref$adjustUrlOnRepla === undefined ? true : _ref$adjustUrlOnRepla;
+
+  // Ensure that the reducer is mounted on the store and functioning properly.
+  if (typeof selectLocationState(store.getState()) === 'undefined') {
+    throw new Error('Expected the routing state to be available either as `state.routing` ' + 'or as the custom expression you can specify as `selectLocationState` ' + 'in the `syncHistoryWithStore()` options. ' + 'Ensure you have added the `routerReducer` to your store\'s ' + 'reducers via `combineReducers` or whatever method you use to isolate ' + 'your reducers.');
+  }
+
+  var initialLocation = void 0;
+  var isTimeTraveling = void 0;
+  var unsubscribeFromStore = void 0;
+  var unsubscribeFromHistory = void 0;
+  var currentLocation = void 0;
+
+  // What does the store say about current location?
+  var getLocationInStore = function getLocationInStore(useInitialIfEmpty) {
+    var locationState = selectLocationState(store.getState());
+    return locationState.locationBeforeTransitions || (useInitialIfEmpty ? initialLocation : undefined);
+  };
+
+  // Init initialLocation with potential location in store
+  initialLocation = getLocationInStore();
+
+  // If the store is replayed, update the URL in the browser to match.
+  if (adjustUrlOnReplay) {
+    var handleStoreChange = function handleStoreChange() {
+      var locationInStore = getLocationInStore(true);
+      if (currentLocation === locationInStore || initialLocation === locationInStore) {
+        return;
+      }
+
+      // Update address bar to reflect store state
+      isTimeTraveling = true;
+      currentLocation = locationInStore;
+      history.transitionTo(_extends({}, locationInStore, {
+        action: 'PUSH'
+      }));
+      isTimeTraveling = false;
+    };
+
+    unsubscribeFromStore = store.subscribe(handleStoreChange);
+    handleStoreChange();
+  }
+
+  // Whenever location changes, dispatch an action to get it in the store
+  var handleLocationChange = function handleLocationChange(location) {
+    // ... unless we just caused that location change
+    if (isTimeTraveling) {
+      return;
+    }
+
+    // Remember where we are
+    currentLocation = location;
+
+    // Are we being called for the first time?
+    if (!initialLocation) {
+      // Remember as a fallback in case state is reset
+      initialLocation = location;
+
+      // Respect persisted location, if any
+      if (getLocationInStore()) {
+        return;
+      }
+    }
+
+    // Tell the store to update by dispatching an action
+    store.dispatch({
+      type: _reducer.LOCATION_CHANGE,
+      payload: location
+    });
+  };
+  unsubscribeFromHistory = history.listen(handleLocationChange);
+
+  // History 3.x doesn't call listen synchronously, so fire the initial location change ourselves
+  if (history.getCurrentLocation) {
+    handleLocationChange(history.getCurrentLocation());
+  }
+
+  // The enhanced history uses store as source of truth
+  return _extends({}, history, {
+    // The listeners are subscribed to the store instead of history
+    listen: function listen(listener) {
+      // Copy of last location.
+      var lastPublishedLocation = getLocationInStore(true);
+
+      // Keep track of whether we unsubscribed, as Redux store
+      // only applies changes in subscriptions on next dispatch
+      var unsubscribed = false;
+      var unsubscribeFromStore = store.subscribe(function () {
+        var currentLocation = getLocationInStore(true);
+        if (currentLocation === lastPublishedLocation) {
+          return;
+        }
+        lastPublishedLocation = currentLocation;
+        if (!unsubscribed) {
+          listener(lastPublishedLocation);
+        }
+      });
+
+      // History 2.x listeners expect a synchronous call. Make the first call to the
+      // listener after subscribing to the store, in case the listener causes a
+      // location change (e.g. when it redirects)
+      if (!history.getCurrentLocation) {
+        listener(lastPublishedLocation);
+      }
+
+      // Let user unsubscribe later
+      return function () {
+        unsubscribed = true;
+        unsubscribeFromStore();
+      };
+    },
+
+
+    // It also provides a way to destroy internal listeners
+    unsubscribe: function unsubscribe() {
+      if (adjustUrlOnReplay) {
+        unsubscribeFromStore();
+      }
+      unsubscribeFromHistory();
+    }
+  });
+}
 
 /***/ }),
 

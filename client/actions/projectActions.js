@@ -1,4 +1,5 @@
 import * as APIUtil from '../utils/projectUtil'
+import { checkAuth } from '../actions/errors/errorActions'
 
 import { receiveStories } from '../actions/storyActions'
 import { receiveWorkflows } from '../actions/workflowActions'
@@ -50,26 +51,35 @@ export const getProject = id => dispatch => {
       dispatch(receiveStories(response.stories))
       dispatch(receiveWorkflows(response.workflows))
     })
+    .fail(errorResponse => dispatch(checkAuth(errorResponse)))
 }
 
 export const getProjects = () => dispatch => {
   return APIUtil.getProjects()
     .then(projects => dispatch(receiveProjects(projects)))
+    .fail(errorResponse => dispatch(checkAuth(errorResponse)))
 }
 
 export const createProject = project => dispatch => {
   return APIUtil.createProject(project)
     .then(response => dispatch(receiveProject(response.project)))
-    .fail(errors => dispatch(receiveProjectErrors(errors.responseJSON)))
+    .fail(errors => {
+      dispatch(receiveProjectErrors(errors.responseJSON))
+      dispatch(checkAuth(errors))
+    })
 }
 
 export const updateProject = project => dispatch => {
   return APIUtil.updateProject(project)
     .then(response => dispatch(receiveProject(response.project)))
-    .fail(errors => dispatch(receiveProjectErrors(errors.responseJSON)))
+    .fail(errors => {
+      dispatch(receiveProjectErrors(errors.responseJSON))
+      dispatch(checkAuth(errors))
+    })
 }
 
 export const deleteProject = id => dispatch => {
   return APIUtil.deleteProject(id)
     .then(() => dispatch(removeProject(id)))
+    .fail(errorResponse => dispatch(checkAuth(errorResponse)))
 }

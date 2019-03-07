@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
+import checkAuth from "../middleware/checkAuth"
 import rootReducer from '../reducers/rootReducer'
 
 const configureStore = () => {
@@ -19,7 +20,7 @@ const configureStore = () => {
     }
   }
 
-  let middleWare = [thunk]
+  let middleWare = [thunk, checkAuth]
   if (process.env.NODE_ENV !== 'production') {
     middleWare = [...middleWare, logger];
   }
