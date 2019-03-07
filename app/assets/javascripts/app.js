@@ -879,6 +879,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _projectIndex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectIndex */ "./client/components/projects/projectIndex.jsx");
 /* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
 /* harmony import */ var _actions_uiActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/uiActions */ "./client/actions/uiActions.js");
+/* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
+
 
 
 
@@ -886,7 +888,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    projects: Object.values(state.entities.projects)
+    projects: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_4__["selectProjectsSortedBy"])(state, "title")
   };
 };
 
@@ -3734,7 +3736,7 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!**************************************!*\
   !*** ./client/reducers/selectors.js ***!
   \**************************************/
-/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId, storiesByProjectAndWorkflowAndCount, countPointsByWorkflowId */
+/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId, storiesByProjectAndWorkflowAndCount, countPointsByWorkflowId, selectProjectsSortedBy */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3743,6 +3745,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectWorkflowsByProjectId", function() { return selectWorkflowsByProjectId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storiesByProjectAndWorkflowAndCount", function() { return storiesByProjectAndWorkflowAndCount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countPointsByWorkflowId", function() { return countPointsByWorkflowId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectProjectsSortedBy", function() { return selectProjectsSortedBy; });
 var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
   var workflowId = parseInt(id);
   var selectedStories = [];
@@ -3789,6 +3792,17 @@ var countPointsByWorkflowId = function countPointsByWorkflowId(state, workflowId
     }
   });
   return count;
+};
+var selectProjectsSortedBy = function selectProjectsSortedBy(state, key) {
+  return Object.values(state.entities.projects).sort(function (a, b) {
+    if (a[key] < b[key]) {
+      return -1;
+    } else if (a[key] > b[key]) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 };
 
 /***/ }),

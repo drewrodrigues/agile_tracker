@@ -6,10 +6,11 @@ import {
   deleteProject
 } from '../../actions/projectActions'
 import { showProjectModal } from '../../actions/uiActions'
+import { selectProjectsSortedBy } from '../../reducers/selectors'
 
 const mapStateToProps = state => {
   return {
-    projects: Object.values(state.entities.projects)
+    projects: selectProjectsSortedBy(state, "title")
   }
 }
 

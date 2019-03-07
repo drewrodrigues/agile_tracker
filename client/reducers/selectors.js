@@ -46,3 +46,15 @@ export const countPointsByWorkflowId = (state, workflowId) => {
   })
   return count
 }
+
+export const selectProjectsSortedBy = (state, key) => {
+  return Object.values(state.entities.projects).sort((a, b) =>  {
+    if (a[key] < b[key]) {
+      return -1
+    } else if (a[key] > b[key]) {
+      return 1
+    } else {
+      return 0
+    }
+  })
+}
