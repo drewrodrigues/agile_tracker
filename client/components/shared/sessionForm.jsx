@@ -33,7 +33,7 @@ class SessionForm extends Component {
         } else {
           this.setState({ [fieldName]: this.state[fieldName] + splitValue.shift() }, this.validateForm)
         }
-      }, 100)
+      }, 50)
     })
 
     const fillInEmail = fillInField('email', 'example@example.com')

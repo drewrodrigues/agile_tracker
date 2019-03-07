@@ -1760,7 +1760,7 @@ function (_Component) {
             } else {
               _this2.setState(_defineProperty({}, fieldName, _this2.state[fieldName] + splitValue.shift()), _this2.validateForm);
             }
-          }, 100);
+          }, 50);
         });
       };
 
