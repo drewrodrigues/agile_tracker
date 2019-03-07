@@ -86,7 +86,6 @@ class Story < ApplicationRecord
   end
   
   def send_to_current_workflow
-    self.position = 1
     self.workflow = project.workflow("Current")
   end
 

@@ -2950,7 +2950,7 @@ function (_Component) {
           return title.blur();
         });
       } else {
-        e.target.parentElement.parentElement.querySelector("#title").focus();
+        e.target.closest(".workflow").querySelector("#title").focus();
       }
     }
   }, {

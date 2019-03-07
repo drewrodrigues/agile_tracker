@@ -25,7 +25,7 @@ class Workflow extends Component {
     if (!e) {
       document.querySelectorAll("#title").forEach(title => title.blur())
     } else {
-      e.target.parentElement.parentElement.querySelector("#title").focus()
+      e.target.closest(".workflow").querySelector("#title").focus()
     }
   }
 
