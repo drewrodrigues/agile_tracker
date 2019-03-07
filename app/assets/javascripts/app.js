@@ -3034,10 +3034,10 @@ function (_Component) {
           show: !_this2.state.showForm,
           workflow: _this2.props.workflow.title,
           toggleForm: _this2.toggleForm
-        }) : null, provided.placeholder, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyIndex__WEBPACK_IMPORTED_MODULE_2__["default"], {
           stories: _this2.props.stories,
           workflow: _this2.props.workflow
-        }));
+        }), provided.placeholder);
       })));
     }
   }]);

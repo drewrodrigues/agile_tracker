@@ -57,9 +57,8 @@ class Workflow extends Component {
                   <Placeholder show={ !this.state.showForm } workflow={ this.props.workflow.title } toggleForm={this.toggleForm } />
                 ) : null }
 
-                { provided.placeholder }
-
                 <StoryIndex stories={ this.props.stories } workflow={ this.props.workflow } />
+                { provided.placeholder }
               </div>
             )}
           </Droppable>
