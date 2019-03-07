@@ -362,7 +362,9 @@ var REMOVE_STORY = "REMOVE_STORY"; // TODO: handle errors
 var createStory = function createStory(projectId, story) {
   return function (dispatch) {
     return _utils_storyUtil__WEBPACK_IMPORTED_MODULE_0__["createStory"](projectId, story).then(function (storyResponse) {
-      return dispatch(receiveStory(storyResponse));
+      var storyId = Object.keys(storyResponse)[0];
+      storyResponse[storyId].updated = true;
+      dispatch(receiveStory(storyResponse));
     }).fail(function (errorResponse) {
       return dispatch(Object(_actions_errors_errorActions__WEBPACK_IMPORTED_MODULE_1__["checkAuth"])(errorResponse));
     });
@@ -416,8 +418,6 @@ var acceptStory = function acceptStory(story) {
 };
 
 var receiveStory = function receiveStory(story) {
-  var storyId = Object.keys(story)[0];
-  story[storyId].updated = true;
   return {
     type: RECEIVE_STORY,
     story: story

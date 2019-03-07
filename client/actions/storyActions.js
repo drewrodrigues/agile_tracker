@@ -9,7 +9,11 @@ export const REMOVE_STORY    = "REMOVE_STORY"
 
 export const createStory = (projectId, story) => dispatch => {
   return APIUtil.createStory(projectId, story)
-    .then(storyResponse => dispatch(receiveStory(storyResponse)))
+    .then(storyResponse => {
+      const storyId = Object.keys(storyResponse)[0]
+      storyResponse[storyId].updated = true
+      dispatch(receiveStory(storyResponse))
+    })
     .fail(errorResponse => dispatch(checkAuth(errorResponse)))
 }
 
@@ -45,8 +49,6 @@ export const acceptStory = story => dispatch => {
 }
 
 const receiveStory = story => {
-  const storyId = Object.keys(story)[0]
-  story[storyId].updated = true
   return {
     type: RECEIVE_STORY,
     story
