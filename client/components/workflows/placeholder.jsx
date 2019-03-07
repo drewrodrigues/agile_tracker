@@ -18,7 +18,7 @@ const Placeholder = ({ show, workflow, toggleForm }) => {
   let button = null
   if (workflow !== "Done") {
     button = <>
-      <button onClick={ toggleForm }className="button button-green">Add a story
+      <button onClick={ toggleForm }className="button button-large button-green">Add a story
       </button>
     </>
   }

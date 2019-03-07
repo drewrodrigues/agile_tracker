@@ -2921,7 +2921,7 @@ var Placeholder = function Placeholder(_ref) {
   if (workflow !== "Done") {
     button = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       onClick: toggleForm,
-      className: "button button-green"
+      className: "button button-large button-green"
     }, "Add a story"));
   }
 
