@@ -2,7 +2,8 @@
   "name": "pivot_track",
   "private": true,
   "scripts": {
-    "start": "webpack --watch --mode=development"
+    "start": "webpack --watch --mode=development",
+    "postinstall": "webpack"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
