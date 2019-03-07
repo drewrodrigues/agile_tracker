@@ -4,7 +4,8 @@ import ProjectShow from './projectShow'
 
 import { getProject } from '../../actions/projectActions'
 import { selectWorkflowsByProjectId } from '../../reducers/selectors'
-import { updateStory, moveStory } from "../../actions/storyActions"
+import { updateStory } from "../../actions/storyActions"
+import { toggleWorkflow } from '../../actions/uiActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -16,7 +17,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     getProject: id => dispatch(getProject(id)),
-    updateStory: story => dispatch(updateStory(story))
+    updateStory: story => dispatch(updateStory(story)),
+    toggleWorkflow: title => dispatch(toggleWorkflow(title))
   }
 }
 

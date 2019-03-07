@@ -9,6 +9,7 @@ class ProjectShow extends Component {
     this.state = { showSidebar: true, loading: true }
     this.onDragEnd = this.onDragEnd.bind(this)
     this.toggleSidebar = this.toggleSidebar.bind(this)
+    this.handleHotkeys()
   }
 
   componentDidMount() {
@@ -38,7 +39,34 @@ class ProjectShow extends Component {
     }
   }
 
-  toggleSidebar(e) {
+  handleHotkeys() {
+    const addStoryButtons = document.querySelectorAll(".add-story-button")
+    document.addEventListener('keydown', e => {
+      if (e.altKey) {
+        console.log('in')
+        switch (e.code) {
+          case "KeyH": // h
+            this.toggleSidebar()
+            break
+          case "KeyI": // i : toggleIcebox
+            this.props.toggleWorkflow("icebox")
+            break
+          case "KeyB": // b : toggleBacklog
+            this.props.toggleWorkflow("backlog")
+            break
+          case "KeyC": // c : toggleCurrent
+            this.props.toggleWorkflow("current")
+            break
+          case "KeyD": // d : toggleDone
+            this.props.toggleWorkflow("done")
+            break
+        }
+      }
+      console.log(e)
+    })
+  }
+
+  toggleSidebar() {
     this.setState({ showSidebar: !this.state.showSidebar })
   }
 

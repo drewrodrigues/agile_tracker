@@ -1208,6 +1208,9 @@ function (_Component) {
     };
     _this.onDragEnd = _this.onDragEnd.bind(_assertThisInitialized(_this));
     _this.toggleSidebar = _this.toggleSidebar.bind(_assertThisInitialized(_this));
+
+    _this.handleHotkeys();
+
     return _this;
   }
 
@@ -1243,8 +1246,54 @@ function (_Component) {
       }
     }
   }, {
+    key: "handleHotkeys",
+    value: function handleHotkeys() {
+      var _this3 = this;
+
+      var addStoryButtons = document.querySelectorAll(".add-story-button");
+      document.addEventListener('keydown', function (e) {
+        if (e.altKey) {
+          console.log('in');
+
+          switch (e.code) {
+            case "KeyH":
+              // h
+              _this3.toggleSidebar();
+
+              break;
+
+            case "KeyI":
+              // i : toggleIcebox
+              _this3.props.toggleWorkflow("icebox");
+
+              break;
+
+            case "KeyB":
+              // b : toggleBacklog
+              _this3.props.toggleWorkflow("backlog");
+
+              break;
+
+            case "KeyC":
+              // c : toggleCurrent
+              _this3.props.toggleWorkflow("current");
+
+              break;
+
+            case "KeyD":
+              // d : toggleDone
+              _this3.props.toggleWorkflow("done");
+
+              break;
+          }
+        }
+
+        console.log(e);
+      });
+    }
+  }, {
     key: "toggleSidebar",
-    value: function toggleSidebar(e) {
+    value: function toggleSidebar() {
       this.setState({
         showSidebar: !this.state.showSidebar
       });
@@ -1298,6 +1347,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_projectActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/projectActions */ "./client/actions/projectActions.js");
 /* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers/selectors */ "./client/reducers/selectors.js");
 /* harmony import */ var _actions_storyActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/storyActions */ "./client/actions/storyActions.js");
+/* harmony import */ var _actions_uiActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/uiActions */ "./client/actions/uiActions.js");
+
 
 
 
@@ -1318,6 +1369,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateStory: function updateStory(story) {
       return dispatch(Object(_actions_storyActions__WEBPACK_IMPORTED_MODULE_4__["updateStory"])(story));
+    },
+    toggleWorkflow: function toggleWorkflow(title) {
+      return dispatch(Object(_actions_uiActions__WEBPACK_IMPORTED_MODULE_5__["toggleWorkflow"])(title));
     }
   };
 };
