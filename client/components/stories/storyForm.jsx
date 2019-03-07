@@ -40,9 +40,7 @@ class StoryForm extends Component {
     })
   }
 
-  render() {
-    if (!this.props.show) return null
-    
+  render() {    
     let deleteButton
     let status
 
@@ -74,14 +72,15 @@ class StoryForm extends Component {
     }
 
     return (
-      <div className="story-form">
+      <div className={`story-form story-form-show-${this.props.show}`}>
         <form onSubmit={ this.submit }>
           <input 
             type="text" 
             value={ this.state.title }
             onChange={ this.update('title') }
             autoFocus
-            />
+            id="title"
+          />
 
           { deleteButton }
           <button className="story-form-button-save story-form-button">Save</button>

@@ -12,10 +12,21 @@ class Workflow extends Component {
     this.state = { showForm: false }
     this.toggleForm = this.toggleForm.bind(this)
     this.canAddStory = this.props.workflow.title !== "Done"
+    this.selectFormTitleInput = this.selectFormTitleInput.bind(this)
   }
 
-  toggleForm() {
+  toggleForm(e) {
     this.setState({ showForm: !this.state.showForm })
+    this.selectFormTitleInput(e)
+    this.selectFormTitleInput(e)
+  }
+
+  selectFormTitleInput(e) {
+    if (!e) {
+      document.querySelectorAll("#title").forEach(title => title.blur())
+    } else {
+      e.target.parentElement.parentElement.querySelector("#title").focus()
+    }
   }
 
   render() {

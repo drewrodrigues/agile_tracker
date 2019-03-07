@@ -1,6 +1,8 @@
 .story-form {
   background-color: #dedede;
-  padding: 20px;
+  form {
+    padding: 20px;
+  }
   box-shadow: inset 0 0 6px 3px rgba(0,0,0,0.15);
 
   input,
@@ -58,6 +60,19 @@
     font-weight: 600;
     margin-bottom: 5px;
   }
+}
+
+.story-form {
+  overflow: hidden;
+  transition: all 1s cubic-bezier(0, 1, 0.5, 1);
+}
+
+.story-form-show-true {
+  height: 313px;
+}
+
+.story-form-show-false {
+  height: 0;
 }
 
 .story-form-button {

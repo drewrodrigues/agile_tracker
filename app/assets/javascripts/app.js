@@ -2355,7 +2355,6 @@ function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      if (!this.props.show) return null;
       var deleteButton;
       var status;
 
@@ -2377,14 +2376,15 @@ function (_Component) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "story-form"
+        className: "story-form story-form-show-".concat(this.props.show)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.submit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.title,
         onChange: this.update('title'),
-        autoFocus: true
+        autoFocus: true,
+        id: "title"
       }), deleteButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "story-form-button-save story-form-button"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -2929,15 +2929,29 @@ function (_Component) {
     };
     _this.toggleForm = _this.toggleForm.bind(_assertThisInitialized(_this));
     _this.canAddStory = _this.props.workflow.title !== "Done";
+    _this.selectFormTitleInput = _this.selectFormTitleInput.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Workflow, [{
     key: "toggleForm",
-    value: function toggleForm() {
+    value: function toggleForm(e) {
       this.setState({
         showForm: !this.state.showForm
       });
+      this.selectFormTitleInput(e);
+      this.selectFormTitleInput(e);
+    }
+  }, {
+    key: "selectFormTitleInput",
+    value: function selectFormTitleInput(e) {
+      if (!e) {
+        document.querySelectorAll("#title").forEach(function (title) {
+          return title.blur();
+        });
+      } else {
+        e.target.parentElement.parentElement.querySelector("#title").focus();
+      }
     }
   }, {
     key: "render",
