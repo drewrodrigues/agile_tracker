@@ -1,4 +1,6 @@
 .signin {
-  background-color: $grey-light;
+  background-image: image_url("landing-jumbo-background");
   min-height: 100vh;
+  background-position: top 65px center;
+  background-repeat: no-repeat;
 }

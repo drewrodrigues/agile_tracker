@@ -15,47 +15,48 @@
 }
 
 .landing-signup-form {
-  @extend %box-shadow;
-  
   border-radius: 3px;
   background-color: $white;
   margin-left: 50px;
   padding: 32px 24px;
+  border: 1px solid #eee;
 
   label {
-    font-weight: 600;
-    color: $text-secondary;
+    color: #aaa;
     display: block;
     margin-bottom: 5px;
+    font-size: 14px;
   }
 }
 
 .landing-signup-form-title {
   font-size: 22px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: $text-secondary;
+  font-weight: 600;
 }
 
 .landing-signup-form-input {
-  @extend %inset-box-shadow;
-
   border-radius: 3px;
-  display: inline-block;
+  display: block;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  background-color: #fafafa;
+  font-weight: 600;
+  color: #333;
+  border: none;
+  border: 1px solid #eee;
   width: 62%;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .landing-signup-form-button {
   background-color: $blue-primary;
-  border-color: $blue-dark;
+  border: none;
   border-radius: 3px;
   color: $white;
   cursor: pointer;
   display: inline-block;
-  float: right;
   font-size: 16px;
   margin-right: 10px;
   padding: 10px;
@@ -69,6 +70,7 @@
 .landing-signup-form-button.demo {
   background-color: $green-primary;
   border-color: $green-dark;
+  display: inline-block;
 
   &:hover {
     background-color: $green-dark;
@@ -100,9 +102,8 @@
 }
 
 .landing-feature-large-body {
-  font-size: 24px;
+  font-size: 16px;
   color: $text-secondary;
-  font-weight: 300;
   padding: 0 80px;
 }
 
@@ -146,5 +147,5 @@
 .get-started {
   margin-top: 50px;
   padding: 8px 12px;
-  font-size: 24px;
+  font-size: 16px;
 }

@@ -71,7 +71,7 @@ class ProjectModal extends Component {
 
             <footer className="modal-project-footer">
               <a onClick={this.props.hide}>Cancel</a>
-              <input type="submit" className="button-green" value={buttonText} />
+              <input type="submit" className="button button-large button-green" value={buttonText} />
             </footer>
           </form>
         </div>

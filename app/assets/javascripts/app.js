@@ -749,7 +749,7 @@ function (_React$Component) {
         className: "grid-1-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "landing-jumbo-slogan"
-      }, "Pivotal Tracker is changing ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "how teams build software\u2014", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "one story at a time")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Agile Tracker is changing ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "how teams build software", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "one story at a time")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "grid-1-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "landing-signup-form"
@@ -764,16 +764,16 @@ function (_React$Component) {
         placeholder: "email@domain.com",
         value: this.state.email,
         onChange: this.update('email')
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "landing-signup-form-button",
-        value: "Get started!",
+        className: "button button-large button-blue",
         onClick: this.sendToSignUp
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "landing-signup-form-demo"
-      }, "or ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      }, "Get started"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        className: "button button-large button-green",
         to: "/sign-in/demo"
-      }, "try the demo"))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, "Try the demo"))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "landing-feature landing-feature-large"
@@ -1153,7 +1153,7 @@ function (_Component) {
         onClick: this.props.hide
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        className: "button-green",
+        className: "button button-large button-green",
         value: buttonText
       })))));
     }
@@ -1728,10 +1728,11 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SessionForm).call(this, props));
     _this.state = {
-      disabled: true,
       email: _this.props.email,
-      password: _this.props.password
+      password: _this.props.password,
+      failedAuth: false
     };
+    _this.demoSignIn = _this.demoSignIn.bind(_assertThisInitialized(_this));
     _this.submit = _this.submit.bind(_assertThisInitialized(_this));
 
     if (_this.props.formType === 'signin' && _this.props.match.params.demo) {
@@ -1748,8 +1749,19 @@ function (_Component) {
     }
   }, {
     key: "demoSignIn",
-    value: function demoSignIn() {
+    value: function demoSignIn(e) {
       var _this2 = this;
+
+      if (this.props.formType === "signup") {
+        this.props.history.push("/sign-in/demo");
+      }
+
+      if (e) e.preventDefault();
+      this.props.clearErrors();
+      this.setState({
+        email: "",
+        password: ""
+      });
 
       var fillInField = function fillInField(fieldName, value) {
         return new Promise(function (res) {
@@ -1774,29 +1786,20 @@ function (_Component) {
       fillInEmail.then(fillInPassword).then(this.submit);
     }
   }, {
-    key: "validateForm",
-    value: function validateForm() {
-      var _this$state = this.state,
-          email = _this$state.email,
-          password = _this$state.password;
-
-      if (email.length > 0 && password.length >= 8) {
-        this.setState({
-          disabled: false
-        });
-      } else {
-        this.setState({
-          disabled: true
-        });
-      }
-    }
-  }, {
     key: "update",
     value: function update(prop) {
       var _this3 = this;
 
       return function (e) {
-        _this3.setState(_defineProperty({}, prop, e.target.value), _this3.validateForm);
+        if (_this3.state.failedAuth) {
+          _this3.props.clearErrors();
+
+          _this3.setState({
+            failedAuth: false
+          });
+        }
+
+        _this3.setState(_defineProperty({}, prop, e.target.value));
       };
     }
   }, {
@@ -1805,16 +1808,17 @@ function (_Component) {
       var _this4 = this;
 
       if (e) e.preventDefault();
-      if (this.state.disabled) return false;
-      var _this$state2 = this.state,
-          email = _this$state2.email,
-          password = _this$state2.password;
+      var _this$state = this.state,
+          email = _this$state.email,
+          password = _this$state.password;
       this.props.action({
         email: email,
         password: password
       }).then(function () {
         _this4.props.history.push('/');
-      });
+      }).fail(this.setState({
+        failedAuth: true
+      }));
     }
   }, {
     key: "render",
@@ -1828,21 +1832,24 @@ function (_Component) {
       var _this$props = this.props,
           formType = _this$props.formType,
           errors = _this$props.errors;
-      var _this$state3 = this.state,
-          email = _this$state3.email,
-          password = _this$state3.password;
+      var _this$state2 = this.state,
+          email = _this$state2.email,
+          password = _this$state2.password;
 
       if (formType === 'signup') {
-        header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-          className: "signup-header"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/",
           className: "logo"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.images.logo
-        }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-          className: "signup-header-slogan"
-        }, "Get started\u2014it's free!")));
+        }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker"));
+        formHeader = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "form-header signup-header"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+          className: "form-title"
+        }, "Get started"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+          className: "form-subtitle"
+        }, "It's free and always will be")));
         footer = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
           className: "signup-footer"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Already have an account?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1891,7 +1898,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         for: "password",
         className: "form-label"
-      }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Minimum 8 characters")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-input",
         id: "password",
         onChange: this.update('password'),
@@ -1899,11 +1906,15 @@ function (_Component) {
         value: password
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
         className: "form-footer"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "\n                  form-submit\n                  disabled-".concat(this.state.disabled, "\n                "),
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        value: buttonText
-      }))), footer));
+        className: "button button-large button-blue"
+      }, buttonText), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "button button-large button-green",
+        onClick: this.demoSignIn
+      }, "Try the demo")))), footer));
     }
   }]);
 

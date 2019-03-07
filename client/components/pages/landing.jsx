@@ -30,7 +30,7 @@ class Landing extends React.Component {
             <div className="grid-row">
               <div className="grid-1-2">
                 <h1 className="landing-jumbo-slogan">
-                Pivotal Tracker is changing <br/>how teams build software—<br/>
+                Agile Tracker is changing <br/>how teams build software<br/>
                 one story at a time
                 </h1>
               </div>{/* .grid-1-2 */}
@@ -48,13 +48,13 @@ class Landing extends React.Component {
                     value={this.state.email}
                     onChange={this.update('email')} />
 
-                  <input
-                    type="submit"
-                    className="landing-signup-form-button"
-                    value="Get started!"
-                    onClick={this.sendToSignUp} />
-
-                  <p className="landing-signup-form-demo">or <Link to="/sign-in/demo">try the demo</Link></p>
+                  <div className="button-group">
+                    <button
+                      type="submit"
+                      className="button button-large button-blue"
+                      onClick={this.sendToSignUp}>Get started</button>
+                    <Link className="button button-large button-green" to="/sign-in/demo">Try the demo</Link>
+                  </div>
                 </form>
               </div>{/* .grid-1-2 */}
             </div>{/* .grid-row */}

@@ -7,10 +7,10 @@
 
 .form {
   background-color: $white;
-  border: 1px solid #DDD;
+  border: 1px solid #eee;
   margin: 0 auto;
   padding: 30px;
-  width: 400px;
+  width: 350px;
 }
 
 .form-header {
@@ -20,29 +20,37 @@
 
 .form-title {
   color: #444; // FIXME: variables only
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .form-subtitle {
-  color: $text-medium; // FIXME: correct color?
-  font-size: 16px;
-  margin-bottom: 40px;
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 20px;
 }
 
 .form-label {
   color: $text-secondary;
   font-size: 14px;
   font-weight: 600;
+
+  span {
+    float: right;
+    font-size: 10px;
+    color: #ccc;
+    margin-top: 4px;
+  }
 }
 
 .form-input {
   @extend %inset-box-shadow;
-
-  background-color: #fafafa;
-  border: 1px solid #ccc;
+  text-align: center;
+  border: none;
   display: block;
   font-size: 14px;
+  font-weight: 600;
   margin-bottom: 10px;
   margin-top: 5px;
   padding: 10px 20px;
@@ -50,6 +58,7 @@
 }
 
 .form-footer {
+  margin-top: 25px;
   text-align: center;
 }
 
@@ -72,11 +81,11 @@
 
 .form-errors {
   background-color: #FFF7F8;
-  border: 1px solid #E48E8E;
+  border-left: 3px solid #E48E8E;
   color: #DF5557;
   font-size: 14px;
   margin-bottom: 20px;
-  padding: 15px;
+  padding: 10px 15px;
 }
 
 .disabled-true {
@@ -88,13 +97,11 @@
 /* specific form styles *******************************************************/
 
 .form-signin {
-  margin-top: 50px;
+  margin-top: 150px;
 }
 
 .form-signup {
-  @extend %box-shadow;
-
-  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .form-landing {

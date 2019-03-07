@@ -6,11 +6,12 @@ class SessionForm extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { 
-      disabled: true,
+    this.state = {
       email: this.props.email,
-      password: this.props.password
+      password: this.props.password,
+      failedAuth: false
     }
+    this.demoSignIn = this.demoSignIn.bind(this)
     this.submit = this.submit.bind(this)
 
     if (this.props.formType === 'signin' && this.props.match.params.demo) {
@@ -22,7 +23,17 @@ class SessionForm extends Component {
     this.props.clearErrors()
   }
 
-  demoSignIn() {
+  demoSignIn(e) {
+    if (this.props.formType === "signup") {
+      this.props.history.push("/sign-in/demo")
+    }
+    if (e) e.preventDefault()
+    this.props.clearErrors()
+    this.setState({ 
+      email: "",
+      password: ""
+    })
+
     const fillInField = (fieldName, value) => new Promise(res => {
       const splitValue = value.split("")
       
@@ -44,29 +55,23 @@ class SessionForm extends Component {
       .then(this.submit)
   }
 
-  validateForm() {
-    const { email, password } = this.state
-    if (email.length > 0 && password.length >= 8) {
-      this.setState({ disabled: false })
-    } else {
-      this.setState({ disabled: true })
-    }
-  }
-
   update(prop) {
     return (e) => {
-      this.setState({ [prop]: e.target.value }, this.validateForm)
+      if (this.state.failedAuth) {
+        this.props.clearErrors()
+        this.setState({ failedAuth: false })
+      }
+      this.setState({ [prop]: e.target.value })
     }
   }
 
   submit(e) {
     if (e) e.preventDefault()
-    if (this.state.disabled) return false
     const { email, password } = this.state
 
     this.props.action({ email, password }).then(() => {
       this.props.history.push('/')
-    })
+    }).fail(this.setState({ failedAuth: true }))
   }
 
   render() {
@@ -81,14 +86,15 @@ class SessionForm extends Component {
     const { email, password } = this.state
 
     if (formType === 'signup') {
-      header = <>
-        <header className="signup-header">
-          <Link to="/" className="logo">
-            <img src={ window.images.logo } />
-            Agile<span>Tracker</span>
-          </Link>
-          <h4 className="signup-header-slogan">Get started&mdash;it's free!</h4>
-        </header>
+      header = <Link to="/" className="logo">
+        <img src={ window.images.logo } />
+        Agile<span>Tracker</span>
+      </Link>
+      formHeader = <>
+        <div className="form-header signup-header">
+          <h4 className="form-title">Get started</h4>
+          <h4 className="form-subtitle">It's free and always will be</h4>
+        </div>
       </>
 
       footer = <>
@@ -141,7 +147,7 @@ class SessionForm extends Component {
               autoFocus
             />
 
-            <label for="password" className="form-label">Password</label>
+            <label for="password" className="form-label">Password<span>Minimum 8 characters</span></label>
             <input 
               className="form-input"
               id="password"
@@ -151,14 +157,12 @@ class SessionForm extends Component {
             />
 
             <footer className="form-footer">
-              <input 
-                className={`
-                  form-submit
-                  disabled-${this.state.disabled}
-                `}
-                type="submit" 
-                value={buttonText} 
-              />
+              <div className="button-group">
+                    <button
+                      type="submit"
+                      className="button button-large button-blue">{ buttonText }</button>
+                    <button className="button button-large button-green" onClick={ this.demoSignIn }>Try the demo</button>
+                  </div>
             </footer>
           </form>
 

@@ -23,7 +23,7 @@
 
 .modal-project-header {
   border-radius: $border-radius $border-radius 0 0;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #eee;
   font-size: 22px;
   font-weight: 600;
   color: $text-secondary;
@@ -39,10 +39,22 @@
 }
 
 .modal-project-footer {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #eee;
+  color: #aaa;
+  font-size: 12px;
   text-align: right;
 
   input {
-    margin-left: 20px;
+    margin-left: 5px;
+  }
+
+  a {
+    padding: 12px;
+    float: left;
+    cursor: pointer;
+
+    &:hover {
+      color: #bbb;
+    }
   }
 }
