@@ -20,6 +20,7 @@ class Workflow extends Component {
 
   render() {
     if (!this.props.show) return null
+    let points = this.props.points === 1 ? "point" : "points"
 
     let addStoryButton = null
     if (this.canAddStory) {
@@ -38,6 +39,8 @@ class Workflow extends Component {
           { this.props.workflow.title }
 
           { addStoryButton }
+
+          <span className="workflow-points">{ this.props.points } { points }</span>
         </header>
 
         <div className="story-container">

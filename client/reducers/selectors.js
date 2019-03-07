@@ -36,3 +36,13 @@ export const storiesByProjectAndWorkflowAndCount = (state, projectId, workflows)
   })
   return counts
 }
+
+export const countPointsByWorkflowId = (state, workflowId) => {
+  let count = 0
+  Object.values(state.entities.stories).forEach(story => {
+    if (story.workflow_id === workflowId) {
+      count += story.points
+    }
+  })
+  return count
+}

@@ -2998,6 +2998,7 @@ function (_Component) {
       var _this2 = this;
 
       if (!this.props.show) return null;
+      var points = this.props.points === 1 ? "point" : "points";
       var addStoryButton = null;
 
       if (this.canAddStory) {
@@ -3018,7 +3019,9 @@ function (_Component) {
         onClick: this.props.toggleWorkflow
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-times"
-      })), this.props.workflow.title, addStoryButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.props.workflow.title, addStoryButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "workflow-points"
+      }, this.props.points, " ", points)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "story-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stories_storyFormContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {
         canDelete: false,
@@ -3073,6 +3076,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     projectId: ownProps.projectId,
+    points: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["countPointsByWorkflowId"])(state, ownProps.workflow.id),
     show: state.ui[ownProps.workflow.title.toLowerCase()],
     stories: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_3__["selectStoriesByWorkflowId"])(state, ownProps.workflow.id),
     workflow: ownProps.workflow
@@ -3769,7 +3773,7 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!**************************************!*\
   !*** ./client/reducers/selectors.js ***!
   \**************************************/
-/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId, storiesByProjectAndWorkflowAndCount */
+/*! exports provided: selectStoriesByWorkflowId, selectWorkflowsByProjectId, storiesByProjectAndWorkflowAndCount, countPointsByWorkflowId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3777,6 +3781,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectStoriesByWorkflowId", function() { return selectStoriesByWorkflowId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectWorkflowsByProjectId", function() { return selectWorkflowsByProjectId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storiesByProjectAndWorkflowAndCount", function() { return storiesByProjectAndWorkflowAndCount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countPointsByWorkflowId", function() { return countPointsByWorkflowId; });
 var selectStoriesByWorkflowId = function selectStoriesByWorkflowId(state, id) {
   var workflowId = parseInt(id);
   var selectedStories = [];
@@ -3814,6 +3819,15 @@ var storiesByProjectAndWorkflowAndCount = function storiesByProjectAndWorkflowAn
     counts[workflow.title] = counts[workflow.title].length;
   });
   return counts;
+};
+var countPointsByWorkflowId = function countPointsByWorkflowId(state, workflowId) {
+  var count = 0;
+  Object.values(state.entities.stories).forEach(function (story) {
+    if (story.workflow_id === workflowId) {
+      count += story.points;
+    }
+  });
+  return count;
 };
 
 /***/ }),

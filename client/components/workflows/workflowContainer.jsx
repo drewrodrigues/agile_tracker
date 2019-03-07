@@ -1,12 +1,16 @@
 import { connect } from 'react-redux'
 import Workflow from './workflow'
 import { toggleWorkflow } from '../../actions/uiActions'
-import { selectStoriesByWorkflowId } from "../../reducers/selectors"
+import {
+  countPointsByWorkflowId,
+  selectStoriesByWorkflowId
+} from "../../reducers/selectors"
 import { updateStory } from '../../actions/storyActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     projectId: ownProps.projectId,
+    points: countPointsByWorkflowId(state, ownProps.workflow.id),
     show: state.ui[ownProps.workflow.title.toLowerCase()],
     stories: selectStoriesByWorkflowId(state, ownProps.workflow.id),
     workflow: ownProps.workflow
