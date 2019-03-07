@@ -45,6 +45,8 @@ export const acceptStory = story => dispatch => {
 }
 
 const receiveStory = story => {
+  const storyId = Object.keys(story)[0]
+  story[storyId].updated = true
   return {
     type: RECEIVE_STORY,
     story

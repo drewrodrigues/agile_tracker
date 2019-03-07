@@ -42,7 +42,7 @@ class Story extends Component {
     } else {
       return (
         <div 
-          className={ `story story-${story.status} story-${workflow.title}` }
+          className={ `story story-${story.status} story-${workflow.title} story-updated-${story.updated}` }
           { ...provided.draggableProps }
           { ...provided.dragHandleProps }
           ref={innerRef}>

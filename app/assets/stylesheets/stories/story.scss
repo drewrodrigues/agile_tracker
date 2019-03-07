@@ -28,6 +28,22 @@
   }
 }
 
+@keyframes updated {
+  from { 
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+.story-updated-true {
+  animation: updated;
+  animation-duration: 0.5s;
+}
+
 .story-container {
   overflow-y: scroll;
   position: absolute;
@@ -100,7 +116,7 @@
   }
 
   .block {
-    background-color: #739dbc;
+    background-color: #609ffc;
   }
   
   .block,

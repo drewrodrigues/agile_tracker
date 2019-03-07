@@ -416,6 +416,8 @@ var acceptStory = function acceptStory(story) {
 };
 
 var receiveStory = function receiveStory(story) {
+  var storyId = Object.keys(story)[0];
+  story[storyId].updated = true;
   return {
     type: RECEIVE_STORY,
     story: story
@@ -1995,7 +1997,7 @@ function (_Component) {
         });
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", _extends({
-          className: "story story-".concat(story.status, " story-").concat(workflow.title)
+          className: "story story-".concat(story.status, " story-").concat(workflow.title, " story-updated-").concat(story.updated)
         }, provided.draggableProps, provided.dragHandleProps, {
           ref: innerRef
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
