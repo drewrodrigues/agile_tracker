@@ -30,7 +30,6 @@ class Workflow extends Component {
   }
 
   render() {
-    if (!this.props.show) return null
     let points = this.props.points === 1 ? "point" : "points"
 
     let addStoryButton = null
@@ -41,7 +40,7 @@ class Workflow extends Component {
     }
 
     return (
-      <section className="workflow">
+      <section className={`workflow workflow-show-${this.props.show}`}>
         <header className="workflow-header">
           <button className="workflow-hide-button" onClick={ this.props.toggleWorkflow }>
             <i className="fa fa-times"></i>

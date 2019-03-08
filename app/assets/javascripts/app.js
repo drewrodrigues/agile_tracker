@@ -1208,9 +1208,6 @@ function (_Component) {
     };
     _this.onDragEnd = _this.onDragEnd.bind(_assertThisInitialized(_this));
     _this.toggleSidebar = _this.toggleSidebar.bind(_assertThisInitialized(_this));
-
-    _this.handleHotkeys();
-
     return _this;
   }
 
@@ -1226,6 +1223,7 @@ function (_Component) {
           });
         }, 250);
       });
+      this.handleHotkeys();
     }
   }, {
     key: "onDragEnd",
@@ -1250,11 +1248,8 @@ function (_Component) {
     value: function handleHotkeys() {
       var _this3 = this;
 
-      var addStoryButtons = document.querySelectorAll(".add-story-button");
       document.addEventListener('keydown', function (e) {
         if (e.altKey) {
-          console.log('in');
-
           switch (e.code) {
             case "KeyH":
               // h
@@ -1287,8 +1282,6 @@ function (_Component) {
               break;
           }
         }
-
-        console.log(e);
       });
     }
   }, {
@@ -3014,7 +3007,6 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      if (!this.props.show) return null;
       var points = this.props.points === 1 ? "point" : "points";
       var addStoryButton = null;
 
@@ -3028,7 +3020,7 @@ function (_Component) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "workflow"
+        className: "workflow workflow-show-".concat(this.props.show)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
         className: "workflow-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
