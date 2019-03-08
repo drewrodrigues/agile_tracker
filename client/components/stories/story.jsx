@@ -33,7 +33,7 @@ class Story extends Component {
 
     if (this.state.showForm) {
       return (
-        <StoryUpdateContainer 
+        <StoryUpdateContainer
           canDelete={ true }
           show={ this.state.showForm }
           story={ story }
