@@ -90,7 +90,7 @@ RSpec.describe Api::StoriesController, type: :controller do
           new_params = valid_params
           new_params[:title] = "New title"
           put :update, format: :json, params: { id: Story.last.id, story: new_params }
-          expect(response).to render_template(:show)
+          expect(response).to render_template(:index)
         end
       end
 
