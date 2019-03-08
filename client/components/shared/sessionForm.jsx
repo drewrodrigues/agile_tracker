@@ -91,30 +91,42 @@ class SessionForm extends Component {
         Agile<span>Tracker</span>
       </Link>
       formHeader = <>
-        <div className="form-header signup-header">
+        <div className="form-header session-header">
           <h4 className="form-title">Get started</h4>
           <h4 className="form-subtitle">It's free and always will be</h4>
         </div>
       </>
 
-      footer = <>
-        <footer className="signup-footer">
-          <p>
-            Already have an account?
-            <Link to="/sign-in">Sign In</Link>
-          </p>
-        </footer>
-      </>
+footer = <>
+<footer className="session-footer">
+  <p>
+    Already have an account?
+    <Link to="/sign-in">Sign In</Link>
+  </p>
+</footer>
+</>
     }
 
     if (formType === 'signin') {
-      navBar = <SignInNavbar />
+      header = <Link to="/" className="logo">
+        <img src={ window.images.logo } />
+        Agile<span>Tracker</span>
+      </Link>
       formHeader = <>
         <div className="form-header">
           <h3 className="form-title">Sign In</h3>
           <h4 className="form-subtitle">Sign in to continue to Agile Tracker.</h4>
         </div>
       </>
+
+      footer = <>
+      <footer className="session-footer">
+        <p>
+          Don't have an account?
+          <Link to="/sign-up">Sign Up</Link>
+        </p>
+      </footer>
+    </>
     }
 
     if (errors.length > 0) {
@@ -126,9 +138,7 @@ class SessionForm extends Component {
     }
 
     return (
-      <div className={`${this.props.formType}`}>
-        { navBar }
-
+      <div className="session">
         <div className="container">
           { header }
 

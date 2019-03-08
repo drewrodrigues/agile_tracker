@@ -1,4 +1,4 @@
-.signup {
+.session {
   background-image: image_url("landing-jumbo-background");
   min-height: 100vh;
   background-position: top center;
@@ -12,7 +12,7 @@
   }
 }
 
-.signup-header-slogan {
+.session-header-slogan {
   border-top: 1px solid #ccc;
   color: $text-secondary;
   display: inline-block;
@@ -22,7 +22,7 @@
   padding: 20px 20px 0;
 }
 
-.signup-footer {
+.session-footer {
   color: $text-secondary;
   font-size: 14px;
   font-weight: 600;

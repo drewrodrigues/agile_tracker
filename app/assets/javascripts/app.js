@@ -1829,21 +1829,26 @@ function (_Component) {
           src: window.images.logo
         }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker"));
         formHeader = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-header signup-header"
+          className: "form-header session-header"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
           className: "form-title"
         }, "Get started"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
           className: "form-subtitle"
         }, "It's free and always will be")));
         footer = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
-          className: "signup-footer"
+          className: "session-footer"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Already have an account?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/sign-in"
         }, "Sign In"))));
       }
 
       if (formType === 'signin') {
-        navBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sessions_signInNavbar__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+        header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: "/",
+          className: "logo"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.images.logo
+        }), "Agile", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Tracker"));
         formHeader = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "form-header"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1851,6 +1856,11 @@ function (_Component) {
         }, "Sign In"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
           className: "form-subtitle"
         }, "Sign in to continue to Agile Tracker.")));
+        footer = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
+          className: "session-footer"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Don't have an account?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: "/sign-up"
+        }, "Sign Up"))));
       }
 
       if (errors.length > 0) {
@@ -1864,8 +1874,8 @@ function (_Component) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "".concat(this.props.formType)
-      }, navBar, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "session"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, header, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.submit,
