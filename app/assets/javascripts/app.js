@@ -2434,12 +2434,12 @@ function (_Component) {
         onChange: this.update('title'),
         autoFocus: true,
         id: "title"
-      }), deleteButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "story-form-button-save story-form-button"
       }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "story-form-button story-form-button-cancel",
         onClick: this.toggleForm
-      }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", ["Feature", "Bug", "Chore", "Release"].map(function (kind) {
+      }, "Cancel"), deleteButton, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "STORY TYPE", ["Feature", "Bug", "Chore", "Release"].map(function (kind) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_storyFormKind__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: kind,
           kind: kind,
