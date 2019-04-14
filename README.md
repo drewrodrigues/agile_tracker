@@ -1,5 +1,5 @@
 # AgileTracker
-[![Build Status](https://travis-ci.com/thesimpledev/agile_tracker.svg?branch=master)](https://travis-ci.com/thesimpledev/agile_tracker)[![Maintainability](https://api.codeclimate.com/v1/badges/2392c692faea6678de8d/maintainability)](https://codeclimate.com/github/thesimpledev/agile_tracker/maintainability)
+[![Build Status](https://travis-ci.com/thesimpledev/agile_tracker.svg?branch=master)](https://travis-ci.com/thesimpledev/agile_tracker) [![Maintainability](https://api.codeclimate.com/v1/badges/2392c692faea6678de8d/maintainability)](https://codeclimate.com/github/thesimpledev/agile_tracker/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2392c692faea6678de8d/test_coverage)](https://codeclimate.com/github/thesimpledev/agile_tracker/test_coverage)
 
 Check out the live app [here](https://agile-tracker.herokuapp.com).
 
