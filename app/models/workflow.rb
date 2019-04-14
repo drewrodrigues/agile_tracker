@@ -11,16 +11,18 @@
 #
 
 class Workflow < ApplicationRecord
+  TITLES = %w(Icebox Backlog Current Done)
+
   acts_as_list scope: :project
 
   belongs_to :project
   has_many :stories, dependent: :destroy
 
-  validates :title, inclusion: %w(Icebox Backlog Current Done)
+  validates :title, inclusion: TITLES
 
   def self.create_base_workflows(project_id)
-    ["Icebox", "Backlog", "Current", "Done"].each do |title|
-      Workflow.create!(title: title, project_id: project_id)
+    TITLES.each do |title|
+      Workflow.create(title: title, project_id: project_id)
     end
   end
 end
