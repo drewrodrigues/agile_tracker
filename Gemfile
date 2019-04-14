@@ -17,6 +17,7 @@ gem 'jquery-rails'
 gem 'inline_svg'
 gem "font-awesome-rails"
 gem "acts_as_list"
+gem "simplecov"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -24,6 +25,10 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'factory_bot_rails'
+end
+
+group :test do
+  gem 'simplecov', require: false
 end
 
 group :development do
