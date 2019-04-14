@@ -23,6 +23,8 @@ class Project < ApplicationRecord
   def workflow(title)
     workflows.where(title: title).first
   end
+
+  private
   
   def create_base_workflows
     Workflow.create_base_workflows(id)

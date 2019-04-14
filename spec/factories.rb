@@ -21,7 +21,7 @@ FactoryBot.define do
   end
 
   factory :project do
-    title { "Cool project" }
+    sequence(:title) { |n| "Cool project #{n}" }
     user
   end
 end
