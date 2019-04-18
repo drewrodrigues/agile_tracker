@@ -42,7 +42,7 @@ class Landing extends React.Component {
                   <label for="email">Sign up with your email</label>
                   <input
                     type="email"
-                    className="landing-signup-form-input"
+                    className="form-input"
                     id="email"
                     placeholder="email@domain.com"
                     value={this.state.email}

@@ -695,7 +695,7 @@ function (_React$Component) {
         for: "email"
       }, "Sign up with your email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "email",
-        className: "landing-signup-form-input",
+        className: "form-input",
         id: "email",
         placeholder: "email@domain.com",
         value: this.state.email,
@@ -848,14 +848,29 @@ function (_Component) {
         className: "projectIndex-myprojects"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-archive"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "My Projects"), " | ", this.props.projects.length), this.props.projects.map(function (project) {
+      }), "My Projects"), this.props.projects.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-placeholder"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-plus-circle"
+      }), "Looks like you have no projects, try creating one"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "navbar-dashboard-button",
+        onClick: function onClick() {
+          return _this.props.showModal({
+            buttonText: "Create",
+            data: {
+              title: ""
+            },
+            title: "Create a new project"
+          });
+        }
+      }, "Create project")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.props.projects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_projectIndexItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: project.title,
           project: project,
           deleteProject: _this.props.deleteProject,
           showModal: _this.props.showModal
         });
-      })));
+      }))));
     }
   }]);
 
